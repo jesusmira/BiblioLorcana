@@ -28,10 +28,6 @@ jobs:
       - name: Run opencode
         uses: anomalyco/opencode/github@latest
         env:
-          # Usamos el secret de OpenRouter que creaste
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         with:
-          # Este es el slug exacto para MiniMax M2.5 en OpenRouter
-          model: "minimax/minimax-01"
-          # URL obligatoria para que conecte con OpenRouter y no con OpenAI
-          base_url: "https://openrouter.ai"
+          model: "openrouter/minimax/minimax-01"
