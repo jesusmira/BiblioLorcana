@@ -30,4 +30,4 @@ jobs:
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         with:
-          model: "openrouter/minimax/minimax-01"
+          model: "openrouter/google/gemini-2.0-flash-exp:free"
