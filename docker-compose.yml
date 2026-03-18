@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: biblioLor-db
+    restart: always
+    environment:
+      POSTGRES_USER: biblioLor_user
+      POSTGRES_PASSWORD: biblioLor_pass
+      POSTGRES_DB: biblioLor
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

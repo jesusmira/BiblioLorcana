@@ -1,0 +1,117 @@
+// ── Lorcana Card Types ──
+
+export interface CardImageUris {
+  digital?: {
+    small?: string | null;
+    normal?: string | null;
+    large?: string | null;
+  } | null;
+}
+
+export interface LorcanaCard {
+  id: string | number;
+  name?: string | null;
+  version?: string | null;
+  text?: string | null;
+  flavor_text?: string | null;
+  ink?: string | null;
+  cost?: number | null;
+  rarity?: string | null;
+  type?: string[] | null;
+  strength?: number | null;
+  willpower?: number | null;
+  lore?: number | null;
+  collector_number?: string | null;
+  classifications?: string[] | null;
+  image_uris?: CardImageUris | null;
+  set?: {
+    name?: string | null;
+  } | null;
+  [key: string]: unknown;
+}
+
+export interface LorcanaSet {
+  id: string | number;
+  name: string;
+  code: string;
+  released_at?: string | null;
+}
+
+// ── Filter Types ──
+
+export interface GalleryFilters {
+  search: string;
+  ink: string;
+  type: string;
+  rarity: string;
+  sort: string;
+}
+
+// ── Theme Types ──
+
+export type Theme = "dark" | "light";
+
+export interface ThemeState {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
+}
+
+// ── Hook Return Types ──
+
+export interface UseGalleryDataReturn {
+  sets: LorcanaSet[];
+  loadingSets: boolean;
+  setError: string;
+  cards: LorcanaCard[];
+  loadingCards: boolean;
+  cardError: string;
+  selectedSet: string;
+  setSelectedSet: (set: string) => void;
+  search: string;
+  ink: string;
+  type: string;
+  rarity: string;
+  sort: string;
+  updateFilter: (name: string, value: string) => void;
+  resetFilters: () => void;
+  setSearch: (val: string) => void;
+  setInk: (val: string) => void;
+  setType: (val: string) => void;
+  setRarity: (val: string) => void;
+  setSort: (val: string) => void;
+}
+
+export interface UseGalleryFiltersParams {
+  cards: LorcanaCard[];
+  search: string;
+  ink: string;
+  type: string;
+  rarity: string;
+  sort: string;
+}
+
+export interface UseGalleryFiltersReturn {
+  inkValues: string[];
+  typeValues: string[];
+  rarityValues: string[];
+  filteredCards: LorcanaCard[];
+}
+
+export interface UsePaginationReturn<T> {
+  visibleCount: number;
+  visibleItems: T[];
+  canLoadMore: boolean;
+  loadMore: () => void;
+}
+
+export interface UseModalCardParams {
+  cards?: LorcanaCard[];
+}
+
+export interface UseModalCardReturn {
+  selected: LorcanaCard | null;
+  openCard: (card: LorcanaCard) => void;
+  closeModal: () => void;
+  pickRandom: () => void;
+}

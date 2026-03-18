@@ -1,0 +1,164 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Work+Sans:wght@300;400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg: #15110e;
+  --bg-deep: #0d0a08;
+  --bg-top: #1f1914;
+  --bg-edge: #0a0807;
+  --ink: #f5efe7;
+  --muted: #b6ada5;
+  --panel: #1c1714;
+  --panel-strong: #241f1a;
+  --panel-soft: #2b241f;
+  --panel-shadow: 0 24px 50px rgba(5, 4, 3, 0.6);
+  --accent: #d9a353;
+  --accent-strong: #f1c17a;
+  --stroke: rgba(245, 239, 231, 0.14);
+  --stroke-strong: rgba(245, 239, 231, 0.2);
+  --radius: 18px;
+  --font-title: "Cinzel", "Times New Roman", serif;
+  --font-body: "Work Sans", "Helvetica Neue", sans-serif;
+  --surface: var(--panel);
+  --surface-strong: var(--panel-strong);
+  --surface-soft: var(--panel-soft);
+  --glow-warm: rgba(217, 163, 83, 0.35);
+  --glow-cool: rgba(84, 115, 155, 0.35);
+  --card-shadow: 0 16px 30px rgba(5, 4, 3, 0.45);
+  --card-shadow-hover: 0 22px 40px rgba(3, 2, 2, 0.5);
+  --float-shadow: 0 14px 24px rgba(4, 3, 3, 0.45);
+  --float-shadow-active: 0 12px 24px rgba(4, 3, 3, 0.55);
+  --cost-bg: #f5efe7;
+  --cost-ink: #1c1714;
+  --switch-track: linear-gradient(120deg, #d9a353, #a86e23);
+  --switch-thumb: #f5efe7;
+  --switch-icon: #f2e2c5;
+  --switch-icon-strong: #2a1c13;
+  --alert-bg: rgba(216, 92, 87, 0.18);
+  --alert-ink: #f3bdbb;
+  --chip-active-bg: rgba(217, 163, 83, 0.15);
+  --texture-light: rgba(245, 239, 231, 0.02);
+  --texture-dark: rgba(10, 8, 7, 0.08);
+  --title-gold-1: #fff2c7;
+  --title-gold-2: #e6b463;
+  --title-gold-3: #f6cf7e;
+  --title-outline: #2b2e8d;
+  --title-shadow: rgba(14, 18, 70, 0.55);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4efe6;
+  --bg-deep: #e6dccd;
+  --bg-top: #fff4e3;
+  --bg-edge: #e8dfd2;
+  --ink: #1e1a17;
+  --muted: #6f655d;
+  --panel: #fbf7f2;
+  --panel-strong: #ffffff;
+  --panel-soft: #f6f1ea;
+  --panel-shadow: 0 24px 50px rgba(30, 26, 23, 0.12);
+  --accent: #c58a3c;
+  --accent-strong: #a86e23;
+  --stroke: rgba(30, 26, 23, 0.1);
+  --stroke-strong: rgba(18, 16, 15, 0.12);
+  --glow-warm: #f6d9ad;
+  --glow-cool: #cbd8f1;
+  --card-shadow: 0 16px 30px rgba(30, 26, 23, 0.08);
+  --card-shadow-hover: 0 20px 40px rgba(30, 26, 23, 0.12);
+  --float-shadow: 0 14px 24px rgba(18, 16, 15, 0.16);
+  --float-shadow-active: 0 12px 24px rgba(18, 16, 15, 0.2);
+  --cost-bg: #1e1a17;
+  --cost-ink: #ffffff;
+  --switch-track: linear-gradient(120deg, #c1d7f6, #8eb2e3);
+  --switch-thumb: #ffffff;
+  --switch-icon: #2a2b70;
+  --switch-icon-strong: #1c1b3f;
+  --alert-bg: rgba(216, 92, 87, 0.12);
+  --alert-ink: #8c2c2c;
+  --chip-active-bg: rgba(197, 138, 60, 0.15);
+  --texture-light: rgba(30, 26, 23, 0.03);
+  --texture-dark: rgba(255, 255, 255, 0.18);
+  --title-gold-1: #ffe7b0;
+  --title-gold-2: #d8a24d;
+  --title-gold-3: #f1c56d;
+  --title-outline: #2a2c86;
+  --title-shadow: rgba(20, 24, 82, 0.4);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  position: relative;
+  isolation: isolate;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at top, var(--bg-top) 0%, var(--bg) 45%, var(--bg-edge) 100%),
+    radial-gradient(circle at 18% 12%, rgba(217, 163, 83, 0.08), transparent 55%),
+    repeating-linear-gradient(
+      0deg,
+      var(--texture-light),
+      var(--texture-light) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--texture-dark),
+      var(--texture-dark) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+  background-blend-mode: normal, normal, soft-light, soft-light;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/images/lorcana-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+.lorcana-title {
+  font-family: var(--font-title);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, var(--title-gold-1), var(--title-gold-2) 55%, var(--title-gold-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow:
+    0 1px 0 var(--title-outline),
+    0 2px 0 var(--title-outline),
+    0 3px 0 var(--title-outline),
+    1px 0 0 var(--title-outline),
+    -1px 0 0 var(--title-outline),
+    1px 1px 0 var(--title-outline),
+    -1px 1px 0 var(--title-outline),
+    2px 3px 6px var(--title-shadow);
+}
