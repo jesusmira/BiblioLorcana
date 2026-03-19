@@ -1,7 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { ActiveSetSummary, SearchBar, SelectField } from "./index";
+import { ActiveSetSummary, SearchBar, SelectField, ImageUploadButton } from "./index";
 import { normalizeLabel } from "../lib";
 import type { LorcanaSet } from "../types";
 
@@ -63,10 +63,15 @@ export default function GalleryHeader({
   return (
     <div className="flex flex-col gap-[18px]">
       <section className="flex flex-col gap-[18px] rounded-[18px] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)] max-[600px]:p-4">
-        <SearchBar
-          value={search}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => onSearchChange(event.target.value)}
-        />
+        <div className="flex items-center gap-3">
+          <div className="flex-1">
+            <SearchBar
+              value={search}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => onSearchChange(event.target.value)}
+            />
+          </div>
+          <ImageUploadButton className="shrink-0" />
+        </div>
         <div className="flex flex-col gap-4">
           <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))] max-[600px]:grid-cols-1">
             <SelectField

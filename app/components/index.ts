@@ -4,6 +4,7 @@ export { default as Gallery } from "./Gallery";
 export { default as GalleryCards } from "./GalleryCards";
 export { default as GalleryCardItem } from "./GalleryCardItem";
 export { default as GalleryCardModal } from "./GalleryCardModal";
+export { default as ImageUploadButton } from "./ImageUploadButton";
 export { default as LogoMark } from "./LogoMark";
 export { default as SiteHeader } from "./SiteHeader";
 export { default as GalleryHeader } from "./GalleryHeader";

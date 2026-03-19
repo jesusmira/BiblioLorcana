@@ -11,25 +11,22 @@ export async function extractTextFromImage(
 ): Promise<OcrResponse> {
   try {
     const formData = new FormData();
-    formData.append("base64Image", `data:image/jpeg;base64,${imageBase64}`);
+    formData.append("base64Image", imageBase64);
     formData.append("language", "eng");
     formData.append("isOverlayRequired", "false");
     formData.append("detectOrientation", "true");
     formData.append("scale", "true");
     formData.append("OCREngine", "2");
+    formData.append("filetype", "JPG");
 
     const apiKey = process.env.OCRSPACE_API_KEY;
-
-    const url = apiKey
-      ? "https://apipro1.ocr.space/parse/image"
-      : "https://api.ocr.space/parse/image";
 
     const headers: Record<string, string> = {};
     if (apiKey) {
       headers["apikey"] = apiKey;
     }
 
-    const response = await fetch(url, {
+    const response = await fetch("https://api.ocr.space/parse/image", {
       method: "POST",
       headers,
       body: formData,
@@ -42,10 +39,8 @@ export async function extractTextFromImage(
     const data = await response.json();
 
     if (data.IsErroredOnProcessing) {
-      return {
-        success: false,
-        error: data.ErrorMessage?.[0] || "Error en el procesamiento OCR",
-      };
+      const errorMsg = data.ErrorMessage?.[0] || "Error en el procesamiento OCR";
+      return { success: false, error: errorMsg };
     }
 
     const parsedText = data.ParsedResults?.[0]?.ParsedText?.trim();
