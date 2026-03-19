@@ -7,15 +7,53 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String      @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String      @unique
   password  String
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role        @default(USER)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime     @updatedAt
+  userCards UserCard[]
 
   @@map("users")
+}
+
+model Card {
+  id              String      @id
+  name            String?
+  version         String?
+  text            String?
+  flavorText      String?     @map("flavor_text")
+  ink             String?
+  cost            Int?
+  rarity          String?
+  type            String[]
+  strength        Int?
+  willpower       Int?
+  lore            Int?
+  collectorNumber String?     @map("collector_number")
+  classifications String[]
+  imageUris       Json?       @map("image_uris")
+  setId           String?     @map("set_id")
+  setName         String?     @map("set_name")
+  createdAt       DateTime    @default(now())
+  userCards       UserCard[]
+
+  @@map("cards")
+}
+
+model UserCard {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  cardId    String   @map("card_id")
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card      Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cardId])
+  @@map("user_cards")
 }
 
 enum Role {

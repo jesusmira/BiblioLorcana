@@ -63,6 +63,7 @@ La app estara disponible en: `http://localhost:3000`
 | `LORCAST_API_BASE` | URL de la API de Lorcast | `https://api.lorcast.com/v0` |
 | `NEXT_PUBLIC_PAGE_SIZE` | Cartas por pagina en la galeria | `24` |
 | `DATABASE_URL` | Conexion a PostgreSQL | `postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor` |
+| `OCRSPACE_API_KEY` | API key para OCR.space (opcional) | - |
 
 ## Comandos
 
@@ -119,6 +120,35 @@ public/
 | createdAt | DateTime | Fecha de creacion |
 | updatedAt | DateTime | Fecha de actualizacion |
 
+#### cards
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| id | String | ID de la carta (Lorcast) |
+| name | String? | Nombre de la carta |
+| version | String? | Version/Formato |
+| text | String? | Texto de habilidad |
+| flavorText | String? | Texto de sabor |
+| ink | String? | Tinta |
+| cost | Int? | Coste de ink |
+| rarity | String? | Rareza |
+| type | String[] | Tipos |
+| strength | Int? | Fuerza |
+| willpower | Int? | Voluntad |
+| lore | Int? | Historia |
+| collectorNumber | String? | Numero de carta |
+| classifications | String[] | Clasificaciones |
+| imageUris | Json? | URLs de imagenes |
+| setId | String? | ID del set |
+| setName | String? | Nombre del set |
+
+#### user_cards
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| id | UUID | Identificador unico |
+| userId | String | FK a users |
+| cardId | String | FK a cards |
+| createdAt | DateTime | Fecha de creacion |
+
 ## Caracteristicas
 
 - Galeria de cartas con paginacion infinita
@@ -132,6 +162,9 @@ public/
 - Favoritos guardados en localStorage
 - Traduccion de texto de cartas (ingles a español) con MyMemory API
 - Iconos Heroicons
+- Busqueda de cartas por imagen (OCR con OCR.space)
+- Coleccion personal de cartas guardadas en BD
+- Pagina "Mis Cartas" con galeria de cartas guardadas
 - GitHub Actions workflow para OpenCode AI
 
 ## Licencia
