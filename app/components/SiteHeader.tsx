@@ -3,6 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import {
+  Bars3Icon,
+  UserCircleIcon,
+  RectangleStackIcon,
+  HeartIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 import LogoMark from "./LogoMark";
 import ThemeToggle from "./ThemeToggle";
 import UserMenu from "./UserMenu";
@@ -15,7 +22,7 @@ const navLinks = [
 
 export default function SiteHeader() {
   const pathname = usePathname();
-  const { user, isLoading } = useAuth();
+  const { user, isLoading, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollRef = useRef(0);
@@ -82,9 +89,7 @@ export default function SiteHeader() {
             aria-expanded={isOpen}
             onClick={handleMenuToggle}
           >
-            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
+            <Bars3Icon className="h-5 w-5" />
           </button>
           <div className="flex items-center gap-2">
             <LogoMark size={36} />
@@ -111,9 +116,13 @@ export default function SiteHeader() {
           })}
         </nav>
 
-        <div className="flex items-center gap-3">
-          {!isLoading && (user ? <UserMenu /> : (
-            <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3 min-[721px]:flex">
+          {!isLoading && (user ? (
+            <div className="hidden min-[721px]:block">
+              <UserMenu />
+            </div>
+          ) : (
+            <div className="hidden items-center gap-2 min-[721px]:flex">
               <Link
                 href="/login"
                 className="rounded-full border border-[var(--stroke)] px-4 py-1.5 text-[0.8rem] uppercase tracking-[1px] text-[var(--ink)] transition hover:border-[var(--stroke-strong)]"
@@ -168,6 +177,47 @@ export default function SiteHeader() {
                 >
                   Registro
                 </Link>
+              </div>
+            )}
+            {!isLoading && user && (
+              <div className="mt-2 flex flex-col gap-2 border-t border-[var(--stroke)] pt-2">
+                <Link
+                  href="/perfil"
+                  className="flex items-center gap-3 rounded-full px-4 py-2 text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-[0.65rem] font-bold text-white">
+                    {user.name.charAt(0).toUpperCase()}
+                  </span>
+                  Mi perfil
+                </Link>
+                <Link
+                  href="/mis-cartas"
+                  className="flex items-center gap-3 rounded-full px-4 py-2 text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <RectangleStackIcon className="h-4 w-4 text-[var(--muted)]" />
+                  Mis cartas
+                </Link>
+                <Link
+                  href="/favoritos"
+                  className="flex items-center gap-3 rounded-full px-4 py-2 text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <HeartIcon className="h-4 w-4 text-[var(--muted)]" />
+                  Favoritos
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center gap-3 rounded-full px-4 py-2 text-[var(--alert-ink)] transition hover:bg-[var(--surface-strong)]"
+                >
+                  <ArrowRightOnRectangleIcon className="h-4 w-4" />
+                  Cerrar sesion
+                </button>
               </div>
             )}
           </nav>

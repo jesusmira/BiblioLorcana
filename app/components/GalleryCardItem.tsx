@@ -1,11 +1,18 @@
 "use client";
 
+import { useState } from "react";
 import type { KeyboardEvent } from "react";
 import CardArtwork from "./CardArtwork";
 import StatGrid from "./StatGrid";
 import TagChip from "./TagChip";
 import { getTypes, normalizeInk, normalizeLabel } from "../lib";
 import type { LorcanaCard } from "../types";
+import { useAuth } from "../lib/auth";
+import { useFavoritesStore } from "../store";
+import {
+  HeartIcon,
+  LanguageIcon,
+} from "@heroicons/react/24/outline";
 
 const inkClassMap: Record<string, string> = {
   Amber: "bg-[rgba(241,180,99,0.2)] text-[#8d5a12]",
@@ -34,6 +41,11 @@ export default function GalleryCardItem({
   onOpen,
   cardBaseClass,
 }: GalleryCardItemProps) {
+  const { user } = useAuth();
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const isCardFavorite = isFavorite(String(card.id));
+  const [isHovered, setIsHovered] = useState(false);
+
   const cardInk = normalizeInk(card.ink);
   const image = getImage(card);
   const types = getTypes(card);
@@ -46,22 +58,61 @@ export default function GalleryCardItem({
     }
   };
 
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(String(card.id));
+  };
+
+  const handleTranslateClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+  };
+
   return (
     <article
-      className={`${cardBaseClass} cursor-pointer`}
+      className={`${cardBaseClass} cursor-pointer relative`}
       role="button"
       tabIndex={0}
       aria-label={`Ver detalles de ${ariaName}`}
       onClick={() => onOpen(card)}
       onKeyDown={handleKeyDown}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <CardArtwork
-        image={image}
-        alt={cardName}
-        loading="lazy"
-        wrapperClassName="grid aspect-[2/3] place-items-center rounded-[16px] bg-[var(--surface-soft)] p-2.5"
-        imageClassName="h-full w-full rounded-[12px] object-contain"
-      />
+      <div className="relative">
+        {user && (
+          <div
+            className={`absolute right-2 top-2 z-10 flex gap-2 transition-opacity duration-200 ${
+              isHovered ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <button
+              onClick={handleTranslateClick}
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] shadow-md hover:bg-[var(--surface)]"
+              aria-label="Traducir carta"
+            >
+              <LanguageIcon className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleFavoriteClick}
+              className={`flex h-8 w-8 items-center justify-center rounded-full shadow-md ${
+                isCardFavorite
+                  ? "bg-[var(--accent)] text-white"
+                  : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+              }`}
+              aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+            >
+              <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+            </button>
+          </div>
+        )}
+        <CardArtwork
+          image={image}
+          alt={cardName}
+          loading="lazy"
+          wrapperClassName="grid aspect-[2/3] place-items-center rounded-[16px] bg-[var(--surface-soft)] p-2.5"
+          imageClassName="h-full w-full rounded-[12px] object-contain"
+        />
+      </div>
       <div className="flex items-center justify-between gap-3">
         <span
           className={`rounded-full px-2.5 py-1 text-[0.75rem] font-semibold uppercase tracking-[1px] ${

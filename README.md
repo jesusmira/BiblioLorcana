@@ -129,6 +129,10 @@ public/
 - Menu responsive con hamburguesa
 - Registro y login de usuarios
 - Diseño con tipografia Cinzel + Work Sans
+- Favoritos guardados en localStorage
+- Traduccion de texto de cartas (ingles a español) con MyMemory API
+- Iconos Heroicons
+- GitHub Actions workflow para OpenCode AI
 
 ## Licencia
 

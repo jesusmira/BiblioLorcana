@@ -1,6 +1,7 @@
 "use client";
 
 import type { ChangeEvent } from "react";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface SearchBarProps {
   value: string;
@@ -22,15 +23,7 @@ export default function SearchBar({ value, onChange }: SearchBarProps) {
             className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[var(--muted)]"
             aria-hidden="true"
           >
-            <svg
-              viewBox="0 0 24 24"
-              role="img"
-              focusable="false"
-              className="h-full w-full fill-none stroke-current stroke-[2]"
-            >
-              <circle cx="11" cy="11" r="7" />
-              <path d="M16.5 16.5L21 21" />
-            </svg>
+            <MagnifyingGlassIcon className="h-[18px] w-[18px]" />
           </span>
           <input
             id="searchInput"

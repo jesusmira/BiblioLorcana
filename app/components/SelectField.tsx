@@ -1,6 +1,7 @@
 "use client";
 
 import type { ChangeEvent, ReactNode } from "react";
+import { ChevronUpIcon } from "@heroicons/react/24/outline";
 
 interface SelectFieldProps {
   id: string;
@@ -42,9 +43,7 @@ export default function SelectField({
         {children}
       </select>
       <div className={selectIconWrapperClass} aria-hidden="true">
-        <svg className="h-4 w-4 text-[var(--muted)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
+        <ChevronUpIcon className="h-4 w-4 text-[var(--muted)]" />
       </div>
     </div>
   );

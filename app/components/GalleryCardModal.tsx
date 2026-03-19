@@ -1,11 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import CardArtwork from "./CardArtwork";
 import StatGrid from "./StatGrid";
 import TagChip from "./TagChip";
 import { getTypes, normalizeInk, normalizeLabel } from "../lib";
 import type { LorcanaCard } from "../types";
+import { useAuth } from "../lib/auth";
+import { useFavoritesStore } from "../store";
+import { translateText } from "../actions";
+import {
+  HeartIcon,
+  LanguageIcon,
+  CheckIcon,
+  ArrowPathIcon,
+} from "@heroicons/react/24/outline";
 
 const getImage = (card: LorcanaCard): string =>
   card.image_uris?.digital?.normal ||
@@ -22,11 +31,62 @@ export default function GalleryCardModal({
   selected,
   onClose,
 }: GalleryCardModalProps) {
+  const { user } = useAuth();
+  const { toggleFavorite, isFavorite } = useFavoritesStore();
+  const isCardFavorite = selected ? isFavorite(String(selected.id)) : false;
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [translatedFlavor, setTranslatedFlavor] = useState<string | null>(null);
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [translateError, setTranslateError] = useState<string | null>(null);
+
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
   const titleId = "card-modal-title";
   const descriptionId = "card-modal-description";
+
+  const handleFavoriteClick = () => {
+    if (selected) {
+      toggleFavorite(String(selected.id));
+    }
+  };
+
+  const handleTranslateClick = async () => {
+    if (!selected?.text && !selected?.flavor_text) return;
+    
+    if (translatedText !== null || translatedFlavor !== null) {
+      setTranslatedText(null);
+      setTranslatedFlavor(null);
+      return;
+    }
+
+    setIsTranslating(true);
+    setTranslateError(null);
+
+    const textsToTranslate = [
+      selected.text ? translateText(selected.text, "en", "es") : null,
+      selected.flavor_text ? translateText(selected.flavor_text, "en", "es") : null,
+    ];
+
+    const results = await Promise.all(textsToTranslate);
+
+    const textResult = results[0];
+    const flavorResult = results[1];
+
+    if (textResult?.translatedText) {
+      setTranslatedText(textResult.translatedText);
+    } else if (textResult?.error) {
+      setTranslateError(textResult.error);
+    }
+
+    if (flavorResult?.translatedText) {
+      setTranslatedFlavor(flavorResult.translatedText);
+    } else if (flavorResult?.error) {
+      setTranslateError(flavorResult.error);
+    }
+
+    setIsTranslating(false);
+  };
 
   useEffect(() => {
     if (!selected) return undefined;
@@ -64,6 +124,12 @@ export default function GalleryCardModal({
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [selected]);
+
+  useEffect(() => {
+    setTranslatedText(null);
+    setTranslatedFlavor(null);
+    setTranslateError(null);
+  }, [selected?.id]);
 
   if (!selected) {
     return null;
@@ -108,13 +174,47 @@ export default function GalleryCardModal({
               <p className="text-[0.75rem] uppercase tracking-[2px]">
                 {selected.set?.name || "Set"} · {selected.collector_number}
               </p>
-              <h3 id={titleId} className="font-[var(--font-title)] text-[1.5rem]">
+              <h3 id={titleId} className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2">
                 {cardName}
                 {selected.version ? `, ${selected.version}` : ""}
+                {user && (
+                  <span className="flex gap-1">
+                    <button
+                      onClick={handleTranslateClick}
+                      disabled={isTranslating}
+                      className={`flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)] ${
+                        translatedText !== null ? "text-[var(--accent)]" : ""
+                      }`}
+                      aria-label={translatedText !== null ? "Ocultar traducción" : "Traducir carta"}
+                    >
+                      {isTranslating ? (
+                        <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                      ) : translatedText !== null ? (
+                        <CheckIcon className="h-4 w-4" />
+                      ) : (
+                        <LanguageIcon className="h-4 w-4" />
+                      )}
+                    </button>
+                    <button
+                      onClick={handleFavoriteClick}
+                      className={`flex h-7 w-7 items-center justify-center rounded-full ${
+                        isCardFavorite
+                          ? "bg-[var(--accent)] text-white"
+                          : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+                      }`}
+                      aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                    >
+                      <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+                    </button>
+                  </span>
+                )}
               </h3>
               <p id={descriptionId} className="min-h-[4.5rem] whitespace-pre-line text-[var(--muted)]">
-                {selected.text ?? ""}
+                {translatedText !== null ? translatedText : selected.text ?? ""}
               </p>
+              {translateError && (
+                <p className="text-[var(--error)] text-sm">{translateError}</p>
+              )}
               {selected.flavor_text ? (
                 <>
                   <span
@@ -122,7 +222,7 @@ export default function GalleryCardModal({
                     aria-hidden="true"
                   ></span>
                   <p className="italic text-[var(--muted)]">
-                    {selected.flavor_text}
+                    {translatedFlavor !== null ? translatedFlavor : selected.flavor_text}
                   </p>
                 </>
               ) : null}
