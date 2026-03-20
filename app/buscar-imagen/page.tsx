@@ -1,66 +1,80 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import CardArtwork from "../components/CardArtwork";
+import StatGrid from "../components/StatGrid";
+import TagChip from "../components/TagChip";
+import { getTypes, normalizeInk, normalizeLabel } from "../lib";
 import {
-  extractTextFromImage,
   extractCollectorNumber,
   saveCardToUser,
+  translateText,
 } from "../actions";
-import { fetchCardsBySetAction } from "../actions";
 import { useAuth } from "../lib/auth";
 import type { LorcanaCard } from "../types";
 import {
   ArrowLeftIcon,
-  CheckIcon,
-  XMarkIcon,
   HeartIcon,
+  LanguageIcon,
 } from "@heroicons/react/24/outline";
 
-export default function ImageSearchPage() {
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  const { user } = useAuth();
-  const imageParam = searchParams.get("image");
+const IMAGE_STORAGE_KEY = "ocr_image_data";
 
+const inkClassMap: Record<string, string> = {
+  Amber: "bg-[rgba(241,180,99,0.2)] text-[#8d5a12]",
+  Amethyst: "bg-[rgba(155,121,201,0.2)] text-[#6f4aa4]",
+  Emerald: "bg-[rgba(79,169,107,0.2)] text-[#2f7f4b]",
+  Ruby: "bg-[rgba(216,92,87,0.2)] text-[#a53f3b]",
+  Sapphire: "bg-[rgba(76,132,196,0.2)] text-[#2f67a6]",
+  Steel: "bg-[rgba(141,154,165,0.2)] text-[#4f5b64]",
+  "Sin tinta": "bg-[rgba(245,239,231,0.12)] text-[var(--muted)]",
+};
+
+export default function ImageSearchPage() {
+  const { user } = useAuth();
   const [imageData, setImageData] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [detectedText, setDetectedText] = useState<string | null>(null);
-  const [collectorNumber, setCollectorNumber] = useState<string | null>(null);
   const [foundCard, setFoundCard] = useState<LorcanaCard | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
-  const [allCards, setAllCards] = useState<LorcanaCard[]>([]);
+  const [collectorLine, setCollectorLine] = useState<string | null>(null);
+  const [translatedText, setTranslatedText] = useState<string | null>(null);
+  const [translatedFlavor, setTranslatedFlavor] = useState<string | null>(null);
+  const [isTranslating, setIsTranslating] = useState(false);
 
   useEffect(() => {
-    if (imageParam) {
-      setImageData(decodeURIComponent(imageParam));
+    const storedImage = localStorage.getItem(IMAGE_STORAGE_KEY);
+    if (storedImage) {
+      setImageData(storedImage);
+      localStorage.removeItem(IMAGE_STORAGE_KEY);
     }
-  }, [imageParam]);
+  }, []);
 
-  const searchCardByNumber = useCallback(async (number: string) => {
+  const searchCardByNumber = useCallback(async (set: string, number: string, ocrText?: string) => {
+    console.log("🔍 Buscando carta:", set, "/", number);
     setIsSearching(true);
+    setError(null);
     try {
-      const setsResponse = await fetch("/api/lorcast/sets");
-      if (!setsResponse.ok) throw new Error("Error al obtener sets");
-      const sets = await setsResponse.json();
-
-      for (const set of sets) {
-        const cards = await fetchCardsBySetAction(set.id as string);
-        const card = cards.find(
-          (c) => c.collector_number === number
-        );
-        if (card) {
-          setFoundCard(card);
-          return;
+      const response = await fetch(`/api/lorcast/cards/${set}/${number}`);
+      console.log("📡 Respuesta API:", response.status);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          console.log("📷 Texto OCR detectado:", ocrText);
+          console.log("🔍 Carta no encontrada:", `${set}/${number}`, "- Puede ser una carta promocional");
+          setError(`No se encontró la carta ${set}/${number}. Puede ser una carta promocional.`);
+        } else {
+          setError("Error al buscar la carta");
         }
+        return;
       }
-      setError(`No se encontró ninguna carta con el número ${number}`);
-    } catch (err) {
+
+      const card = await response.json();
+      setFoundCard(card);
+    } catch {
       setError("Error al buscar la carta");
     } finally {
       setIsSearching(false);
@@ -68,33 +82,49 @@ export default function ImageSearchPage() {
   }, []);
 
   const processImage = async () => {
-    if (!imageData) return;
-
-    setIsProcessing(true);
-    setError(null);
-    setDetectedText(null);
-    setCollectorNumber(null);
-    setFoundCard(null);
-    setSaveSuccess(null);
-
-    const result = await extractTextFromImage(imageData);
-
-    if (!result.success) {
-      setError(result.error || "Error al procesar la imagen");
-      setIsProcessing(false);
+    if (!imageData) {
+      console.log("❌ No hay imageData");
       return;
     }
 
-    setDetectedText(result.text || "");
+    setIsProcessing(true);
+    setError(null);
+    setFoundCard(null);
+    setSaveSuccess(null);
 
-    const number = await extractCollectorNumber(result.text || "");
-    if (number) {
-      setCollectorNumber(number);
-      await searchCardByNumber(number);
-    } else {
-      setError(
-        "No se pudo detectar el número de carta. Intenta hacer una foto más clara."
-      );
+    try {
+      console.log("🔄 Enviando imagen a OCR...");
+      const response = await fetch("/api/ocr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64: imageData }),
+      });
+
+      const result = await response.json();
+      console.log("📨 Respuesta OCR:", result);
+
+      if (!result.success) {
+        console.log("❌ OCR falló:", result.error);
+        setError(result.error || "Error al procesar la imagen");
+        setIsProcessing(false);
+        return;
+      }
+
+      console.log("📷 Texto OCR:", result.text);
+      const cardInfo = await extractCollectorNumber(result.text || "");
+      
+      if (cardInfo) {
+        setCollectorLine(cardInfo.fullLine);
+        console.log("✅ Número detectado:", cardInfo.set, "/", cardInfo.number);
+        console.log("📋 Línea completa:", cardInfo.fullLine);
+        await searchCardByNumber(cardInfo.set, cardInfo.number, result.text);
+      } else {
+        console.log("❌ No se detectó número de carta en:", result.text);
+        setError("No se pudo detectar el número de carta");
+      }
+    } catch (err) {
+      console.log("❌ Error procesando imagen:", err);
+      setError("Error al procesar la imagen");
     }
 
     setIsProcessing(false);
@@ -114,14 +144,95 @@ export default function ImageSearchPage() {
     }
   };
 
+  const handleTranslateClick = async () => {
+    if (!foundCard?.text && !foundCard?.flavor_text) return;
+
+    if (translatedText !== null || translatedFlavor !== null) {
+      setTranslatedText(null);
+      setTranslatedFlavor(null);
+      return;
+    }
+
+    setIsTranslating(true);
+
+    const textsToTranslate = [
+      foundCard.text ? translateText(foundCard.text, "en", "es") : null,
+      foundCard.flavor_text ? translateText(foundCard.flavor_text, "en", "es") : null,
+    ];
+
+    const results = await Promise.all(textsToTranslate);
+    const textResult = results[0];
+    const flavorResult = results[1];
+
+    if (textResult?.translatedText) {
+      setTranslatedText(textResult.translatedText);
+    }
+    if (flavorResult?.translatedText) {
+      setTranslatedFlavor(flavorResult.translatedText);
+    }
+
+    setIsTranslating(false);
+  };
+
   useEffect(() => {
     if (imageData) {
       processImage();
     }
   }, [imageData]);
 
+  if (!foundCard) {
+    return (
+      <main className="mx-auto flex min-h-screen flex-col items-center px-4 pb-12 pt-24 max-w-2xl">
+        <Link
+          href="/"
+          className="mb-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
+        >
+          <ArrowLeftIcon className="h-5 w-5" />
+          Volver a la galería
+        </Link>
+
+        <h1 className="mb-6 font-[var(--font-title)] text-2xl">
+          Buscar carta por imagen
+        </h1>
+
+        {isProcessing && (
+          <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-8">
+            <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent"></div>
+            <p className="text-[var(--muted)]">
+              Procesando imagen y buscando carta...
+            </p>
+          </div>
+        )}
+
+        {isSearching && (
+          <div className="flex items-center gap-3 rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-4">
+            <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent"></div>
+            <p className="text-[var(--muted)]">Buscando carta...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--alert)]/30 bg-[var(--alert)]/10 p-6 text-center">
+            <p className="text-[var(--alert)]">{error}</p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
+            >
+              <ArrowLeftIcon className="h-5 w-5" />
+              Volver a la galería
+            </Link>
+          </div>
+        )}
+      </main>
+    );
+  }
+
+  const image = foundCard.image_uris?.digital?.normal || foundCard.image_uris?.digital?.large || foundCard.image_uris?.digital?.small || "";
+  const cardInk = normalizeInk(foundCard.ink);
+  const types = getTypes(foundCard);
+
   return (
-    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-2xl">
+    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-3xl">
       <Link
         href="/"
         className="mb-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
@@ -134,123 +245,92 @@ export default function ImageSearchPage() {
         Buscar carta por imagen
       </h1>
 
-      {imageData && (
-        <div className="mb-6 overflow-hidden rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)]">
-          <img
-            src={`data:image/jpeg;base64,${imageData}`}
-            alt="Imagen subida"
-            className="mx-auto max-h-[300px] object-contain p-4"
+      <article className="grid gap-6 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-6 sm:grid-cols-[320px_1fr]">
+        <div className="h-full">
+          <CardArtwork
+            image={image}
+            alt={foundCard.name || "Carta"}
+            loading="lazy"
+            wrapperClassName="h-full rounded-[16px] bg-[var(--surface-soft)]"
+            imageClassName="h-full w-full rounded-[16px] object-contain"
           />
         </div>
-      )}
 
-      {isProcessing && (
-        <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-8">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent"></div>
-          <p className="text-[var(--muted)]">
-            Procesando imagen...
-          </p>
-        </div>
-      )}
-
-      {detectedText && (
-        <div className="mb-4 rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-4">
-          <p className="mb-2 text-[0.8rem] uppercase tracking-[1px] text-[var(--muted)]">
-            Texto detectado
-          </p>
-          <p className="whitespace-pre-wrap text-[0.9rem] text-[var(--ink)]">
-            {detectedText}
-          </p>
-        </div>
-      )}
-
-      {collectorNumber && (
-        <div className="mb-4 rounded-[12px] border border-[var(--accent)] bg-[var(--accent)]/10 p-4">
-          <p className="text-[0.8rem] uppercase tracking-[1px] text-[var(--accent)]">
-            Número de carta detectado
-          </p>
-          <p className="text-xl font-bold text-[var(--ink)]">
-            #{collectorNumber}
-          </p>
-        </div>
-      )}
-
-      {isSearching && (
-        <div className="flex items-center gap-3 rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-4">
-          <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent"></div>
-          <p className="text-[var(--muted)]">Buscando carta...</p>
-        </div>
-      )}
-
-      {foundCard && (
-        <div className="flex flex-col gap-4 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-6">
-          <div className="flex gap-6 max-md:flex-col">
-            <div className="w-48 shrink-0 max-md:mx-auto">
-              <div className="grid aspect-[2/3] place-items-center rounded-[16px] bg-[var(--surface)] p-2">
-                {foundCard.image_uris?.digital?.normal ? (
-                  <Image
-                    src={foundCard.image_uris.digital.normal}
-                    alt={foundCard.name || "Carta"}
-                    fill
-                    className="rounded-[12px] object-contain"
-                  />
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center justify-between gap-3">
+            <span
+              className={`rounded-full px-2.5 py-1 text-[0.75rem] font-semibold uppercase tracking-[1px] ${
+                inkClassMap[cardInk] || ""
+              }`}
+            >
+              {cardInk}
+            </span>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleTranslateClick}
+                disabled={isTranslating || (!foundCard.text && !foundCard.flavor_text)}
+                className="flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--stroke)] transition hover:bg-[var(--surface)] disabled:opacity-40"
+                aria-label="Traducir texto"
+              >
+                {isTranslating ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--muted)] border-t-transparent"></div>
                 ) : (
-                  <span className="text-[var(--muted)]">Sin imagen</span>
+                  <LanguageIcon className="h-4 w-4 text-[var(--muted)]" />
                 )}
-              </div>
+              </button>
+              <span className="grid h-8 w-8 place-items-center rounded-[10px] bg-[var(--cost-bg)] text-[var(--cost-ink)] font-bold">
+                {foundCard.cost ?? 0}
+              </span>
             </div>
-            <div className="flex flex-col gap-3">
-              <div>
-                <p className="text-[0.75rem] uppercase tracking-[2px] text-[var(--muted)]">
-                  {foundCard.set?.name} · {foundCard.collector_number}
+          </div>
+
+          <h3 className="font-[var(--font-title)] text-[1.1rem]">
+            {foundCard.name}
+            {foundCard.version ? `, ${foundCard.version}` : ""}
+          </h3>
+
+          <div className="flex flex-col gap-2.5">
+            <p className="min-h-[4.5rem] overflow-hidden text-[var(--muted)] leading-[1.5] [display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical] whitespace-pre-line">
+              {translatedText || (foundCard.text ?? "")}
+            </p>
+            {foundCard.flavor_text ? (
+              <>
+                <span
+                  className="h-px w-full bg-current text-[var(--muted)]"
+                  aria-hidden="true"
+                ></span>
+                <p className="overflow-hidden text-[var(--muted)] italic [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] whitespace-pre-line">
+                  {translatedFlavor || foundCard.flavor_text}
                 </p>
-                <h2 className="font-[var(--font-title)] text-xl">
-                  {foundCard.name}
-                  {foundCard.version && `, ${foundCard.version}`}
-                </h2>
-              </div>
-              <p className="whitespace-pre-line text-[var(--muted)]">
-                {foundCard.text}
-              </p>
-              <div className="mt-auto flex flex-wrap gap-2">
-                {foundCard.ink && (
-                  <span className="rounded-full px-3 py-1 text-[0.75rem] font-semibold uppercase tracking-[1px] bg-[var(--surface)]">
-                    {foundCard.ink}
-                  </span>
-                )}
-                {foundCard.cost !== null && foundCard.cost !== undefined && (
-                  <span className="grid h-8 w-8 place-items-center rounded-[10px] bg-[var(--cost-bg)] text-[var(--cost-ink)] font-bold">
-                    {foundCard.cost}
-                  </span>
-                )}
-                {foundCard.strength !== null && foundCard.strength !== undefined && (
-                  <span className="rounded-full px-3 py-1 text-[0.8rem] bg-[var(--surface)]">
-                    <span className="text-[var(--muted)]">F</span> {foundCard.strength}
-                  </span>
-                )}
-                {foundCard.willpower !== null && foundCard.willpower !== undefined && (
-                  <span className="rounded-full px-3 py-1 text-[0.8rem] bg-[var(--surface)]">
-                    <span className="text-[var(--muted)]">W</span> {foundCard.willpower}
-                  </span>
-                )}
-                {foundCard.lore !== null && foundCard.lore !== undefined && (
-                  <span className="rounded-full px-3 py-1 text-[0.8rem] bg-[var(--surface)]">
-                    <span className="text-[var(--muted)]">L</span> {foundCard.lore}
-                  </span>
-                )}
-              </div>
-            </div>
+              </>
+            ) : null}
+            {(translatedText || translatedFlavor) && (
+              <button
+                onClick={handleTranslateClick}
+                className="mt-1 text-xs text-[var(--accent)] underline"
+              >
+                Mostrar original
+              </button>
+            )}
+          </div>
+
+          <StatGrid card={foundCard} />
+
+          <div className="flex flex-wrap gap-2">
+            {types.slice(0, 2).map((item) => (
+              <TagChip key={item}>{item}</TagChip>
+            ))}
+            <TagChip>{normalizeLabel(foundCard.rarity)}</TagChip>
           </div>
 
           {saveSuccess && (
             <div className="flex items-center gap-2 rounded-[12px] bg-green-500/20 p-3 text-green-400">
-              <CheckIcon className="h-5 w-5" />
               {saveSuccess}
             </div>
           )}
 
-          {user && (
-            <div className="flex gap-3">
+          <div className="mt-auto flex gap-3">
+            {user ? (
               <button
                 onClick={handleSaveCard}
                 disabled={isSaving || !!saveSuccess}
@@ -266,10 +346,7 @@ export default function ImageSearchPage() {
                     Guardando...
                   </>
                 ) : saveSuccess ? (
-                  <>
-                    <CheckIcon className="h-5 w-5" />
-                    Guardada
-                  </>
+                  "Guardada"
                 ) : (
                   <>
                     <HeartIcon className="h-5 w-5" />
@@ -277,44 +354,23 @@ export default function ImageSearchPage() {
                   </>
                 )}
               </button>
-              <Link
-                href="/"
-                className="flex items-center justify-center gap-2 rounded-[12px] border border-[var(--stroke)] px-4 py-3 transition hover:bg-[var(--surface)]"
-              >
-                <XMarkIcon className="h-5 w-5" />
-                Cerrar
-              </Link>
-            </div>
-          )}
-
-          {!user && (
-            <div className="rounded-[12px] bg-[var(--surface)] p-4 text-center">
-              <p className="mb-3 text-[var(--muted)]">
-                Inicia sesión para guardar esta carta en tu colección
-              </p>
+            ) : (
               <Link
                 href="/login"
-                className="inline-block rounded-full bg-[var(--accent)] px-6 py-2 font-semibold text-white transition hover:opacity-90"
+                className="flex flex-1 items-center justify-center gap-2 rounded-[12px] bg-[var(--accent)] px-4 py-3 font-semibold text-white transition hover:opacity-90"
               >
-                Iniciar sesión
+                Iniciar sesión para guardar
               </Link>
-            </div>
-          )}
+            )}
+            <Link
+              href="/"
+              className="flex items-center justify-center gap-2 rounded-[12px] border border-[var(--stroke)] px-4 py-3 transition hover:bg-[var(--surface)]"
+            >
+              Volver
+            </Link>
+          </div>
         </div>
-      )}
-
-      {error && (
-        <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--alert)]/30 bg-[var(--alert)]/10 p-6 text-center">
-          <p className="text-[var(--alert)]">{error}</p>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
-          >
-            <ArrowLeftIcon className="h-5 w-5" />
-            Volver a la galería
-          </Link>
-        </div>
-      )}
+      </article>
     </main>
   );
 }

@@ -10,37 +10,48 @@ export async function extractTextFromImage(
   imageBase64: string
 ): Promise<OcrResponse> {
   try {
+    let cleanBase64 = imageBase64;
+    
+    if (cleanBase64.startsWith("data:")) {
+      const parts = cleanBase64.split(",");
+      if (parts.length > 1) {
+        cleanBase64 = parts[1];
+      }
+    }
+
+    const apiKey = process.env.OCRSPACE_API_KEY;
+    if (!apiKey) {
+      return { success: false, error: "API key de OCR no configurada" };
+    }
+
     const formData = new FormData();
-    formData.append("base64Image", imageBase64);
+    formData.append("base64Image", cleanBase64);
     formData.append("language", "eng");
-    formData.append("isOverlayRequired", "false");
     formData.append("detectOrientation", "true");
     formData.append("scale", "true");
     formData.append("OCREngine", "2");
-    formData.append("filetype", "JPG");
-
-    const apiKey = process.env.OCRSPACE_API_KEY;
-
-    const headers: Record<string, string> = {};
-    if (apiKey) {
-      headers["apikey"] = apiKey;
-    }
 
     const response = await fetch("https://api.ocr.space/parse/image", {
       method: "POST",
-      headers,
+      headers: {
+        "apikey": apiKey,
+      },
       body: formData,
     });
 
-    if (!response.ok) {
-      return { success: false, error: `HTTP Error: ${response.status}` };
-    }
-
     const data = await response.json();
 
+    if (response.status === 403) {
+      return { success: false, error: "API key inválida o cuenta bloqueada" };
+    }
+
     if (data.IsErroredOnProcessing) {
-      const errorMsg = data.ErrorMessage?.[0] || "Error en el procesamiento OCR";
+      const errorMsg = data.ErrorMessage?.[0] || data.ResolvedError || "Error en OCR";
       return { success: false, error: errorMsg };
+    }
+
+    if (!response.ok) {
+      return { success: false, error: `Error HTTP: ${response.status}` };
     }
 
     const parsedText = data.ParsedResults?.[0]?.ParsedText?.trim();
@@ -59,21 +70,27 @@ export async function extractTextFromImage(
   }
 }
 
-export async function extractCollectorNumber(text: string): Promise<string | null> {
-  const patterns = [
-    /#?\s*(\d{1,4})\s*(?:\/|$|\s)/,
-    /(?:Card\s*)?#?\s*(\d{3,4})/i,
-    /\b(\d{3,4})\b/,
-  ];
-
-  const cleanText = text.replace(/\s+/g, " ").trim();
-
-  for (const pattern of patterns) {
-    const match = cleanText.match(pattern);
-    if (match && match[1]) {
-      const num = match[1].replace(/\D/g, "");
-      if (num.length >= 3 && num.length <= 4) {
-        return num;
+export async function extractCollectorNumber(text: string): Promise<{ set: string; number: string; fullLine: string } | null> {
+  const lines = text.split("\n");
+  
+  for (const line of lines) {
+    if (line.includes("/") && (line.includes("EN") || line.includes("•"))) {
+      const match = line.match(/(\d+)\s*[\/]\s*(\d+)/);
+      if (match) {
+        const numbers = line.match(/\d+/g) || [];
+        const filtered = numbers.filter(n => parseInt(n) <= 300);
+        
+        if (filtered.length >= 2) {
+          const set = filtered[filtered.length - 1];
+          const number = filtered[0];
+          const cost = filtered.length >= 3 ? `·${filtered[1]}` : "";
+          const fullLine = `${number}/${set}·EN${cost}`;
+          return {
+            set,
+            number,
+            fullLine,
+          };
+        }
       }
     }
   }

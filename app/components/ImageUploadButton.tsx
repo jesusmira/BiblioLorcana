@@ -4,23 +4,54 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { CameraIcon } from "@heroicons/react/24/outline";
 
+const IMAGE_STORAGE_KEY = "ocr_image_data";
+
 interface ImageUploadButtonProps {
   className?: string;
+}
+
+function convertToJpeg(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL("image/jpeg", 0.85));
+        } else {
+          reject(new Error("No se pudo crear el contexto"));
+        }
+      };
+      img.onerror = () => reject(new Error("Error al cargar la imagen"));
+      img.src = e.target?.result as string;
+    };
+    reader.onerror = () => reject(new Error("Error al leer el archivo"));
+    reader.readAsDataURL(file);
+  });
 }
 
 export default function ImageUploadButton({ className = "" }: ImageUploadButtonProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = (reader.result as string).split(",")[1];
-        router.push(`/buscar-imagen?image=${encodeURIComponent(base64)}`);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const jpegData = await convertToJpeg(file);
+        localStorage.setItem(IMAGE_STORAGE_KEY, jpegData);
+        router.push("/buscar-imagen");
+      } catch (error) {
+        console.error("Error al procesar imagen:", error);
+        alert("Error al procesar la imagen");
+      }
     }
   };
 
@@ -34,6 +65,7 @@ export default function ImageUploadButton({ className = "" }: ImageUploadButtonP
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        capture="environment"
         onChange={handleFileChange}
         className="hidden"
       />

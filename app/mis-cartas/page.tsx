@@ -147,6 +147,7 @@ export default function MisCartasPage() {
                     src={card.image_uris.digital.normal}
                     alt={card.name || "Carta"}
                     fill
+                    sizes="(max-width: 640px) 50vw, 33vw"
                     className="object-contain"
                   />
                 ) : (
