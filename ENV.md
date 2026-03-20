@@ -10,3 +10,6 @@
 
 # Database (PostgreSQL via Docker)
 DATABASE_URL=postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor?schema=public
+
+# OCR.space API Key
+OCRSPACE_API_KEY=
