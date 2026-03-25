@@ -123,9 +123,8 @@ public/
 #### cards
 | Campo | Tipo | Descripcion |
 |-------|------|-------------|
-| id | String | ID de la carta (Lorcast) |
+| id | UUID | Identificador unico |
 | name | String? | Nombre de la carta |
-| version | String? | Version/Formato |
 | text | String? | Texto de habilidad |
 | flavorText | String? | Texto de sabor |
 | ink | String? | Tinta |
@@ -137,9 +136,10 @@ public/
 | lore | Int? | Historia |
 | collectorNumber | String? | Numero de carta |
 | classifications | String[] | Clasificaciones |
-| imageUris | Json? | URLs de imagenes |
-| setId | String? | ID del set |
-| setName | String? | Nombre del set |
+| imageUrl | String? | URL de imagen |
+| promoSet | String? | Set promocional |
+| nonPromoSet | String? | Set no promocional |
+| createdAt | DateTime | Fecha de creacion |
 
 #### user_cards
 | Campo | Tipo | Descripcion |
@@ -163,9 +163,15 @@ public/
 - Traduccion de texto de cartas (ingles a español) con MyMemory API
 - Iconos Heroicons
 - Busqueda de cartas por imagen (OCR con OCR.space)
+  - Compresion de imagenes para optimizar rendimiento
+  - Detector de numeros de carta con correccion (l → 1, I → 1)
+  - Busqueda en API de Lorcast y base de datos local
+  - Soporte para cartas especiales (promocionales) con promo_set y non_promo_set
 - Coleccion personal de cartas guardadas en BD
 - Pagina "Mis Cartas" con galeria de cartas guardadas
 - GitHub Actions workflow para OpenCode AI
+- API Routes para OCR, busqueda de cartas y gestion de usuario
+- Base de datos con soporte para cartas promocionales
 
 ## Licencia
 

@@ -8,12 +8,16 @@ export async function GET(
 ) {
   const { set, number } = await params;
   
+  console.log("Buscando carta en Lorcast:", `${API_BASE}/cards/${set}/${number}`);
+  
   try {
     const response = await fetch(`${API_BASE}/cards/${set}/${number}`, {
       headers: {
         "Content-Type": "application/json",
       },
     });
+
+    console.log("Respuesta Lorcast:", response.status);
 
     if (!response.ok) {
       return NextResponse.json(
@@ -23,8 +27,10 @@ export async function GET(
     }
 
     const data = await response.json();
+    console.log("Datos de carta:", data?.name, data?.image_uris ? "tiene imagen" : "sin imagen");
     return NextResponse.json(data);
-  } catch {
+  } catch (error) {
+    console.log("Error Lorcast:", error);
     return NextResponse.json(
       { error: "Error al obtener la carta" },
       { status: 500 }

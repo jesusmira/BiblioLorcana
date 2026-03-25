@@ -17,7 +17,6 @@ export async function GET() {
   const cards = userCards.map((uc) => ({
     id: uc.card.id,
     name: uc.card.name,
-    version: uc.card.version,
     text: uc.card.text,
     flavor_text: uc.card.flavorText,
     ink: uc.card.ink,
@@ -29,8 +28,7 @@ export async function GET() {
     lore: uc.card.lore,
     collector_number: uc.card.collectorNumber,
     classifications: uc.card.classifications,
-    image_uris: uc.card.imageUris,
-    set: uc.card.setName ? { name: uc.card.setName } : null,
+    image_url: uc.card.imageUrl,
   }));
 
   return NextResponse.json(cards);

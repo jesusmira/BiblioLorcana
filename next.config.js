@@ -32,6 +32,22 @@ const nextConfig = {
         protocol: "https",
         hostname: "api.lorcast.com",
       },
+      {
+        protocol: "https",
+        hostname: "wiki.mushureport.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.mushureport.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cardtrader.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.cardtrader.com",
+      },
     ],
   },
 };

@@ -1,0 +1,3633 @@
+[
+    {
+        "cards": [
+            {
+                "collector_number": "1TFC·EN·1/P1",
+                "promo_set": "D23 Expo 2022 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Brave Little Tailor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through shear determination.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fe/MickeyMouse-BraveLittleTailor-1-115.png"
+            },
+            {
+                "collector_number": "1TFC·EN·2/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Stitch - Rock Star",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "The best part about a beachside concert is that there's always room for one more.",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Stitch.)",
+                    "ADORING FANS  Whenever you play a character with cost 2 or less, you may exert them to draw a card."
+                ],
+                "keywords": [
+                    "Shift",
+                    "ADORING FANS"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/f7/Stitch-RockStar-1-23.png"
+            },
+            {
+                "collector_number": "1TFC·EN·3/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Elsa - Snow Queen",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_Recreated by magical ink, Elsa found herself in an entirely new world. Fortunately, ice works the same way everywhere._",
+                "abilities": [
+                    "FREEZE Exert chosen opposing character."
+                ],
+                "keywords": [
+                    "FREEZE"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/70/Elsa-SnowQueen-1-41.png"
+            },
+            {
+                "collector_number": "1TFC·EN·4/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Cruella De Vil - Miserable as Usual",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_When she stops by, misery is company._",
+                "abilities": [
+                    "YOU'LL BE SORRY! When this character is challenged and banished, you may return chosen character to their player's hand."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/b/b3/CruellaDeVil-MiserableasUsual-1-72.png"
+            },
+            {
+                "collector_number": "1TFC·EN·5/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Maleficent - Monstrous Dragon",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 9,
+                "inkwell": true,
+                "strength": 7,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_The ninth Rule of Villainy: When all else fails, turn into a dragon._",
+                "abilities": [
+                    "DRAGON FIRE  When you play this character, you may banish chosen character."
+                ],
+                "keywords": [
+                    "DRAGON FIRE"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/5/5a/Maleficent-MonstrousDragon-1-113.png"
+            },
+            {
+                "collector_number": "1TFC·EN·6/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Robin Hood - Unrivaled Archer",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“We never rob. We just sort of borrow a bit from those who can afford it.”",
+                "abilities": [
+                    "FEED THE POOR  When you play this character, if an opponent has more cards in their hand than you, you may draw a card.",
+                    "GOOD SHOT  During your turn, this character gains Evasive. (They can challenge characters with Evasive.)"
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e3/RobinHood-UnrivaledArcher-1-157.png"
+            },
+            {
+                "collector_number": "1TFC·EN·7/P1",
+                "promo_set": "D23 Expo 2022 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Captain Hook - Forceful Duelist",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "He loves to make light of a foe's predicament.",
+                "abilities": [
+                    "Challenger: While challenging, this character gets +2 strength."
+                ],
+                "keywords": [
+                    "Challenger"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/da/CaptainHook-ForcefulDuelist-1-174.png"
+            },
+            {
+                "collector_number": "8/P1·EN·1",
+                "promo_set": "The First Chapter Organized Play Kit",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Detective",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Common",
+                "flavor_text": "Wherever the seaweed had come from, Mickey was sure of one thing: something fishy was going on.",
+                "abilities": [
+                    "GET A CLUE  When you play this character, you may put the top card of your deck into your inkwell facedown and exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/9/9d/MickeyMouse-Detective-1-154.png"
+            },
+            {
+                "collector_number": "9/P1·EN·1",
+                "promo_set": "The First Chapter Organized Play Kit",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "HeiHei - Boat Snack",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 1,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 1,
+                "lore": 0,
+                "rarity": "Common",
+                "flavor_text": "“Sometimes, our strengths lie beneath the surface. Far beneath, in some cases...” –Moana",
+                "abilities": [
+                    "Support: Whenever this character quests, you may add their strength to another chosen character's strength this turn."
+                ],
+                "keywords": [
+                    "Support"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/7f/HeiHei-BoatSnack-1.png"
+            },
+            {
+                "collector_number": "10/P1·EN·1",
+                "promo_set": "The First Chapter Organized Play Kit",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Yzma - Alchemist",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“When I want your opinion, I will give it to you!”",
+                "abilities": [
+                    "Whenever this character quests, look at the top card of your deck. Put it on either the top or the bottom of your deck."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/b/b5/Yzma-Alchemist-1-60.png"
+            },
+            {
+                "collector_number": "11/P1·EN·1",
+                "promo_set": "Gen Con 2023 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Musketeer",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 7,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "ALL FOR ONE",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able."
+                ],
+                "keywords": [
+                    "Bodyguard"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/0/0b/MickeyMouse-Musketeer-1-186.png"
+            },
+            {
+                "collector_number": "12/P1·EN·1",
+                "promo_set": "Gamescom 2023 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Goofy - Musketeer",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 6,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“En gawrsh!”",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.",
+                    "AND TWO FOR TEA!  When you play this character, you may remove up to 2 damage from each of your Musketeer characters."
+                ],
+                "keywords": [
+                    "Bodyguard"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/27/Goofy-Musketeer-1-4.png"
+            },
+            {
+                "collector_number": "13/P1·EN·1",
+                "promo_set": "Spiel Essen 2023 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Donald Duck - Musketeer",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 5,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "STAY ALERT!  During your turn, your Musketeer characters gain Evasive.",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.",
+                    "During your turn, your Musketeer characters gain Evasive. They can challenge characters with Evasive."
+                ],
+                "keywords": [
+                    "Bodyguard",
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/0/05/DonaldDuck-Musketeer-1-177.png"
+            },
+            {
+                "collector_number": "14/P1·EN·2",
+                "promo_set": "Rise of the Floodborn Organized Play Kit",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Cinderella - Knight in Training",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "She's always had the heart of a champion‐now she'll have the skills, too.",
+                "abilities": [
+                    "HAVE COURAGE  When you play this character, you may draw a card, then choose and discard a card."
+                ],
+                "keywords": [
+                    "HAVE COURAGE"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/c6/Cinderella-KnightinTraining-2-176.png"
+            },
+            {
+                "collector_number": "15/P1·EN·2",
+                "promo_set": "Rise of the Floodborn Organized Play Kit",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Bucky - Squirrel Squeak Tutor",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“There's a lot of nuance to squirrel.”",
+                "abilities": [
+                    "SQUEAK Whenever you play a Floodborn character, if you used Shift to play them, each opponent chooses and discards a card."
+                ],
+                "keywords": [
+                    "SQUEAK"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/0/00/Bucky-SquirrelSqueakTutor-2-73.png"
+            },
+            {
+                "collector_number": "16/P1·EN·2",
+                "promo_set": "Rise of the Floodborn Organized Play Kit",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Minnie Mouse - Wide‐Eyed Diver",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 2 (You may pay 2 to play this on top of one of your characters named Minnie Mouse.)",
+                    "Evasive (Only characters with Evasive can challenge this character.)",
+                    "UNDERSEA ADVENTURE  Whenever you play a second action in a turn, this character gets +2 lore this turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/a/ab/MinnieMouse-Wide%E2%80%90EyedDiver-2-114.png"
+            },
+            {
+                "collector_number": "17/P1·EN·2",
+                "promo_set": "Rise of the Floodborn Organized Play Kit",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Robin Hood - Capable Fighter",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Capable? You don't know the half of it.” -Little John",
+                "abilities": [
+                    "SKIRMISH - Deal 1 damage to chosen character."
+                ],
+                "keywords": [
+                    "SKIRMISH"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/d6/RobinHood-CapableFighter-2-193.png"
+            },
+            {
+                "collector_number": "18/P1·EN·2",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Mickey Mouse - Friendly Face",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 6,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "“Come on in‐there's lots to explore.”",
+                "abilities": [
+                    "Whenever this character quests, you pay 3 less for the next character you play this turn."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/4/4a/MickeyMouse-FriendlyFace-2-13.png"
+            },
+            {
+                "collector_number": "19/P1·EN·2",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Elsa - Gloves Off",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "The power of ice may not stop the flood, but it will help protect Lorcana.",
+                "abilities": [
+                    "Challenger: While challenging, this character gets +3 strength."
+                ],
+                "keywords": [
+                    "Challenger"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/a/a2/Elsa-GlovesOff-2-19P1.png"
+            },
+            {
+                "collector_number": "20/P1·EN·1",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Genie - Powers Unleashed",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": "6",
+                "inkwell": true,
+                "strength": "3",
+                "willpower": "5",
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "PHENOMENAL COSMIC POWER!",
+                "abilities": [
+                    "Shift 6 (You may pay 6 to play this on top of one of your characters named Genie.)",
+                    "Evasive (Only characters with Evasive can challenge this character.)",
+                    "Whenever this character quests, you may play an action with cost 5 or less for free."
+                ],
+                "keywords": [
+                    "Shift",
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/11/Genie-PowersUnleashed-1-20P1.png"
+            },
+            {
+                "collector_number": "21/P1·EN·1",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Stitch - Abomination",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 6,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "“His destructive programming is taking effect. He will be irresistibly drawn to large cities, where he will back up sewers, reverse street signs, and steal everyone's left shoe.\" –Jumba Jookiba",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a4/Stitch-Abomination-1-125.png"
+            },
+            {
+                "collector_number": "22/P1·EN·1",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Maleficent - Uninvited",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 6,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "She had no invitation‐and needed no introduction.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/7/7f/Maleficent-Uninvited-1-22P1.png"
+            },
+            {
+                "collector_number": "23/P1·EN·1",
+                "promo_set": "Disney 100 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Maui - Demigod",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 8,
+                "inkwell": true,
+                "strength": 8,
+                "willpower": 8,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "_When the gods gift you a boat, you take it. The boat's owner is optional._",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/0/0a/Maui-Demigod-1-185.png"
+            },
+            {
+                "collector_number": "24/P1·EN·1",
+                "promo_set": "Gaston - Arrogant Hunter Promotional Card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Gaston - Arrogant Hunter",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "It's not arrogance when you really are the best.",
+                "abilities": [
+                    "Reckless: This character can't quest and must challenge each turn if able."
+                ],
+                "keywords": [
+                    "Reckless"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/4/45/Gaston-ArrogantHunter-1-110.png"
+            },
+            {
+                "collector_number": "25/P1·EN·1",
+                "promo_set": "New Region / Language Welcoming Promo",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - True Friend",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "As long as he's around, newcomers to the Great Illuminary will always get a warm welcome.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a2/MickeyMouse-TrueFriend-1-12.png"
+            },
+            {
+                "collector_number": "26/P1·EN·3",
+                "promo_set": "Into the Inklands Organized Play Kit",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Kit Cloudkicker",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“It's been fun, guys, but I got to be going. Yahoooo!”",
+                "abilities": [
+                    "SKYSURFING  When you play this character, you may return chosen opposing character with 2 strength or less to their player's hand."
+                ],
+                "keywords": [
+                    "SKYSURFING"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e9/KitCloudkicker-ToughGuy-3-77.png"
+            },
+            {
+                "collector_number": "27/P1·EN·3",
+                "promo_set": "Into the Inklands Organized Play Kit",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Jolly Roger - Hook's Ship",
+                "type": "Location",
+                "ink": "Ruby",
+                "cost": 0,
+                "inkwell": false,
+                "strength": "",
+                "willpower": 5,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "LOOK ALIVE, YOU SWABS!",
+                "abilities": [
+                    "Characters gain Rush while here. (They can challenge the turn they're played.)",
+                    "Your Pirate characters may move here for free."
+                ],
+                "keywords": [
+                    "Rush"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/2e/JollyRoger-Hook'sShip-3-135.png"
+            },
+            {
+                "collector_number": "28/P1·EN·3",
+                "promo_set": "Into the Inklands Organized Play Kit",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "How Far I'll Go",
+                "type": "Action",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Look at the top 2 cards of your deck. Put one into your hand and the other into your inkwell facedown and exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/3/36/HowFarI'llGo.png"
+            },
+            {
+                "collector_number": "29/P1·EN·3",
+                "promo_set": "Into the Inklands Organized Play Kit",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "John Silver - Greedy Treasure Seeker",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 1,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“I was never much good at games. Always hated to lose.”",
+                "abilities": [
+                    "CHART YOUR OWN COURSE For each location you have in play, this character gains Resist +1 and gets +1 lore."
+                ],
+                "keywords": [
+                    "Resist"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/c1/JohnSilver-GreedyTreasureSeeker-3-176.png"
+            },
+            {
+                "collector_number": "30/P1·EN·3",
+                "promo_set": "Into the Inklands Championship",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Stitch - Rock Star",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "The best part about a beachside concert is that there's always room for one more.",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Stitch.)",
+                    "ADORING FANS Whenever you play a character with cost 2 or less, you may exert them to draw a card."
+                ],
+                "keywords": [
+                    "Shift",
+                    "ADORING FANS"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/f7/Stitch-RockStar-1-23.png"
+            },
+            {
+                "collector_number": "31/P1·EN·2",
+                "promo_set": "Rise of the Floodborn event promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Rapunzel - Gifted Artist",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": "",
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "LET YOUR POWER SHINE",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Rapunzel.)",
+                    "Whenever you remove 1 or more damage from one of your characters, you may draw a card."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/27/Rapunzel-GiftedArtist-2-19.png"
+            },
+            {
+                "collector_number": "32/P1·EN·2",
+                "promo_set": "Rise of the Floodborn event promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Pinocchio - Talkative Puppet",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“A lie keeps growing and growing until it's as plain as the nose on your face.”",
+                "abilities": [
+                    "When you play this character, you may exert chosen opposing character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/f/f9/Pinocchio-TalkativePuppet-2-58.png"
+            },
+            {
+                "collector_number": "33/P1·EN·2",
+                "promo_set": "Rise of the Floodborn event promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Four Dozen Eggs",
+                "type": "Action",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Uncommon",
+                "flavor_text": "(A character with cost 4 or more can exert to sing this song for free.)",
+                "abilities": [
+                    "Your characters gain Resist +2 until the start of your next turn. (Damage dealt to them is reduced by 2.)"
+                ],
+                "keywords": [
+                    "Resist"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/22/FourDozenEggs-2-163.png"
+            },
+            {
+                "collector_number": "34/P1·EN·4",
+                "promo_set": "Ursula's Return Organized Play Kit",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Mickey Mouse - Leader of the Band",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 5,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "STRIKE UP THE MUSIC",
+                "abilities": [
+                    "Support: Whenever this character quests, you may add their strength to another chosen character's strength this turn.",
+                    "When you play this character, chosen character gains Support this turn."
+                ],
+                "keywords": [
+                    "Support"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/b8/MickeyMouse-LeaderoftheBand-4-15.png"
+            },
+            {
+                "collector_number": "35/P1·EN·4",
+                "promo_set": "Ursula's Return Organized Play Kit",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Ursula's Lair - Eye of the Storm",
+                "type": "Location",
+                "ink": "Amethyst",
+                "cost": "",
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "SLIPPERY HALLS  Whenever a character is banished in a challenge while here, you may return them to your hand.",
+                    "SEAT OF POWER Characters named Ursula get +1 lore while here."
+                ],
+                "keywords": [
+                    "SLIPPERY HALLS",
+                    "SEAT OF POWER"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/9/94/Ursula'sLair-EyeoftheStorm-4-68.png"
+            },
+            {
+                "collector_number": "36/P1·EN·4",
+                "promo_set": "Ursula's Return Organized Play Kit",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Hidden Inkcaster",
+                "type": "Item",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 2,
+                "rarity": "Uncommon",
+                "flavor_text": "“It looks like it's been here forever.” –Flounder",
+                "abilities": [
+                    "FRESH INK When you play this item, draw a card.",
+                    "UNEXPECTED TREASURE All cards in your hand count as having inkwell."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/6/6d/HiddenInkcaster-4-98.png"
+            },
+            {
+                "collector_number": "37/P1·EN·4",
+                "promo_set": "Ursula's Return Organized Play Kit",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Mulan - Enemy of Entanglement",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "Mulan's messengers fled, leaving behind tendrils of dark ink.",
+                "abilities": [
+                    "TIME TO SHINE  Whenever you play an action, this character gets +2 strength this turn."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/d8/Mulan-EnemyofEntanglement-4-115.png"
+            },
+            {
+                "collector_number": "38/P1·EN·4",
+                "promo_set": "Ursula's Return Championship",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Ursula - Sea Witch Queen",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 7,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 7,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "NOW I AM THE RULER!",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named Ursula.)",
+                    "Whenever this character quests, exert chosen character.",
+                    "Other characters can't exert to sing songs."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e6/Ursula-SeaWitchQueen-4-58.png"
+            },
+            {
+                "collector_number": "39/P1·EN·3",
+                "promo_set": "Into the Inklands event promo",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Scrooge McDuck - Uncle Moneybags",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "A strange new world is the perfect place to make a strange new fortune!",
+                "abilities": [
+                    "TREASURE FINDER  Whenever this character quests, you pay 1 less for the next item you play this turn."
+                ],
+                "keywords": [
+                    "TREASURE FINDER"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/1a/ScroogeMcDuck-UncleMoneybags-3-155.png"
+            },
+            {
+                "collector_number": "40/P1·EN·4",
+                "promo_set": "Ursula's Return event promo",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Flotsam & Jetsam - Entangling Eels",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift: Discard 2 cards (You may discard 2 cards to play this on top of one of your characters named Flotsam or Jetsam.)",
+                    "(This character counts as being named both Flotsam and Jetsam.)"
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/5/52/Flotsam&Jetsam-EntanglingEels.png"
+            },
+            {
+                "collector_number": "41/P1·EN·2",
+                "promo_set": "New Region / Language Welcoming Promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Snow White - Unexpected Houseguest",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 1,
+                "inkwell": true,
+                "strength": 0,
+                "willpower": 0,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "“Nothing says ‘hello’ better than a fresh‐baked pie.”",
+                "abilities": [
+                    "HOW DO YOU DO? You pay 1 less to play Seven Dwarfs characters."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/3/31/SnowWhite-UnexpectedHouseguest-2-24.png"
+            },
+            {
+                "collector_number": "1/C1·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Dragon Fire",
+                "type": "Action",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": "",
+                "rarity": "Rare",
+                "flavor_text": "_The First Chapter: Rare is the hero who can withstand a dragon's wrath._",
+                "abilities": [
+                    "Banish chosen character."
+                ],
+                "keywords": [
+                    "Banish"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/21/DragonFire-1-130.png"
+            },
+            {
+                "collector_number": "2/C1·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Let It Go",
+                "type": "Action",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "_The First Chapter: It's time to see what I can do\\_To test the limits and break through_",
+                "abilities": [
+                    "A character with cost 5 or more can exert to sing this song for free.",
+                    "Put chosen character into their player's inkwell facedown and exerted."
+                ],
+                "keywords": [
+                    "Exert"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/5/50/LetItGo-1-163.png"
+            },
+            {
+                "collector_number": "3/C1·EN·2",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Cinderella - Stouthearted",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 7,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named Cinderella.)",
+                    "Resist +2 (Damage dealt to this character is reduced by 2.)",
+                    "Whenever you play a song, this character may challenge ready characters this turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "Resist"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/8/8a/Cinderella-Stouthearted-2-177.png"
+            },
+            {
+                "collector_number": "4/C1·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Rapunzel - Gifted with Healing",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Uncommon",
+                "flavor_text": "GLEAM AND GLOW",
+                "abilities": [
+                    "When you play this character, remove up to 3 damage from one of your characters. Draw a card for each 1 damage removed this way."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/54/Rapunzel-GiftedwithHealing-1-18.png"
+            },
+            {
+                "collector_number": "5/C1·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Brave Little Tailor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 8,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through shear determination.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fe/MickeyMouse-BraveLittleTailor-1-5C1.png"
+            },
+            {
+                "collector_number": "6/C1·EN·5",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Invited to the Ball",
+                "type": "Action",
+                "ink": "Amber",
+                "cost": 2,
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": "",
+                "rarity": "Uncommon",
+                "flavor_text": "",
+                "abilities": [
+                    "Reveal the top 2 cards of your deck. Put revealed character cards into your hand. Put the rest on the bottom of your deck in any order."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/55/InvitedtotheBall.png"
+            },
+            {
+                "collector_number": "7/C1·EN·5",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Elsa's Ice Palace",
+                "type": "Location",
+                "ink": "Amethyst",
+                "cost": "",
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "ETERNAL WINTER: When you play this location, choose an exerted character. While this location is in play, that character can't ready at the start of their turn."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/5e/Elsa%27sIcePalace-PlaceofSolitude-5-7C1.png"
+            },
+            {
+                "collector_number": "8/C1·EN·1",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Kuzco - Temperamental Emperor",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": "",
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "“I asked for emerald and that is clearly jade! What is wrong with you people?”",
+                "abilities": [
+                    "Ward: Opponents can't choose this character except to challenge.",
+                    "NO TOUCHY!  When this character is challenged and banished, you may banish the challenging character."
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/ea/Kuzco-TemperamentalEmperor-1-8C1.png"
+            },
+            {
+                "collector_number": "9/C1·EN·6",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Baymax - Armored Companion",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "THE TREATMENT IS WORKING",
+                "abilities": [
+                    "When you play this character and whenever he quests, you may remove up to 2 damage from another chosen character of yours. Gain 1 lore for each 1 damage removed this way."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/3/3b/Baymax-ArmoredCompanion-6-157.png"
+            },
+            {
+                "collector_number": "10/C1·EN·1",
+                "promo_set": "World Championship",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "A Whole New World",
+                "type": "Action",
+                "ink": "Steel",
+                "cost": 5,
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "Shining, shimmering, splendid ...",
+                "abilities": [
+                    "A character with cost 5 or more can exert to sing this song for free.",
+                    "Each player discards their hand and draws 7 cards."
+                ],
+                "keywords": [
+                    "Exert",
+                    "Discard",
+                    "Draw"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/5/59/AWholeNewWorld-1-10C1.png"
+            },
+            {
+                "collector_number": "1/P2·EN·5",
+                "promo_set": "Disney Villainous tie-in",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Prince John - Gold Lover",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": "4",
+                "inkwell": true,
+                "strength": "3",
+                "willpower": "4",
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_A villainous schemer from day to night._",
+                "abilities": [
+                    "Play an item from your hand with cost 5 or less for free, exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/d0/PrinceJohn-GoldLover-5-147.png"
+            },
+            {
+                "collector_number": "2/P2·EN·5",
+                "promo_set": "Shimmering Skies event promo",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Kristoff - Reindeer Keeper",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 7,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "SONG OF THE HERD  For each song card in your discard, you pay 1 less to play this character.",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able."
+                ],
+                "keywords": [
+                    "Bodyguard"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/4/4b/Kristoff-ReindeerKeeper-5-13.png"
+            },
+            {
+                "collector_number": "3/P2·EN·5",
+                "promo_set": "Shimmering Skies Organized Play Kit",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Nala - Mischievous Cub",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": "1",
+                "inkwell": true,
+                "strength": "0",
+                "willpower": "4",
+                "lore": 1,
+                "rarity": "Uncommon",
+                "flavor_text": "_The Lorcana Hide-and-Seek Championship was hers for the taking._",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/dc/Nala-MischievousCub-5-2.png"
+            },
+            {
+                "collector_number": "4/P2·EN·5",
+                "promo_set": "Shimmering Skies Organized Play Kit",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Finders Keepers",
+                "type": "Action",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Uncommon",
+                "flavor_text": "\"Three wishes, comin' right up!\" -Iago",
+                "abilities": [
+                    "Draw 3 cards."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/db/FindersKeepers-5-60.png"
+            },
+            {
+                "collector_number": "5/P2·EN·5",
+                "promo_set": "Shimmering Skies Organized Play Kit",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Chicha - Dedicated Mother",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Support: Whenever this character quests, you may add their strength to another chosen character's strength this turn.",
+                    "ONE ON THE WAY: During your turn, when you put a card into your inkwell, if it’s the second card you’ve put into your inkwell this turn, you may draw a card."
+                ],
+                "keywords": [
+                    "Support",
+                    "ONE ON THE WAY"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/f7/Chicha-DedicatedMother-5-146.png"
+            },
+            {
+                "collector_number": "6/P2·EN·5",
+                "promo_set": "Shimmering Skies Organized Play Kit",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Stitch - Team Underdog",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 4,
+                "inkwell": false,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_He's not the biggest glimmer on the team, but he still packs a wallop._",
+                "abilities": [
+                    "HEAVE HO!  When you play this character, you may deal 2 damage to chosen character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/0/0c/Stitch-TeamUnderdog-5-171.png"
+            },
+            {
+                "collector_number": "7/P2·EN·5",
+                "promo_set": "Shimmering Skies Championship",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Mirabel Madrigal - Family Gatherer",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 5,
+                "rarity": "Rare",
+                "flavor_text": "“There's nothing we can’t accomplish together!”",
+                "abilities": [
+                    "NOT WITHOUT MY FAMILY You can't play this character unless you have 5 or more characters in play."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/1/1c/MirabelMadrigal-FamilyGatherer-5-7P2.png"
+            },
+            {
+                "collector_number": "8/P2·EN·6",
+                "promo_set": "Azurite Sea Stitch Collector's Gift Set",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Stitch - Alien Buccaneer",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Stitch.)",
+                    "READY FOR ACTION When you play this character, if you used Shift to play him, you may put an action card from your discard on the top of your deck."
+                ],
+                "keywords": [
+                    "Shift",
+                    "READY FOR ACTION"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/f3/Stitch-AlienBuccaneer-6-72.png"
+            },
+            {
+                "collector_number": "9/P2·EN·6",
+                "promo_set": "Azurite Sea event promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Aladdin - Intrepid Commander",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_A true hero never hesitates to help those in need._",
+                "abilities": [
+                    "Shift 2 (You may pay 2 to play this on top of one of your characters named Aladdin.)",
+                    "When you play this character, your characters get +1 this turn."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/18/Aladdin-IntrepidCommander-6-119.png"
+            },
+            {
+                "collector_number": "10/P2·EN·6",
+                "promo_set": "Azurite Sea Organized Play promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Rescue Rangers Away!",
+                "type": "Action",
+                "ink": "Amber",
+                "cost": 2,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Count the number of characters you have in play. Chosen character loses strength equal to that number until the start of your next turn."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/7/75/RescueRangersAway%21-6-29.png"
+            },
+            {
+                "collector_number": "11/P2·EN·6",
+                "promo_set": "Azurite Sea Organized Play promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Honey Lemon",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "\"You’re going to love this!\"",
+                "abilities": [
+                    "When you play this character, you may pay 2 to have each opponent choose and discard a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/85/HoneyLemon-ChemicalGenius-6-74.png"
+            },
+            {
+                "collector_number": "12/P2·EN·6",
+                "promo_set": "Azurite Sea Organized Play promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Minnie Mouse - Pirate Lookout",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_Minnie leaned forward. Could it be true? Was this the island at last?_",
+                "abilities": [
+                    "Once during your turn, whenever a card is put into your inkwell, you may return a location card from your discard to your hand."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/f/fc/MinnieMouse-PirateLookout-6-120.png"
+            },
+            {
+                "collector_number": "13/P2·EN·6",
+                "promo_set": "Azurite Sea Organized Play promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Wasabi",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "When you play this character, you may banish chosen item. Its player gains 1 lore.",
+                    "During your turn, this character gains Evasive."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/29/Wasabi-MethodicalEngineer-6-149.png"
+            },
+            {
+                "collector_number": "14/P2·EN·6",
+                "promo_set": "Azurite Sea Championship",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Scar - Heartless Hunter",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": false,
+                "strength": 4,
+                "willpower": 2,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "“It's for the greater good. I'm sure you understand.”",
+                "abilities": [
+                    "When you play this character, deal 2 damage to chosen character of yours to deal 2 damage to another chosen character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/4/41/Scar-HeartlessHunter-6-127.png"
+            },
+            {
+                "collector_number": "15/P2·EN·1",
+                "promo_set": "Disney Lorcana Quest",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - True Friend",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 1,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "As long as he's around, newcomers to the Great Illuminary will always get a warm welcome.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/d6/MickeyMouse-TrueFriend-1-15P2.png"
+            },
+            {
+                "collector_number": "16/P2·EN·1",
+                "promo_set": "World of Disney visit on May 30, 2025",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Elsa - Queen Regent",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "I never knew what I was capable of.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/e/e3/Elsa-QueenRegent-1-40.png"
+            },
+            {
+                "collector_number": "17/P2·EN·4",
+                "promo_set": "Disney purchase promo",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Anna - Braving the Storm",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_After talking to Olaf, Anna marched into the unexpected storm to save Kristoff._",
+                "abilities": [
+                    "I WAS BORN READY: If you have another Hero character in play, this character gets +1 lore."
+                ],
+                "keywords": [
+                    "Hero"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e0/Anna-BravingtheStorm-4-137.png"
+            },
+            {
+                "collector_number": "18/P2·EN·6",
+                "promo_set": "Into the Inklands Bundle",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Mickey Mouse - Pirate Captain",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Mickey Mouse.)",
+                    "MARINER'S MIGHT Whenever this character quests, chosen Pirate character gets +2 strength and gains \"This character takes no damage in challenges\" this turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "MARINER'S MIGHT"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/f2/MickeyMouse-PirateCaptain-6-18P2.png"
+            },
+            {
+                "collector_number": "19/P2·EN·7",
+                "promo_set": "Archazia's Island event promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Anna - Ice Breaker",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Support: Whenever this character quests, you may add their strength to another chosen character's strength this turn.",
+                    "WINTER AMBUSH: When you play this character, chosen opposing character can't ready at the start of their next turn."
+                ],
+                "keywords": [
+                    "Support",
+                    "WINTER AMBUSH"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/7e/Anna-IceBreaker-7-72.png"
+            },
+            {
+                "collector_number": "20/P2·EN·7",
+                "promo_set": "Archazia's Island Organized Play promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Kronk - Laid Back",
+                "type": "Character",
+                "ink": "Amethyst, Emerald",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "I'M LOVIN' THIS",
+                "abilities": [
+                    "Ward: Opponents can't choose this character except to challenge.",
+                    "If an effect would cause you to discard one or more cards, you don't discard."
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/23/Kronk-LaidBack-7-63.png"
+            },
+            {
+                "collector_number": "1TFC·EN·1/P1",
+                "promo_set": "D23 Expo 2022 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Brave Little Tailor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": "8",
+                "inkwell": true,
+                "strength": "5",
+                "willpower": "5",
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through shear determination.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fe/MickeyMouse-BraveLittleTailor-1-115.png"
+            },
+            {
+                "collector_number": "21/P2·EN·7",
+                "promo_set": "Archazia's Island Organized Play promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Perdita - Playful Mother",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "WHO’S NEXT? Whenever this character quests, you pay 2 less for the next Puppy character you play this turn.",
+                "abilities": [
+                    "WHO’S NEXT? Whenever this character quests, you pay 2 less for the next Puppy character you play this turn.",
+                    "DON’T BE AFRAID Your Puppy characters gain Ward. (Opponents can't choose them except to challenge.)"
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/4/44/Perdita-PlayfulMother-7-2.png"
+            },
+            {
+                "collector_number": "22/P2·EN·7",
+                "promo_set": "Archazia's Island Organized Play promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Li Shang - Newly Promoted",
+                "type": "Character",
+                "ink": "Ruby, Steel",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "I WON'T LET YOU DOWN",
+                "abilities": [
+                    "This character can challenge ready characters.",
+                    "While this character is damaged, he gets +2."
+                ],
+                "keywords": [
+                    "Challenge",
+                    "Boost"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/7a/LiShang-NewlyPromoted-7-133.png"
+            },
+            {
+                "collector_number": "23/P2·EN·7",
+                "promo_set": "Archazia's Island Organized Play promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Snow White - Fairest in the Land",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_A true heart can thwart many an evil scheme._",
+                "abilities": [
+                    "This character can't be challenged."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/d/d0/SnowWhite-FairestintheLand-7-33.png"
+            },
+            {
+                "collector_number": "24/P2·EN·7",
+                "promo_set": "Archazia's Island Championship",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Hiro Hamada - Armor Designer",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 7,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 6,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "YOU CAN BE WAY MORE",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named Hiro Hamada.)",
+                    "Your Floodborn characters that have a card under them gain Evasive and Ward. (Only characters with Evasive can challenge them. Opponents can't choose them except to challenge.)"
+                ],
+                "keywords": [
+                    "Evasive",
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/c9/HiroHamada-ArmorDesigner-7-96.png"
+            },
+            {
+                "collector_number": "1TFC·EN·1/P1",
+                "promo_set": "D23 Expo 2022 promotional card",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Brave Little Tailor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": "",
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through sheer determination.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fe/MickeyMouse-BraveLittleTailor-1-115.png"
+            },
+            {
+                "collector_number": "24B/P2·EN·7",
+                "promo_set": "Archazia's Island Championship",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Hiro Hamada - Armor Designer",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 7,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 6,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "YOU CAN BE WAY MORE",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named Hiro Hamada.)",
+                    "Your Floodborn characters that have a card under them gain Evasive and Ward. (Only characters with Evasive can challenge them. Opponents can't choose them except to challenge.)"
+                ],
+                "keywords": [
+                    "Shift",
+                    "Evasive",
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/c9/HiroHamada-ArmorDesigner-7-96.png"
+            },
+            {
+                "collector_number": "25/P2·EN·6",
+                "promo_set": "Lilo Gift Set",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Lilo - Escape Artist",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“You can't keep me away from the fun!”",
+                "abilities": [
+                    "At the start of your turn, if this card is in your discard, you may play her and she enters play exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/8f/Lilo-EscapeArtist-6-25P2.png"
+            },
+            {
+                "collector_number": "26/P2·EN·7",
+                "promo_set": "Theatrical Release Promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Moana - Adventurer of Land and Sea",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "Moana receives a call from the ancestors to sail to new skies and reconnect people across the entire ocean.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/c/cd/Moana-AdventurerofLandandSea-7-156.png"
+            },
+            {
+                "collector_number": "27/P2·EN·8",
+                "promo_set": "Reign of Jafar Organized Play promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Pluto - Tried and True",
+                "type": "Character",
+                "ink": "Amber, Steel",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 0,
+                "willpower": 0,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "HAPPY HELPER",
+                "abilities": [
+                    "While this character has no damage, he gets +2 strength and gains Support."
+                ],
+                "keywords": [
+                    "Support"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/c4/Pluto-TriedandTrue-8-28.png"
+            },
+            {
+                "collector_number": "28/P2·EN·8",
+                "promo_set": "Reign of Jafar Organized Play promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Lady - Decisive Dog",
+                "type": "Character",
+                "ink": "Amber, Emerald",
+                "cost": 1,
+                "inkwell": true,
+                "strength": 0,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Common",
+                "flavor_text": "PACK OF HER OWN  Whenever you play a character, this character gets +1 strength this turn. TAKE THE LEAD  While this character has 3 strength or more, she gets +2 lore.",
+                "abilities": [
+                    "Whenever you play a character, this character gets +1 strength this turn.",
+                    "While this character has 3 strength or more, she gets +2 lore."
+                ],
+                "keywords": [
+                    "Strength"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/cc/Lady-DecisiveDog-8-33.png"
+            },
+            {
+                "collector_number": "29/P2·EN·8",
+                "promo_set": "Reign of Jafar Organized Play promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Aladdin - Vigilant Guard",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 9,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able.",
+                    "SAFE PASSAGE: Whenever one of your Ally characters quests, you may remove up to 2 damage from this character."
+                ],
+                "keywords": [
+                    "Bodyguard"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/a/a3/Aladdin-VigilantGuard-8-170.png"
+            },
+            {
+                "collector_number": "30/P2·EN·8",
+                "promo_set": "Reign of Jafar Organized Play promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Patch - Playful Pup",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 1,
+                "inkwell": false,
+                "strength": 0,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Common",
+                "flavor_text": "Sand sure was more fun than it looked!",
+                "abilities": [
+                    "Ward: Opponents can't choose this character except to challenge.",
+                    "PUPPY BARKING: While you have another Puppy character in play, this character gets +1 lore."
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/8/86/Patch-PlayfulPup-8-25.png"
+            },
+            {
+                "collector_number": "31/P2·EN·8",
+                "promo_set": "Reign of Jafar Prerelease promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Pull the Lever!",
+                "type": "Action",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": "",
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Choose one: Draw 2 cards.",
+                    "Each opponent chooses and discards a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/7/73/PulltheLever%21-8-80.png"
+            },
+            {
+                "collector_number": "32/P2·EN·8",
+                "promo_set": "Reign of Jafar Championship",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Jafar - High Sultan of Lorcana",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 5,
+                "inkwell": false,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "DARK POWER  Whenever this character quests, you may draw a card, then choose and discard a card. If an Illusion character card is discarded this way, you may play that character for free."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/1/11/Jafar-HighSultanofLorcana-8-74.png"
+            },
+            {
+                "collector_number": "33/P2·EN·8",
+                "promo_set": "Reign of Jafar Championship",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Jafar - High Sultan of Lorcana",
+                "type": "Character",
+                "ink": "Amethyst, Steel",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "DARK POWER  Whenever this character quests, you may draw a card, then choose and discard a card. If an Illusion character card is discarded this way, you may play that character for free."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/6/63/Jafar-HighSultanofLorcana-8-33P2.png"
+            },
+            {
+                "collector_number": "34/P2·EN·8",
+                "promo_set": "Illumineer's Quest Palace Heist",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Archimedes - Resourceful Owl",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "YOU DON'T NEED THAT When you play this character, you may banish chosen item.",
+                "abilities": [
+                    "When you play this character, you may banish chosen item.",
+                    "During your turn, whenever an item is banished, you may draw a card, then choose and discard a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/e/ec/Archimedes-ResourcefulOwl-8-113.png"
+            },
+            {
+                "collector_number": "35/P2·EN·8",
+                "promo_set": "Reign of Jafar Buy-A-Box box promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Minnie Mouse - Daring Defender",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 0,
+                "willpower": 8,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "TRUE VALOR  This character gets +1 strength for each 1 damage on her.",
+                "abilities": [
+                    "Bodyguard: This character may enter play exerted. An opposing character who challenges one of your characters must choose one with Bodyguard if able."
+                ],
+                "keywords": [
+                    "Bodyguard"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/d3/MinnieMouse-DaringDefender-8-6.png"
+            },
+            {
+                "collector_number": "36/P2·EN·1",
+                "promo_set": "Ravensburger Lorcana puzzles promo",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - True Friend",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "As long as he's around, newcomers to the Great Illuminary will always get a warm welcome.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a2/MickeyMouse-TrueFriend-1-12.png"
+            },
+            {
+                "collector_number": "38/P2·EN·1",
+                "promo_set": "Beijing DLC promo",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Elsa - Snow Queen",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_Recreated by magical ink, [Elsa](/wiki/Elsa%5F%28character%29 \"Elsa (character)\") found herself in an entirely new world. Fortunately, ice works the same way everywhere._",
+                "abilities": [
+                    "FREEZE – Exert chosen opposing character."
+                ],
+                "keywords": [
+                    "FREEZE"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/70/Elsa-SnowQueen-1-41.png"
+            },
+            {
+                "collector_number": "42/P2·EN·1",
+                "promo_set": "Taiwan DLC promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Snow White - Unexpected Houseguest",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 1,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 1,
+                "rarity": "Common",
+                "flavor_text": "Nothing says ‘hello’ better than a fresh‐baked pie.",
+                "abilities": [
+                    "You pay 1 less to play Seven Dwarfs characters."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/3/31/SnowWhite-UnexpectedHouseguest-2-24.png"
+            },
+            {
+                "collector_number": "43/P2·EN·3",
+                "promo_set": "",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Stitch - Little Rocket",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 1,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Who thought giving him power armor was a good idea?!” –Nani",
+                "abilities": [
+                    "Rush: This character can challenge the turn they're played."
+                ],
+                "keywords": [
+                    "Rush"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/18/Stitch-LittleRocket-3-125.png"
+            },
+            {
+                "collector_number": "01/D23·EN·1",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - Brave Little Tailor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "When defeat looms and victory hangs by a thread, a hero bolts to the rescue, patching things up through shear determination.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fe/MickeyMouse-BraveLittleTailor-1-115.png"
+            },
+            {
+                "collector_number": "02/D23·EN·2",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Cinderella - Stouthearted",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named Cinderella.)",
+                    "Resist +2 (Damage dealt to this character is reduced by 2.)",
+                    "THE SINGING SWORD  Whenever you play a song, this character may challenge ready characters this turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "Resist"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/8/8a/Cinderella-Stouthearted-2-177.png"
+            },
+            {
+                "collector_number": "03/D23·EN·3",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Ursula - Deceiver",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 1,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "YOU'LL NEVER EVEN MISS IT",
+                "abilities": [
+                    "When you play this character, chosen opponent reveals their hand and discards a song card of your choice."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a1/Ursula-Deceiver-3-90.png"
+            },
+            {
+                "collector_number": "04/D23·EN·4",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Bruno Madrigal - Undetected Uncle",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "YOU JUST HAVE TO SEE IT",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character.",
+                    "Exert – Name a card, then reveal the top card of your deck. If it's the named card, put that card into your hand and gain 3 lore. Otherwise, put it on the top of your deck."
+                ],
+                "keywords": [
+                    "Evasive",
+                    "Exert"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/a/ab/BrunoMadrigal-UndetectedUncle-4-39.png"
+            },
+            {
+                "collector_number": "05/D23·EN·5",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Vanellope von Schweetz",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "I HEREBY DECREE",
+                "abilities": [
+                    "Shift 2 (You may pay 2 to play this on top of one of your characters named Vanellope von Schweetz.)",
+                    "Whenever you play another Princess character, all opposing characters get -1 strength until the start of your next turn."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/69/VanellopevonSchweetz-SugarRushPrincess-5-19.png"
+            },
+            {
+                "collector_number": "06/D23·EN·6",
+                "promo_set": "D23 Expo 2024 Collector's Set",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Oswald - The Lucky Rabbit",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": "",
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "FAVORABLE CHANCE  During your turn, whenever a card is put into your inkwell, you may reveal the top card of your deck. If it's an item card, you may play that item for free and they enter play exerted. Otherwise put it on the bottom of your deck.",
+                "abilities": [
+                    "FAVORABLE CHANCE  During your turn, whenever a card is put into your inkwell, you may reveal the top card of your deck. If it's an item card, you may play that item for free and they enter play exerted. Otherwise put it on the bottom of your deck."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/0/0b/Oswald-TheLuckyRabbit-6-142.png"
+            },
+            {
+                "collector_number": "07/D23·EN·4",
+                "promo_set": "D23 2024 promotional card",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Mickey Mouse - Playful Sorcerer",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Mickey Mouse.)",
+                    "Resist +1 (Damage dealt to this character is reduced by 1.)",
+                    "SWEEP AWAY When you play this character, deal damage to chosen character equal to the number of Broom characters you have in play."
+                ],
+                "keywords": [
+                    "Shift",
+                    "Resist",
+                    "SWEEP AWAY"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/61/MickeyMouse-PlayfulSorcerer-4-07D23.png"
+            },
+            {
+                "collector_number": "08/D23·EN·8",
+                "promo_set": "D23 Gold Membership Promo",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Iago - Out of Reach",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": "",
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "Nice try, chumps! Too bad I'm all the way up here!",
+                "abilities": [
+                    "SELF-PRESERVATION  While you have another exerted character in play, this character can't be challenged."
+                ],
+                "keywords": [
+                    "SELF-PRESERVATION"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/70/Iago-OutofReach-8-195.png"
+            },
+            {
+                "collector_number": "16/D23·EN·7",
+                "promo_set": "D23 Gold Membership Promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Mad Hatter - Unruly Eccentric",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_“Don't you care for tea?!”_",
+                "abilities": [
+                    "UNBIRTHDAY PRESENT  Whenever a damaged character challenges another character, you may draw a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/1/16/MadHatter-UnrulyEccentric-7-94.png"
+            },
+            {
+                "collector_number": "1/P3·EN·9",
+                "promo_set": "Fabled event promo",
+                "non_propmo_set": "Fabled",
+                "card_name": "Dumbo - The Flying Elephant",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "Only characters with Evasive can challenge this character.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character.",
+                    "AERIAL DUO  When you play this character, chosen character gains Evasive until the start of your next turn."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/16/Dumbo-TheFlyingElephant-9-46.png"
+            },
+            {
+                "collector_number": "2/P3·EN·9",
+                "promo_set": "Fabled Buy-A-Box box promo",
+                "non_propmo_set": "Fabled",
+                "card_name": "Alice - Accidentally Adrift",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": "4",
+                "inkwell": true,
+                "strength": "2",
+                "willpower": "3",
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "WASHED AWAY  When you play this character, you may put chosen item into its player's inkwell facedown and exerted.",
+                "abilities": [
+                    "WASHED AWAY  When you play this character, you may put chosen item into its player's inkwell facedown and exerted.",
+                    "MAKING WAVES  Whenever this character quests, chosen opposing character gets -2 strength this turn."
+                ],
+                "keywords": [
+                    "WASHED AWAY",
+                    "MAKING WAVES"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/6d/Alice-AccidentallyAdrift-9-141.png"
+            },
+            {
+                "collector_number": "3/P3·EN·9",
+                "promo_set": "Fabled Prerelease promo",
+                "non_propmo_set": "Fabled",
+                "card_name": "The Queen - Conceited Ruler",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Support: Whenever this character quests, you may add their strength to another chosen character's strength this turn.",
+                    "ROYAL SUMMONS: At the start of your turn, you may choose and discard a Princess or Queen character card to return a character card from your discard to your hand."
+                ],
+                "keywords": [
+                    "Support",
+                    "ROYAL SUMMONS"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/9/92/TheQueen-ConceitedRuler-9-1.png"
+            },
+            {
+                "collector_number": "4/P3·EN·9",
+                "promo_set": "Fabled Championship",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Maleficent - Monstrous Dragon",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 9,
+                "inkwell": true,
+                "strength": 7,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Super Rare",
+                "flavor_text": "The ninth Rule of Villainy: When all else fails, turn into a dragon.",
+                "abilities": [
+                    "DRAGON FIRE  When you play this character, you may banish chosen character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/5a/Maleficent-MonstrousDragon-1-113.png"
+            },
+            {
+                "collector_number": "5/P3·EN·9",
+                "promo_set": "Fabled Championship",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Maleficent - Monstrous Dragon",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 9,
+                "inkwell": true,
+                "strength": 7,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_The ninth Rule of Villainy: When all else fails, turn into a dragon._",
+                "abilities": [
+                    "When you play this character, you may banish chosen character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/5a/Maleficent-MonstrousDragon-1-113.png"
+            },
+            {
+                "collector_number": "6/P3·EN·5",
+                "promo_set": "Elsa Gift Box",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Elsa - The Fifth Spirit",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 5,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Rush: This character can challenge the turn they're played.",
+                    "Evasive: Only characters with Evasive can challenge this character.",
+                    "CRYSTALLIZE: When you play this character, exert chosen opposing character."
+                ],
+                "keywords": [
+                    "Rush",
+                    "Evasive",
+                    "CRYSTALLIZE"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/31/Elsa-TheFifthSpirit-5-48.png"
+            },
+            {
+                "collector_number": "7/P3·EN·9",
+                "promo_set": "Fabled Organized Play promo",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "Cursed Merfolk - Ursula's Handiwork",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“Now it's happened once or twice, someone couldn't pay the price ...”",
+                "abilities": [
+                    "Whenever this character is challenged, each opponent chooses and discards a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/2/2d/CursedMerfolk-Ursula'sHandiwork-3-70.png"
+            },
+            {
+                "collector_number": "8/P3·EN·9",
+                "promo_set": "Fabled Organized Play promo",
+                "non_propmo_set": "Rise of the Floodborn",
+                "card_name": "Strength of a Raging Fire",
+                "type": "Action",
+                "ink": "Steel",
+                "cost": "3",
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": "",
+                "rarity": "Rare",
+                "flavor_text": "_Tranquil as a forest_ \n_But on fire within_",
+                "abilities": [
+                    "A character with cost 3 or more can exert to sing this song for free.",
+                    "Deal damage to chosen character equal to the number of characters you have in play."
+                ],
+                "keywords": [
+                    "Exert"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/4/4c/StrengthofaRagingFire-2-201.png"
+            },
+            {
+                "collector_number": "9/P3·EN·9",
+                "promo_set": "Fabled Organized Play promo",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Sisu - Daring Visitor",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 3,
+                "inkwell": false,
+                "strength": 2,
+                "willpower": "",
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Come on‐what's the worst that can happen?”",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character.",
+                    "BRING ON THE HEAT! When you play this character, banish chosen opposing character with 1 strength or less."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/8/87/Sisu-DaringVisitor-4-123.png"
+            },
+            {
+                "collector_number": "10/P3·EN·1",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Mickey Mouse - True Friend",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "As long as he's around, newcomers to the Great Illuminary will always get a warm welcome.",
+                "abilities": [],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a2/MickeyMouse-TrueFriend-1-12.png"
+            },
+            {
+                "collector_number": "11/P3·EN·9",
+                "promo_set": "Fabled Collection Starter Set",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Tinker Bell - Giant Fairy",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Tinker Bell.)",
+                    "ROCK THE BOAT When you play this character, deal 1 damage to each opposing character.",
+                    "PUNY PIRATE! During your turn, whenever this character banishes another character in a challenge, you may deal 2 damage to chosen opposing character."
+                ],
+                "keywords": [
+                    "Shift",
+                    "ROCK THE BOAT",
+                    "PUNY PIRATE!"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/35/TinkerBell-GiantFairy-1-193.png"
+            },
+            {
+                "collector_number": "12/P3·EN·9",
+                "promo_set": "Costco Bundle",
+                "non_propmo_set": "Into the Inklands",
+                "card_name": "The Queen - Mirror Seeker",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 5,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "She has only one question, and she'd better like the answer.",
+                "abilities": [
+                    "Whenever this character quests, you may look at the top 3 cards of your deck and put them back in any order."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/8b/TheQueen-MirrorSeeker-3-156.png"
+            },
+            {
+                "collector_number": "13/P3·EN·6",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Mickey Mouse - Pirate Captain",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Mickey Mouse.)",
+                    "MARINER'S MIGHT  Whenever this character quests, chosen Pirate character gets +2 and gains \"This character takes no damage in challenges\" this turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "MARINER'S MIGHT"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/3e/MickeyMouse-PirateCaptain-6-103.png"
+            },
+            {
+                "collector_number": "14/P3·EN·6",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Goofy - Expert Shipwright",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "CLEVER DESIGN  Whenever this character quests, chosen character gains Ward until the start of your next turn.",
+                "abilities": [
+                    "Ward: Opponents can't choose this character except to challenge.",
+                    "CLEVER DESIGN: Whenever this character quests, chosen character gains Ward until the start of your next turn."
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/b6/Goofy-ExpertShipwright-6-89.png"
+            },
+            {
+                "collector_number": "15/P3·EN·4",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Donald Duck - Buccaneer",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Uncommon",
+                "flavor_text": "_Nobody stands a chance against the daring duck of the high seas!_",
+                "abilities": [
+                    "During your turn, whenever this character banishes a character in a challenge, your other characters get +1 lore this turn."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/e/ec/DonaldDuck-Buccaneer-4-179.png"
+            },
+            {
+                "collector_number": "16/P3·EN·6",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Daisy Duck - Pirate Captain",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "The answers we're looking for are on the other side of that maze, I just know it!",
+                "abilities": [
+                    "DISTANT SHORES  Whenever one of your Pirate characters quests while at a location, draw a card."
+                ],
+                "keywords": [
+                    "Pirate"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/76/DaisyDuck-PirateCaptain-6-81.png"
+            },
+            {
+                "collector_number": "17/P3·EN·6",
+                "promo_set": "Cruise promo",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Minnie Mouse - Pirate Lookout",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 3,
+                "inkwell": false,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "_Minnie leaned forward. Could it be true? Was this the island at last?_",
+                "abilities": [
+                    "Once during your turn, whenever a card is put into your inkwell, you may return a location card from your discard to your hand."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/f/fc/MinnieMouse-PirateLookout-6-120.png"
+            },
+            {
+                "collector_number": "18/P3·EN·10",
+                "promo_set": "Whispers in the Well Organized Play promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Zeus - Missing His Spark",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "I NEED MORE THUNDERBOLTS!",
+                "abilities": [
+                    "Boost 2 (Once during your turn, you may pay 2 to put the top card of your deck facedown under this character.)",
+                    "While there's a card under this character, he gets +2 strength and +2 Willpower."
+                ],
+                "keywords": [
+                    "Boost"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/6e/Zeus-MissingHisSpark-10-193.png"
+            },
+            {
+                "collector_number": "19/P3·EN·10",
+                "promo_set": "Whispers in the Well Organized Play promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "The Great Illuminary",
+                "type": "Location",
+                "ink": "Amethyst",
+                "cost": 2,
+                "inkwell": true,
+                "strength": "",
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Remember, we’re looking for clues to who tore up the lorebook pages.” –Elisa Maza",
+                "abilities": [
+                    "Characters gain \"Exert – Draw a card\" while here."
+                ],
+                "keywords": [
+                    "Exert"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/6f/TheGreatIlluminary-AbandonedLaboratory-10-68.png"
+            },
+            {
+                "collector_number": "20/P3·EN·10",
+                "promo_set": "Whispers in the Well Prerelease promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "The Horseman Strikes!",
+                "type": "Action",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "_Just when you thought you’d escaped ..._",
+                "abilities": [
+                    "Draw a card. You may banish chosen character with Evasive."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/0/0f/TheHorsemanStrikes%21-10-29.png"
+            },
+            {
+                "collector_number": "21/P3·EN·10",
+                "promo_set": "Whispers in the Well Buy-A-Box box promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Scar - Eerily Prepared",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 6,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "SURVIVAL OF THE FITTEST  Whenever you put a card under this character, chosen opposing character gets -5 strength this turn.",
+                "abilities": [
+                    "Boost: Once during your turn, you may pay 2 to put the top card of your deck facedown under this character."
+                ],
+                "keywords": [
+                    "Boost"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/0/0d/Scar-EerilyPrepared-10-153.png"
+            },
+            {
+                "collector_number": "22/P3·EN·10",
+                "promo_set": "Whispers in the Well Bring-A-Friend promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Elsa - Exploring the Unknown",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“This world still has secrets to uncover.”",
+                "abilities": [
+                    "When you play this character, you may draw a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/6/68/Elsa-ExploringtheUnknown-10-45.png"
+            },
+            {
+                "collector_number": "23/P3·EN·10",
+                "promo_set": "Whispers in the Well Championship",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Daisy Duck - Paranormal Investigator",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "STRANGE HAPPENINGS  While this character is exerted, cards enter opponents' inkwells exerted.",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Daisy Duck.)",
+                    "Support (Whenever this character quests, you may add their strength to another chosen character's strength this turn.)"
+                ],
+                "keywords": [
+                    "Shift",
+                    "Support"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/12/DaisyDuck-ParanormalInvestigator.png"
+            },
+            {
+                "collector_number": "24/P3·EN·10",
+                "promo_set": "Whispers in the Well Championship",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Daisy Duck - Paranormal Investigator",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "STRANGE HAPPENINGS  While this character is exerted, cards enter opponents' inkwells exerted.",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Daisy Duck.)",
+                    "Support (Whenever this character quests, you may add their strength to another chosen character's strength this turn.)"
+                ],
+                "keywords": [
+                    "Shift",
+                    "Support"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/f/fc/DaisyDuck-ParanormalInvestigator-10-24P3.png"
+            },
+            {
+                "collector_number": "25/P3·EN·10",
+                "promo_set": "Whispers in the Well event promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Goofy - Emerald Champion",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "EVEN THE SCORE  Whenever one of your other Emerald characters is challenged and banished, banish the challenging character.",
+                "abilities": [
+                    "EVEN THE SCORE  Whenever one of your other Emerald characters is challenged and banished, banish the challenging character.",
+                    "PROVIDE COVER  Your other Emerald characters gain Ward. Opponents can't choose them except to challenge."
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/3e/Goofy-EmeraldChampion.png"
+            },
+            {
+                "collector_number": "26/P3·EN·10",
+                "promo_set": "Whispers in the Well event promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Jasmine - Soothing Princess",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Boost: Once during your turn, you may pay 2 to put the top card of your deck facedown under this character.",
+                    "UPLIFTING AURA: Whenever this character quests, if there's a card under her, remove up to 3 damage from each of your characters."
+                ],
+                "keywords": [
+                    "Boost",
+                    "UPLIFTING AURA"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/b2/Jasmine-SoothingPrincess-10-149.png"
+            },
+            {
+                "collector_number": "27/P3·EN·10",
+                "promo_set": "Theatrical Release Promo",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Putting It All Together",
+                "type": "Action",
+                "ink": "Steel",
+                "cost": 2,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "_“Okay, so the ghostly glimmers were first seen here, and the trail of torn lorebook pages started in this part of the Illuminary . . .”_",
+                "abilities": [
+                    "Chosen opposing character can't challenge during their next turn.",
+                    "Draw a card."
+                ],
+                "keywords": [
+                    "Chosen"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/bd/PuttingItAllTogether-10-27P3.png"
+            },
+            {
+                "collector_number": "28/P3·EN·11",
+                "promo_set": "Winterspell Organised Play promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Gramma Tala - Connected to Nature",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": false,
+                "strength": 6,
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“Ice fishing? No, no-this is ice feeding!”",
+                "abilities": [
+                    "ANCESTORS' GIFT  For each card in your inkwell, you pay 1 less to play this character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a5/GrammaTala-ConnectedtoNature-11-148.png"
+            },
+            {
+                "collector_number": "29/P3·EN·11",
+                "promo_set": "Winterspell Organised Play promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "White Rabbit",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "UNDERDOG  If this is your first turn and you're not the first player, you pay 1 less to play this character.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/dd/WhiteRabbit-LateAgain-11-89.png"
+            },
+            {
+                "collector_number": "30/P3·EN·11",
+                "promo_set": "Winterspell Organised Play promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Elisa Maza - Transformed Gargoyle",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "“I'll never get the hang of jumping off rooftops.”",
+                "abilities": [
+                    "FOREVER STRONG Your characters' strength can't be reduced below their printed value.",
+                    "STONE BY DAY If you have 3 or more cards in your hand, this character can't ready."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/7/71/ElisaMaza-TransformedGargoyle-11-112.png"
+            },
+            {
+                "collector_number": "31/P3·EN·11",
+                "promo_set": "Winterspell Buy-A-Box box promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Beast - Snowfield Troublemaker",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "This character can challenge the turn they're played.",
+                "abilities": [
+                    "Rush: This character can challenge the turn they're played.",
+                    "DYNAMIC MANEUVER: Whenever this character challenges, if he's at a location, he takes no damage from the challenge."
+                ],
+                "keywords": [
+                    "Rush"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/a/a7/Beast-SnowfieldTroublemaker-11-118.png"
+            },
+            {
+                "collector_number": "32/P3·EN·11",
+                "promo_set": "Winterspell Prerelease promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Timon - Snowball Swiper",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Okay, Pumbaa-hit it!”",
+                "abilities": [
+                    "When you play this character, chosen opponent reveals their hand and discards a non-character card of your choice."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/3/31/Timon-SnowballSwiper-11-16.png"
+            },
+            {
+                "collector_number": "33/P3·EN·11",
+                "promo_set": "Winterspell Championship",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Tinker Bell - Snowflake Collector",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "FLURRY OF DELIGHT While you have 4 or more cards in your hand, this character gains Evasive. Only characters with Evasive can challenge them.",
+                    "SPECTACULAR FIND While you have 7 or more cards in your hand, this character gets +3 lore."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/d5/TinkerBell-SnowflakeCollector-11-48.png"
+            },
+            {
+                "collector_number": "34/P3·EN·11",
+                "promo_set": "Winterspell Championship",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Tinker Bell - Snowflake Collector",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "FLURRY OF DELIGHT  While you have 4 or more cards in your hand, this character gains Evasive. (Only characters with Evasive can challenge them.)",
+                "abilities": [
+                    "FLURRY OF DELIGHT  While you have 4 or more cards in your hand, this character gains Evasive. (Only characters with Evasive can challenge them.)",
+                    "SPECTACULAR FIND  While you have 7 or more cards in your hand, this character gets +3 lore."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/d/d5/TinkerBell-SnowflakeCollector-11-48.png"
+            },
+            {
+                "collector_number": "35/P3·EN·11",
+                "promo_set": "Winterspell event promo",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Stitch - High Badness Level",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "No more caffeine for you.",
+                "abilities": [
+                    "AMPED UP While you have a character named Lilo in play, this character gains Challenger +3. (They get +3 strength while challenging.)"
+                ],
+                "keywords": [
+                    "Challenger"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/9/9d/Stitch-HighBadnessLevel-11-185.png"
+            },
+            {
+                "collector_number": "36/P3·EN·10",
+                "promo_set": "Scrooge Gift Box",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "Scrooge McDuck - S.H.U.S.H. Agent",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 0,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "When you play this character, draw a card, then choose and discard a card.",
+                    "When this character is challenged, return this card to your hand. (No damage is dealt in that challenge.)"
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a3/ScroogeMcDuck-S.H.U.S.H.Agent-10-89.png"
+            },
+            {
+                "collector_number": "37/P3·EN·7",
+                "promo_set": "Magical Places promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Belle - Apprentice Inventor",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 3,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "Helping her dad keep the flying debris to a minimum.",
+                "abilities": [
+                    "WHAT A MESS During your turn, you may banish chosen item of yours to play this character for free."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/8a/Belle-ApprenticeInventor-7-159.png"
+            },
+            {
+                "collector_number": "38/P3·EN·7",
+                "promo_set": "Magical Places promo",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Mulan - Disguised Soldier",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 1,
+                "inkwell": true,
+                "strength": 2,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Okay, this is it, time to show 'em your man walk.”\n–Mushu",
+                "abilities": [
+                    "When you play this character, you may draw a card, then choose and discard a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/9/9b/Mulan-DisguisedSoldier-7-193.png"
+            },
+            {
+                "collector_number": "39/P3·EN·9",
+                "promo_set": "Magical Places promo",
+                "non_propmo_set": "Fabled",
+                "card_name": "Goofy - Set for Adventure",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "FAMILY VACATION",
+                "abilities": [
+                    "Once during your turn, whenever this character moves to a location, you may move one of your other characters to that location for free. If you do, draw a card."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/8b/Goofy-SetforAdventure-9-74.png"
+            },
+            {
+                "collector_number": "40/P3·EN·9",
+                "promo_set": "Magical Places promo",
+                "non_propmo_set": "Fabled",
+                "card_name": "Beast - Gracious Prince",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 4,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "His heart warmed as the music began and the dancers took their places.",
+                "abilities": [
+                    "Your Princess characters get +1 Strength and +1 Willpower."
+                ],
+                "keywords": [
+                    "Strength",
+                    "Willpower"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/39/Beast-GraciousPrince-9-4.png"
+            },
+            {
+                "collector_number": "41/P3·EN·9",
+                "promo_set": "Magical Places promo",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Belle - Accomplished Mystic",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_The mixed ink had changed more than just the rose._",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Belle.)",
+                    "ENHANCED HEALING When you play this character, move up to 3 damage counters from chosen character to chosen opposing character."
+                ],
+                "keywords": [
+                    "Shift",
+                    "ENHANCED HEALING"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/b3/Belle-AccomplishedMystic-4-36.png"
+            },
+            {
+                "collector_number": "42/P3·EN·11",
+                "promo_set": "Winterspell Collection Starter Set",
+                "non_propmo_set": "Winterspell",
+                "card_name": "Stitch - Carefree Snowboarder",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“First one down the mountain gets all the marshmallows for their cocoa!”",
+                "abilities": [
+                    "BRING YOUR FRIENDS  Whenever this character quests, if you have 2 or more other characters in play, you may draw a card."
+                ],
+                "keywords": [
+                    "BRING YOUR FRIENDS"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/6/62/Stitch-CarefreeSnowboarder-11-7.png"
+            },
+            {
+                "collector_number": "43/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Ariel - Curious Traveler",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“Isn't it wonderful? See if there's anything that catches your eye.”",
+                "abilities": [
+                    "FAMILIAR GROUND  Whenever this character quests, if you played another character this turn, chosen opposing character can't challenge and must quest during their next turn if able."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/4/40/Ariel-CuriousTraveler-12.png"
+            },
+            {
+                "collector_number": "44/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Maleficent - Imperious Traveler",
+                "type": "Character",
+                "ink": "Amethyst",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "“Bind this glimmer, fiendish flowers!”",
+                "abilities": [
+                    "HEED MY WORDS  Whenever this character quests, if you played another character this turn, you may exert chosen opposing character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/f/f3/Maleficent-ImperiousTraveler-12-.png"
+            },
+            {
+                "collector_number": "45/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Cruella De Vil - Judgmental Traveler",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 6,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 4,
+                "rarity": "Rare",
+                "flavor_text": "“Can I help you? Not with your sense of style, darling.”",
+                "abilities": [
+                    "YOU'RE OUT OF FASHION  Whenever this character quests, if you played another character this turn, you may banish chosen damaged character."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/4/4b/CruellaDeVil-JudgmentalTraveler-12-.png"
+            },
+            {
+                "collector_number": "46/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Queen of Hearts - Impatient Traveler",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 2,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "Hours of walking in the heat had not improved her rosy disposition.",
+                "abilities": [
+                    "ROYAL COMMAND  Whenever this character quests, if you played another character this turn, chosen character gains Rush this turn. (They can challenge the turn they're played.)"
+                ],
+                "keywords": [
+                    "Rush"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/b/bd/QueenofHearts-ImpatientTraveler-12-.png"
+            },
+            {
+                "collector_number": "47/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Cinderella - Resourceful Traveler",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "_No matter how difficult the journey, she always takes care of her friends._",
+                "abilities": [
+                    "THIS AND THAT  Whenever this character quests, if you played another character this turn, you may put the top card of your deck into your inkwell facedown and exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/8/86/Cinderella-ResourcefulTraveler-12-.png"
+            },
+            {
+                "collector_number": "48/P3·EN·12",
+                "promo_set": "Wilds Unknown Organized Play promo",
+                "non_propmo_set": "Wilds Unknown",
+                "card_name": "Pocahontas - Steadfast Traveler",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": "4",
+                "inkwell": true,
+                "strength": "3",
+                "willpower": "5",
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“Sometimes the right path is not the easiest one.”",
+                "abilities": [
+                    "WANDERING SPIRIT  Whenever this character quests, if you played another character this turn, return a location card from your discard to your hand."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/9/92/Pocahontas-SteadfastTraveler-12-.png"
+            },
+            {
+                "collector_number": "1/C2·EN·9",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Pegasus - Gift for Hercules",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 1,
+                "inkwell": true,
+                "strength": 1,
+                "willpower": 2,
+                "lore": 1,
+                "rarity": "Common",
+                "flavor_text": "“His name is Pegasus. And he's all yours....” –Zeus",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/p/pe/Pegasus-GiftforHercules-9-1C2.png"
+            },
+            {
+                "collector_number": "2/C2·EN·7",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Elsa - Ice Maker",
+                "type": "Character",
+                "ink": "Amethyst, Sapphire",
+                "cost": 7,
+                "inkwell": false,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Elsa.)",
+                    "WINTER WALL Whenever this character quests, you may exert chosen character. If you do, and you have a character named Anna in play, the chosen character can't ready at the start of their next turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "WINTER WALL"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/cb/Elsa-IceMaker-7-69.png"
+            },
+            {
+                "collector_number": "3/C2·EN·8",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Mulan - Charging Ahead",
+                "type": "Character",
+                "ink": "Ruby, Steel",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Reckless: This character can't quest and must challenge each turn if able.",
+                    "BURST OF SPEED: During your turn, this character gains Evasive. (This can challenge characters with Evasive.)",
+                    "LONG RANGE: This character can challenge ready characters."
+                ],
+                "keywords": [
+                    "Reckless",
+                    "Evasive",
+                    "Long Range"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/31/Mulan-ChargingAhead-8-141.png"
+            },
+            {
+                "collector_number": "4/C2·EN·6",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Simba",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 4,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "UNDERSTAND THE BALANCE",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Simba.)",
+                    "At the end of your turn, if this character is exerted, you may ready your other characters."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e3/Simba-PrideProtector-6-20.png"
+            },
+            {
+                "collector_number": "5/C2·EN·9",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Pegasus - Gift for Hercules",
+                "type": "Character",
+                "ink": "Emerald",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 1,
+                "rarity": "Rare",
+                "flavor_text": "“His name is Pegasus. And he's all yours....” –Zeus",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/5/57/Pegasus-GiftforHercules-4-84.png"
+            },
+            {
+                "collector_number": "6/C2·EN·7",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Archazia's Island",
+                "card_name": "Elsa - Ice Maker",
+                "type": "Character",
+                "ink": "Amethyst, Sapphire",
+                "cost": 7,
+                "inkwell": false,
+                "strength": 5,
+                "willpower": 5,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Elsa.)",
+                    "WINTER WALL Whenever this character quests, you may exert chosen character. If you do, and you have a character named Anna in play, the chosen character can't ready at the start of their next turn."
+                ],
+                "keywords": [
+                    "Shift",
+                    "WINTER WALL"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/c/cb/Elsa-IceMaker-7-69.png"
+            },
+            {
+                "collector_number": "7/C2·EN·8",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Mulan - Charging Ahead",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 4,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 3,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Reckless: This character can't quest and must challenge each turn if able.",
+                    "BURST OF SPEED: During your turn, this character gains Evasive. This can challenge characters with Evasive.",
+                    "LONG RANGE: This character can challenge ready characters."
+                ],
+                "keywords": [
+                    "Reckless",
+                    "Evasive",
+                    "Long Range"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/31/Mulan-ChargingAhead-8-141.png"
+            },
+            {
+                "collector_number": "8/C2·EN·6",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "Azurite Sea",
+                "card_name": "Simba - Pride Protector",
+                "type": "Character",
+                "ink": "Amber",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 4,
+                "willpower": 3,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "UNDERSTAND THE BALANCE",
+                "abilities": [
+                    "Shift 3 (You may pay 3 to play this on top of one of your characters named Simba.)",
+                    "At the end of your turn, if this character is exerted, you may ready your other characters."
+                ],
+                "keywords": [
+                    "Shift"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/e/e3/Simba-PrideProtector-6-20.png"
+            },
+            {
+                "collector_number": "9/C2·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Dragon Fire",
+                "type": "Action",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": false,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "The First Chapter: Rare is the hero who can withstand a dragon's wrath.",
+                "abilities": [
+                    "Banish chosen character."
+                ],
+                "keywords": [
+                    "Banish"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/2/21/DragonFire-1-130.png"
+            },
+            {
+                "collector_number": "10/C2·EN·1",
+                "promo_set": "Disney Lorcana Challenge",
+                "non_propmo_set": "The First Chapter",
+                "card_name": "Let It Go",
+                "type": "Action",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "_The First Chapter: It's time to see what I can do  To test the limits and break through_",
+                "abilities": [
+                    "A character with cost 5 or more can exert to sing this song for free.",
+                    "Put chosen character into their player's inkwell facedown and exerted."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/5/50/LetItGo-1-163.png"
+            },
+            {
+                "collector_number": "15/C2·EN·9",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Fabled",
+                "card_name": "Stand Out",
+                "type": "Action",
+                "ink": "Emerald",
+                "cost": 3,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Chosen character gets +3 strength and gains Evasive until the start of your next turn."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/9/95/StandOut-9-94.png"
+            },
+            {
+                "collector_number": "16/C2·EN·8",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Down in New Orleans",
+                "type": "Action",
+                "ink": "Sapphire",
+                "cost": 6,
+                "inkwell": true,
+                "strength": "",
+                "willpower": "",
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Look at the top 3 cards of your deck. You may reveal a character, item, or location card with cost 6 or less and play it for free. Put the rest on the bottom of your deck in any order."
+                ],
+                "keywords": [],
+                "image_url": "https://wiki.mushureport.com/images/a/a4/DowninNewOrleans-8-177.png"
+            },
+            {
+                "collector_number": "17/C2·EN·10",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Whispers in the Well",
+                "card_name": "The Headless Horseman",
+                "type": "Character",
+                "ink": "Steel",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 5,
+                "willpower": 7,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "",
+                "abilities": [
+                    "Shift 5 (You may pay 5 to play this on top of one of your characters named The Headless Horseman.)",
+                    "WITCHING HOUR When you play this character, each player draws 3 cards, then discards 3 cards at random. Choose an opposing character and deal 2 damage to them for each action card discarded this way."
+                ],
+                "keywords": [
+                    "Shift",
+                    "WITCHING HOUR"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/1/16/TheHeadlessHorseman-CursedRider-10-174.png"
+            },
+            {
+                "collector_number": "18/C2·EN·8",
+                "promo_set": "Regional Championship",
+                "non_propmo_set": "Reign of Jafar",
+                "card_name": "Tinker Bell - Insistent Fairy",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 2,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 2,
+                "lore": 0,
+                "rarity": "Rare",
+                "flavor_text": "PAY ATTENTION  Whenever you play a character with 5 or more strength, you may exert them to gain 2 lore.",
+                "abilities": [
+                    "Evasive: Only characters with Evasive can challenge this character."
+                ],
+                "keywords": [
+                    "Evasive"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/3/3f/TinkerBell-InsistentFairy-8-136.png"
+            },
+            {
+                "collector_number": "1/DIS·EN·4",
+                "promo_set": "EPCOT Festival of the Arts",
+                "non_propmo_set": "Ursula's Return",
+                "card_name": "Rapunzel - Appreciative Artist",
+                "type": "Character",
+                "ink": "Sapphire",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 5,
+                "lore": 3,
+                "rarity": "Rare",
+                "flavor_text": "“Pascal! A new flower for the wall!”",
+                "abilities": [
+                    "While you have a character named Pascal in play, this character gains Ward. (Opponents can't choose them except to challenge.)"
+                ],
+                "keywords": [
+                    "Ward"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/4/43/Rapunzel-AppreciativeArtist-4-153.png"
+            },
+            {
+                "collector_number": "2/DIS·EN·5",
+                "promo_set": "EPCOT Festival of the Arts",
+                "non_propmo_set": "Shimmering Skies",
+                "card_name": "Donald Duck - Pie Slinger",
+                "type": "Character",
+                "ink": "Ruby",
+                "cost": 5,
+                "inkwell": true,
+                "strength": 3,
+                "willpower": 6,
+                "lore": 2,
+                "rarity": "Rare",
+                "flavor_text": "HUMBLE PIE  When you play this character, if you used Shift to play him, each opponent loses 2 lore.",
+                "abilities": [
+                    "Shift 4 (You may pay 4 to play this on top of one of your characters named Donald Duck.)",
+                    "RAGING DUCK  While an opponent has 10 or more lore, this character gets +6."
+                ],
+                "keywords": [
+                    "Shift",
+                    "RAGING DUCK"
+                ],
+                "image_url": "https://wiki.mushureport.com/images/7/76/DonaldDuck-PieSlinger-5-107.png"
+            }
+        ]
+    }
+]

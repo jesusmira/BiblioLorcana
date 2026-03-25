@@ -23,7 +23,6 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
       create: {
         id: cardId,
         name: cardData.name,
-        version: cardData.version,
         text: cardData.text,
         flavorText: cardData.flavor_text,
         ink: cardData.ink,
@@ -35,13 +34,10 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
         lore: cardData.lore,
         collectorNumber: cardData.collector_number,
         classifications: cardData.classifications as string[],
-        imageUris: cardData.image_uris as object,
-        setId: cardData.set?.name,
-        setName: cardData.set?.name,
+        imageUrl: (cardData.image_uris as any)?.digital?.normal || (cardData.image_url as string) || null,
       },
       update: {
         name: cardData.name,
-        version: cardData.version,
         text: cardData.text,
         flavorText: cardData.flavor_text,
         ink: cardData.ink,
@@ -53,9 +49,7 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
         lore: cardData.lore,
         collectorNumber: cardData.collector_number,
         classifications: cardData.classifications as string[],
-        imageUris: cardData.image_uris as object,
-        setId: cardData.set?.name,
-        setName: cardData.set?.name,
+        imageUrl: (cardData.image_uris as any)?.digital?.normal || (cardData.image_url as string) || null,
       },
     });
 
@@ -115,7 +109,6 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
   return userCards.map((uc) => ({
     id: uc.card.id,
     name: uc.card.name,
-    version: uc.card.version,
     text: uc.card.text,
     flavor_text: uc.card.flavorText,
     ink: uc.card.ink,
@@ -127,8 +120,7 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     lore: uc.card.lore,
     collector_number: uc.card.collectorNumber,
     classifications: uc.card.classifications as string[] | null,
-    image_uris: uc.card.imageUris as LorcanaCard["image_uris"],
-    set: uc.card.setName ? { name: uc.card.setName } : null,
+    image_url: uc.card.imageUrl,
   }));
 }
 

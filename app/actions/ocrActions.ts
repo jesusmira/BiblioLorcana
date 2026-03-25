@@ -74,23 +74,53 @@ export async function extractCollectorNumber(text: string): Promise<{ set: strin
   const lines = text.split("\n");
   
   for (const line of lines) {
-    if (line.includes("/") && (line.includes("EN") || line.includes("•"))) {
-      const match = line.match(/(\d+)\s*[\/]\s*(\d+)/);
-      if (match) {
-        const numbers = line.match(/\d+/g) || [];
-        const filtered = numbers.filter(n => parseInt(n) <= 300);
-        
-        if (filtered.length >= 2) {
-          const set = filtered[filtered.length - 1];
-          const number = filtered[0];
-          const cost = filtered.length >= 3 ? `·${filtered[1]}` : "";
-          const fullLine = `${number}/${set}·EN${cost}`;
-          return {
-            set,
-            number,
-            fullLine,
-          };
+    let cleanLine = line.trim();
+    cleanLine = cleanLine.replace(/(\d)[lI](\d)/gi, "$11$2");
+    cleanLine = cleanLine.replace(/^[lI]/gi, "1");
+    
+    const hasEn = cleanLine.includes("EN");
+    const hasDot = cleanLine.includes("•") || cleanLine.includes(".");
+    const hasP = /P\d+/i.test(cleanLine);
+    
+    if (hasEn && hasDot && (cleanLine.includes("/") || hasP)) {
+      cleanLine = cleanLine.replace(/\s+/g, "");
+      cleanLine = cleanLine.replace(/[•·]/g, ".");
+      
+      let number = "";
+      let set = "";
+      let cost = "";
+      
+      if (hasP) {
+        cleanLine = cleanLine.replace("/", "");
+        const match = cleanLine.match(/(\d+)(P\d+)\.EN\.?(\d*)/i);
+        if (match) {
+          let numStr = match[1];
+          if (numStr.length > 2) {
+            numStr = numStr.slice(0, 2);
+          }
+          number = numStr;
+          set = match[2];
+          if (match[3]) cost = `·${match[3]}`;
         }
+      } else {
+        const allNums = cleanLine.match(/\d+/g) || [];
+        if (allNums.length >= 2) {
+          number = allNums[0] || "";
+          set = allNums[allNums.length - 1] || "";
+          if (allNums.length >= 3) {
+            cost = `·${allNums[allNums.length - 1] || ""}`;
+          }
+        }
+      }
+      
+      if (number && set) {
+        const fullLine = `${number}/${set}·EN${cost}`;
+        console.log("Detectado:", { number, set, cost, fullLine });
+        return {
+          set,
+          number,
+          fullLine,
+        };
       }
     }
   }

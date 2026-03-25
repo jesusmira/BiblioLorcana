@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { CameraIcon } from "@heroicons/react/24/outline";
+import imageCompression from "browser-image-compression";
 
 const IMAGE_STORAGE_KEY = "ocr_image_data";
 
@@ -37,6 +38,17 @@ function convertToJpeg(file: File): Promise<string> {
   });
 }
 
+async function compressImage(file: File): Promise<File> {
+  const options = {
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 1500,
+    useWebWorker: true,
+    fileType: "image/jpeg",
+    initialQuality: 0.9,
+  };
+  return imageCompression(file, options);
+}
+
 export default function ImageUploadButton({ className = "" }: ImageUploadButtonProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -45,7 +57,8 @@ export default function ImageUploadButton({ className = "" }: ImageUploadButtonP
     const file = event.target.files?.[0];
     if (file) {
       try {
-        const jpegData = await convertToJpeg(file);
+        const compressedFile = await compressImage(file);
+        const jpegData = await convertToJpeg(compressedFile);
         localStorage.setItem(IMAGE_STORAGE_KEY, jpegData);
         router.push("/buscar-imagen");
       } catch (error) {

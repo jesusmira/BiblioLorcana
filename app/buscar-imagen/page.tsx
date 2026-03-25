@@ -41,9 +41,11 @@ export default function ImageSearchPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState<string | null>(null);
   const [collectorLine, setCollectorLine] = useState<string | null>(null);
+  const [isSpecialCard, setIsSpecialCard] = useState(false);
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [translatedFlavor, setTranslatedFlavor] = useState<string | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
+  const [showPromoTooltip, setShowPromoTooltip] = useState(false);
 
   useEffect(() => {
     const storedImage = localStorage.getItem(IMAGE_STORAGE_KEY);
@@ -53,10 +55,40 @@ export default function ImageSearchPage() {
     }
   }, []);
 
-  const searchCardByNumber = useCallback(async (set: string, number: string, ocrText?: string) => {
+  const searchCardByNumber = useCallback(async (set: string, number: string, ocrText?: string, collectorLine?: string) => {
     console.log("🔍 Buscando carta:", set, "/", number);
     setIsSearching(true);
     setError(null);
+    setFoundCard(null);
+    setIsSpecialCard(false);
+
+    const hasLetters = /[A-Za-z]/.test(set);
+    
+    if (hasLetters && collectorLine) {
+      console.log("⭐ Carta especial detectada:", collectorLine);
+      
+      try {
+        const response = await fetch(`/api/cards/by-collector/${encodeURIComponent(collectorLine)}`);
+        console.log("📡 Respuesta BD local:", response.status);
+        
+        if (response.ok) {
+          const card = await response.json();
+          console.log("✅ Carta encontrada en BD local:", card.name);
+          setFoundCard(card);
+          setIsSpecialCard(true);
+          setIsSearching(false);
+          return;
+        }
+      } catch (err) {
+        console.log("❌ Error buscando en BD local:", err);
+      }
+      
+      console.log("❌ Carta especial no encontrada en BD local");
+      setIsSpecialCard(true);
+      setIsSearching(false);
+      return;
+    }
+
     try {
       const response = await fetch(`/api/lorcast/cards/${set}/${number}`);
       console.log("📡 Respuesta API:", response.status);
@@ -91,6 +123,7 @@ export default function ImageSearchPage() {
     setError(null);
     setFoundCard(null);
     setSaveSuccess(null);
+    setIsSpecialCard(false);
 
     try {
       console.log("🔄 Enviando imagen a OCR...");
@@ -117,7 +150,7 @@ export default function ImageSearchPage() {
         setCollectorLine(cardInfo.fullLine);
         console.log("✅ Número detectado:", cardInfo.set, "/", cardInfo.number);
         console.log("📋 Línea completa:", cardInfo.fullLine);
-        await searchCardByNumber(cardInfo.set, cardInfo.number, result.text);
+        await searchCardByNumber(cardInfo.set, cardInfo.number, result.text, cardInfo.fullLine);
       } else {
         console.log("❌ No se detectó número de carta en:", result.text);
         setError("No se pudo detectar el número de carta");
@@ -145,7 +178,10 @@ export default function ImageSearchPage() {
   };
 
   const handleTranslateClick = async () => {
-    if (!foundCard?.text && !foundCard?.flavor_text) return;
+    const cardText = (foundCard?.text as string) || (foundCard?.abilities as string) || "";
+    const cardFlavor = (foundCard?.flavorText as string) || (foundCard?.flavor_text as string) || "";
+
+    if (!cardText && !cardFlavor) return;
 
     if (translatedText !== null || translatedFlavor !== null) {
       setTranslatedText(null);
@@ -156,8 +192,8 @@ export default function ImageSearchPage() {
     setIsTranslating(true);
 
     const textsToTranslate = [
-      foundCard.text ? translateText(foundCard.text, "en", "es") : null,
-      foundCard.flavor_text ? translateText(foundCard.flavor_text, "en", "es") : null,
+      cardText ? translateText(cardText, "en", "es") : null,
+      cardFlavor ? translateText(cardFlavor, "en", "es") : null,
     ];
 
     const results = await Promise.all(textsToTranslate);
@@ -211,6 +247,26 @@ export default function ImageSearchPage() {
           </div>
         )}
 
+        {isSpecialCard && (
+          <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--accent)]/30 bg-[var(--accent)]/10 p-6 text-center">
+            <div className="text-4xl">⭐</div>
+            <h2 className="font-[var(--font-title)] text-xl">Carta Especial</h2>
+            <p className="text-[var(--muted)]">
+              Esta carta tiene un número especial que no está en nuestra base de datos.
+            </p>
+            <p className="font-mono text-lg font-bold text-[var(--accent)]">
+              {collectorLine}
+            </p>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
+            >
+              <ArrowLeftIcon className="h-5 w-5" />
+              Volver a la galería
+            </Link>
+          </div>
+        )}
+
         {error && (
           <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--alert)]/30 bg-[var(--alert)]/10 p-6 text-center">
             <p className="text-[var(--alert)]">{error}</p>
@@ -227,12 +283,12 @@ export default function ImageSearchPage() {
     );
   }
 
-  const image = foundCard.image_uris?.digital?.normal || foundCard.image_uris?.digital?.large || foundCard.image_uris?.digital?.small || "";
+  const image = (foundCard.imageUrl as string) || (foundCard.image_uris as any)?.digital?.normal || "";
   const cardInk = normalizeInk(foundCard.ink);
-  const types = getTypes(foundCard);
+  const types = Array.isArray(foundCard.type) ? foundCard.type : [foundCard.type].filter(Boolean);
 
   return (
-    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-3xl">
+    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-5xl">
       <Link
         href="/"
         className="mb-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
@@ -241,127 +297,154 @@ export default function ImageSearchPage() {
         Volver a la galería
       </Link>
 
-      <h1 className="mb-6 font-[var(--font-title)] text-2xl">
-        Buscar carta por imagen
-      </h1>
-
-      <article className="grid gap-6 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-6 sm:grid-cols-[320px_1fr]">
-        <div className="h-full">
+      <article className="grid items-stretch gap-8 rounded-[20px] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] [grid-template-columns:minmax(300px,1fr)_1.8fr] max-[900px]:grid-cols-1">
+        <div className="relative flex justify-center max-[899px]:mb-4">
           <CardArtwork
             image={image}
             alt={foundCard.name || "Carta"}
             loading="lazy"
-            wrapperClassName="h-full rounded-[16px] bg-[var(--surface-soft)]"
-            imageClassName="h-full w-full rounded-[16px] object-contain"
+            wrapperClassName="w-full max-w-[400px] aspect-[2/3] rounded-[16px] bg-[var(--surface-soft)] p-4"
+            imageClassName="h-auto w-full rounded-[12px] object-contain"
           />
-        </div>
-
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between gap-3">
-            <span
-              className={`rounded-full px-2.5 py-1 text-[0.75rem] font-semibold uppercase tracking-[1px] ${
-                inkClassMap[cardInk] || ""
-              }`}
-            >
-              {cardInk}
-            </span>
-            <div className="flex items-center gap-2">
+          {user && (
+            <div className="absolute bottom-4 right-4 hidden gap-1 max-[899px]:flex max-[899px]:bottom-2 max-[899px]:right-2">
+              {isSpecialCard && (foundCard as any).promoSet ? (
+                <button
+                  onClick={() => setShowPromoTooltip(!showPromoTooltip)}
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-white text-lg relative"
+                  aria-label={(foundCard as any).promoSet}
+                >
+                  ⭐
+                  {showPromoTooltip && (
+                    <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[var(--surface)] text-xs rounded whitespace-nowrap z-10">
+                      {(foundCard as any).promoSet}
+                    </span>
+                  )}
+                </button>
+              ) : null}
               <button
                 onClick={handleTranslateClick}
-                disabled={isTranslating || (!foundCard.text && !foundCard.flavor_text)}
-                className="flex h-8 w-8 items-center justify-center rounded-[10px] border border-[var(--stroke)] transition hover:bg-[var(--surface)] disabled:opacity-40"
-                aria-label="Traducir texto"
+                disabled={isTranslating || ((!foundCard.text && !foundCard.flavor_text) && (!foundCard.flavorText && !foundCard.abilities))}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+                aria-label="Traducir carta"
               >
                 {isTranslating ? (
-                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--muted)] border-t-transparent"></div>
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-[var(--muted)] border-t-transparent"></div>
                 ) : (
-                  <LanguageIcon className="h-4 w-4 text-[var(--muted)]" />
+                  <LanguageIcon className="h-5 w-5" />
                 )}
               </button>
-              <span className="grid h-8 w-8 place-items-center rounded-[10px] bg-[var(--cost-bg)] text-[var(--cost-ink)] font-bold">
-                {foundCard.cost ?? 0}
-              </span>
+              <button
+                onClick={handleSaveCard}
+                disabled={isSaving || !!saveSuccess}
+                className={`flex h-8 w-8 items-center justify-center rounded-full ${
+                  saveSuccess
+                    ? "bg-green-500 text-white"
+                    : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+                }`}
+                aria-label={saveSuccess ? "Guardada" : "Guardar carta"}
+              >
+                <HeartIcon className="h-5 w-5" fill={saveSuccess ? "currentColor" : "none"} />
+              </button>
             </div>
-          </div>
+          )}
+        </div>
 
-          <h3 className="font-[var(--font-title)] text-[1.1rem]">
-            {foundCard.name}
-            {foundCard.version ? `, ${foundCard.version}` : ""}
-          </h3>
-
-          <div className="flex flex-col gap-2.5">
-            <p className="min-h-[4.5rem] overflow-hidden text-[var(--muted)] leading-[1.5] [display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical] whitespace-pre-line">
-              {translatedText || (foundCard.text ?? "")}
+        <div className="flex h-full flex-col max-[899px]:text-center">
+          <div className="mb-3 mt-3 flex flex-col gap-3.5">
+            <p className="text-[0.75rem] uppercase tracking-[2px]">
+              {isSpecialCard && collectorLine ? (foundCard as any).nonPromoSet : ((foundCard as any).set?.name || collectorLine)} · {isSpecialCard && collectorLine ? collectorLine : foundCard.collector_number}
             </p>
-            {foundCard.flavor_text ? (
+
+            <h3 className="font-[var(--font-title)] text-[1.75rem] flex items-center gap-2 min-[900px]:flex">
+              {foundCard.name}
+              {foundCard.version ? `, ${foundCard.version}` : ""}
+              {user && (
+                <span className="flex gap-1 max-[899px]:hidden">
+                  {isSpecialCard && (foundCard as any).promoSet && (
+                    <button
+                      onClick={() => setShowPromoTooltip(!showPromoTooltip)}
+                      className="text-lg relative"
+                      aria-label={(foundCard as any).promoSet}
+                    >
+                      ⭐
+                      {showPromoTooltip && (
+                        <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-2 py-1 bg-[var(--surface)] text-xs rounded whitespace-nowrap z-10">
+                          {(foundCard as any).promoSet}
+                        </span>
+                      )}
+                    </button>
+                  )}
+                  <button
+                    onClick={handleTranslateClick}
+                    disabled={isTranslating || ((!foundCard.text && !foundCard.flavor_text) && (!foundCard.flavorText && !foundCard.abilities))}
+                    className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+                    aria-label="Traducir carta"
+                  >
+                    {isTranslating ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-[var(--muted)] border-t-transparent"></div>
+                    ) : (
+                      <LanguageIcon className="h-4 w-4" />
+                    )}
+                  </button>
+                  <button
+                    onClick={handleSaveCard}
+                    disabled={isSaving || !!saveSuccess}
+                    className={`flex h-7 w-7 items-center justify-center rounded-full ${
+                      saveSuccess
+                        ? "bg-green-500 text-white"
+                        : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
+                    }`}
+                    aria-label={saveSuccess ? "Guardada" : "Guardar carta"}
+                  >
+                    <HeartIcon className="h-4 w-4" fill={saveSuccess ? "currentColor" : "none"} />
+                  </button>
+                </span>
+              )}
+            </h3>
+
+            <p className="whitespace-pre-line text-[var(--muted)]">
+              {translatedText || ((foundCard.text as string) ?? "")}
+            </p>
+
+            {(foundCard.flavorText || foundCard.flavor_text) ? (
               <>
-                <span
-                  className="h-px w-full bg-current text-[var(--muted)]"
-                  aria-hidden="true"
-                ></span>
-                <p className="overflow-hidden text-[var(--muted)] italic [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical] whitespace-pre-line">
-                  {translatedFlavor || foundCard.flavor_text}
+                <span className="h-px w-full bg-current text-[var(--muted)]"></span>
+                <p className="italic text-[var(--muted)]">
+                  {translatedFlavor || (foundCard.flavorText as string) || (foundCard.flavor_text as string)}
                 </p>
               </>
             ) : null}
+
             {(translatedText || translatedFlavor) && (
               <button
                 onClick={handleTranslateClick}
-                className="mt-1 text-xs text-[var(--accent)] underline"
+                className="mt-1 text-left text-xs text-[var(--accent)] underline"
               >
                 Mostrar original
               </button>
             )}
           </div>
 
-          <StatGrid card={foundCard} />
+            <div className="mt-auto flex flex-col gap-3">
+              <StatGrid card={foundCard} />
+              <div className="flex flex-wrap gap-2 max-[900px]:justify-center">
+                <TagChip>{cardInk}</TagChip>
+                {types.slice(0, 2).map((item) => (
+                  <TagChip key={item}>{item}</TagChip>
+                ))}
+                <TagChip>{normalizeLabel(foundCard.rarity)}</TagChip>
+                {(foundCard.classifications as string[])?.map((item) => (
+                  <TagChip key={item}>{item}</TagChip>
+                ))}
+              </div>
 
-          <div className="flex flex-wrap gap-2">
-            {types.slice(0, 2).map((item) => (
-              <TagChip key={item}>{item}</TagChip>
-            ))}
-            <TagChip>{normalizeLabel(foundCard.rarity)}</TagChip>
-          </div>
-
-          {saveSuccess && (
-            <div className="flex items-center gap-2 rounded-[12px] bg-green-500/20 p-3 text-green-400">
-              {saveSuccess}
-            </div>
-          )}
-
-          <div className="mt-auto flex gap-3">
-            {user ? (
-              <button
-                onClick={handleSaveCard}
-                disabled={isSaving || !!saveSuccess}
-                className={`flex flex-1 items-center justify-center gap-2 rounded-[12px] px-4 py-3 font-semibold transition ${
-                  saveSuccess
-                    ? "bg-green-500/20 text-green-400"
-                    : "bg-[var(--accent)] text-white hover:opacity-90"
-                } disabled:opacity-50`}
-              >
-                {isSaving ? (
-                  <>
-                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                    Guardando...
-                  </>
-                ) : saveSuccess ? (
-                  "Guardada"
-                ) : (
-                  <>
-                    <HeartIcon className="h-5 w-5" />
-                    Guardar en mis cartas
-                  </>
-                )}
-              </button>
-            ) : (
-              <Link
-                href="/login"
-                className="flex flex-1 items-center justify-center gap-2 rounded-[12px] bg-[var(--accent)] px-4 py-3 font-semibold text-white transition hover:opacity-90"
-              >
-                Iniciar sesión para guardar
-              </Link>
+            {saveSuccess && (
+              <div className="flex items-center gap-2 rounded-[12px] bg-green-500/20 p-3 text-green-400">
+                {saveSuccess}
+              </div>
             )}
+
             <Link
               href="/"
               className="flex items-center justify-center gap-2 rounded-[12px] border border-[var(--stroke)] px-4 py-3 transition hover:bg-[var(--surface)]"

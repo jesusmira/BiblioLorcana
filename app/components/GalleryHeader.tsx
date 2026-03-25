@@ -3,6 +3,7 @@
 import type { ChangeEvent } from "react";
 import { ActiveSetSummary, SelectField, ImageUploadButton } from "./index";
 import { normalizeLabel } from "../lib";
+import { useAuth } from "../lib/auth";
 import type { LorcanaSet } from "../types";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
@@ -61,33 +62,37 @@ export default function GalleryHeader({
   setError,
   cardError,
 }: GalleryHeaderProps) {
+  const { user } = useAuth();
+
   return (
     <div className="flex flex-col gap-[18px]">
       <section className="flex flex-col gap-[18px] rounded-[18px] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)] max-[600px]:p-4">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-2">
           <label
-            className="mb-0 shrink-0 text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)] max-[480px]:hidden"
+            className="text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]"
             htmlFor="searchInput"
           >
             Busqueda
           </label>
-          <div className="relative flex-1">
-            <span
-              className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[var(--muted)]"
-              aria-hidden="true"
-            >
-              <MagnifyingGlassIcon className="h-[18px] w-[18px]" />
-            </span>
-            <input
-              id="searchInput"
-              type="search"
-              value={search}
-              placeholder="Nombre o efecto"
-              onChange={(event: ChangeEvent<HTMLInputElement>) => onSearchChange(event.target.value)}
-              className="h-[52px] w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] pl-10 pr-14 text-base text-[var(--ink)]"
-            />
+          <div className="flex items-center gap-3">
+            <div className="relative flex-1">
+              <span
+                className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[var(--muted)]"
+                aria-hidden="true"
+              >
+                <MagnifyingGlassIcon className="h-[18px] w-[18px]" />
+              </span>
+              <input
+                id="searchInput"
+                type="search"
+                value={search}
+                placeholder="Nombre o efecto"
+                onChange={(event: ChangeEvent<HTMLInputElement>) => onSearchChange(event.target.value)}
+                className="h-[52px] w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] pl-10 pr-14 text-base text-[var(--ink)]"
+              />
+            </div>
+            {user && <ImageUploadButton className="shrink-0" />}
           </div>
-          <ImageUploadButton className="shrink-0" />
         </div>
         <div className="flex flex-col gap-4">
           <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(160px,1fr))] max-[600px]:grid-cols-1">

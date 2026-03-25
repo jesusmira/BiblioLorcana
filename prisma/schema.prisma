@@ -20,9 +20,8 @@ model User {
 }
 
 model Card {
-  id              String      @id
+  id              String      @id @default(uuid())
   name            String?
-  version         String?
   text            String?
   flavorText      String?     @map("flavor_text")
   ink             String?
@@ -34,9 +33,9 @@ model Card {
   lore            Int?
   collectorNumber String?     @map("collector_number")
   classifications String[]
-  imageUris       Json?       @map("image_uris")
-  setId           String?     @map("set_id")
-  setName         String?     @map("set_name")
+  imageUrl        String?     @map("image_url")
+  promoSet        String?     @map("promo_set")
+  nonPromoSet    String?     @map("non_promo_set")
   createdAt       DateTime    @default(now())
   userCards       UserCard[]
 
