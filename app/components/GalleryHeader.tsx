@@ -109,6 +109,7 @@ export default function GalleryHeader({
               {!loadingSets && !sets.length ? (
                 <option value="">Sin sets</option>
               ) : null}
+              <option value="all">Todos los sets</option>
               {sets.map((set) => (
                 <option key={set.id} value={set.code}>
                   {set.name} ({set.code})

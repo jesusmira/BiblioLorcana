@@ -1,21 +1,5 @@
 import { NextResponse } from "next/server";
-
-async function callOcrApi(fullBase64: string, apiKey: string): Promise<Response> {
-  const formData = new FormData();
-  formData.append("base64Image", fullBase64);
-  formData.append("language", "eng");
-  formData.append("detectOrientation", "true");
-  formData.append("scale", "true");
-  formData.append("OCREngine", "1");
-
-  return fetch("https://api.ocr.space/parse/image", {
-    method: "POST",
-    headers: {
-      "apikey": apiKey,
-    },
-    body: formData,
-  });
-}
+import Anthropic from "@anthropic-ai/sdk";
 
 export async function POST(request: Request) {
   try {
@@ -29,7 +13,6 @@ export async function POST(request: Request) {
     }
 
     let imageData = imageBase64;
-
     let mimeType = "image/jpeg";
 
     if (imageBase64.startsWith("data:")) {
@@ -40,19 +23,15 @@ export async function POST(request: Request) {
       }
     }
 
-    const fullBase64 = `data:${mimeType};base64,${imageData}`;
-
-    console.log("MIME type:", mimeType);
-    console.log("Base64 length:", imageData.length);
-
-    if (imageData.length < 100) {
+    const apiKey = process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY;
+    if (!apiKey) {
       return NextResponse.json(
-        { success: false, error: "Imagen demasiado pequeña" },
-        { status: 400 }
+        { success: false, error: "API key de Anthropic no configurada" },
+        { status: 500 }
       );
     }
 
-    const maxSize = 1.5 * 1024 * 1024;
+    const maxSize = 4 * 1024 * 1024;
     if (imageData.length > maxSize) {
       return NextResponse.json(
         { success: false, error: "La imagen es muy grande. Usa una imagen más pequeña." },
@@ -60,82 +39,72 @@ export async function POST(request: Request) {
       );
     }
 
-    const apiKey = process.env.OCRSPACE_API_KEY;
-    if (!apiKey) {
-      console.log("No API key found");
+    console.log("Sending to Claude Vision...");
+    console.log("MIME type:", mimeType);
+    console.log("Base64 length:", imageData.length);
+
+    const anthropic = new Anthropic({
+      apiKey: apiKey,
+    });
+
+    const message = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 1024,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image",
+              source: {
+                type: "base64",
+                media_type: mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+                data: imageData,
+              },
+            },
+            {
+              type: "text",
+              text: `Analiza esta carta de Lorcana. Responde SOLO con un objeto JSON (sin bloques de código markdown, solo el texto JSON puro) con este formato:
+{
+  "name": "nombre del personaje (usa siempre 'Moana' en lugar de 'Vaiana')",
+  "subtitle": "subtítulo",
+  "number": "número si es visible ej: 1/P2 o 60/204",
+  "isPromo": true o false (basado en si es una versión especial, promo, encantada o tiene arte diferente)
+}`,
+
+            },
+          ],
+        },
+      ],
+    });
+
+    const textResponse = message.content[0];
+    if (!textResponse || textResponse.type !== "text") {
       return NextResponse.json(
-        { success: false, error: "API key de OCR no configurada" },
+        { success: false, error: "No se pudo procesar la respuesta" },
         { status: 500 }
       );
     }
 
-    console.log("Sending to OCR.space...");
-
-    let data: Record<string, unknown>;
-    let response: Response;
-    let retries = 0;
-    const maxRetries = 2;
-
-    do {
-      response = await callOcrApi(fullBase64, apiKey);
-      data = await response.json();
-
-      if (data.IsErroredOnProcessing && (data.ErrorMessage as string[])?.[0]?.includes("Timed out")) {
-        retries++;
-        console.log(`OCR timeout, retry ${retries}/${maxRetries}...`);
-        if (retries < maxRetries) {
-          await new Promise(r => setTimeout(r, 2000));
-        }
-      } else {
-        break;
-      }
-    } while (retries < maxRetries);
-
-    console.log("OCR response:", JSON.stringify(data).substring(0, 500));
-
-    if (response?.status === 403) {
+    let extractedData;
+    try {
+      // Intentar limpiar posibles caracteres extraños o bloques de código
+      const cleanJson = textResponse.text.replace(/```json/g, "").replace(/```/g, "").trim();
+      extractedData = JSON.parse(cleanJson);
+    } catch (e) {
+      console.error("Error parsing JSON from Claude:", textResponse.text);
       return NextResponse.json(
-        { success: false, error: "API key inválida o cuenta bloqueada. Prueba más tarde." },
-        { status: 403 }
+        { success: false, error: "La IA no devolvió un JSON válido" },
+        { status: 500 }
       );
     }
 
-    if (data.IsErroredOnProcessing) {
-      const errorMsg = (data.ErrorMessage as string[])?.[0] || data.ResolvedError || "Error en OCR";
-      console.log("OCR error:", errorMsg);
+    console.log("Claude extracted data:", extractedData);
 
-      if (typeof errorMsg === "string" && errorMsg.includes("clipboard")) {
-        return NextResponse.json(
-          { success: false, error: "La imagen no es compatible. Intenta con otra foto más clara." },
-          { status: 400 }
-        );
-      }
+    return NextResponse.json({ success: true, data: extractedData });
 
-      if (typeof errorMsg === "string" && errorMsg.includes("Timed out")) {
-        return NextResponse.json(
-          { success: false, error: "El servicio de OCR está tardando demasiado. Intenta con una foto más pequeña o más clara." },
-          { status: 400 }
-        );
-      }
-
-      return NextResponse.json(
-        { success: false, error: errorMsg },
-        { status: 400 }
-      );
-    }
-
-    const parsedText = (data.ParsedResults as Array<{ ParsedText?: string }>)?.[0]?.ParsedText?.trim();
-
-    if (!parsedText) {
-      return NextResponse.json(
-        { success: false, error: "No se detectó texto en la imagen. Asegúrate de que el número de carta sea visible." },
-        { status: 400 }
-      );
-    }
-
-    return NextResponse.json({ success: true, text: parsedText });
   } catch (error) {
-    console.error("OCR catch error:", error);
+    console.error("Claude Vision error:", error);
     return NextResponse.json(
       { success: false, error: error instanceof Error ? error.message : "Error al procesar" },
       { status: 500 }

@@ -93,7 +93,7 @@ export default function SiteHeader() {
           </button>
           <div className="flex items-center gap-2">
             <LogoMark size={36} />
-            <span className="lorcana-title text-[1.15rem]">Archivo del Reino</span>
+            <span className="lorcana-title text-[1.15rem] text-shadow-gold">Archivo del Reino</span>
           </div>
         </div>
 

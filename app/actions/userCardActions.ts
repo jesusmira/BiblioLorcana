@@ -4,6 +4,8 @@ import { prisma } from "../lib/prisma";
 import { getSession } from "../lib/auth-utils";
 import type { LorcanaCard } from "../types";
 
+const API_BASE = "https://api.lorcast.com/v0";
+
 interface SaveCardResponse {
   success: boolean;
   error?: string;
@@ -18,41 +20,8 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
   const cardId = String(cardData.id);
 
   try {
-    await prisma.card.upsert({
-      where: { id: cardId },
-      create: {
-        id: cardId,
-        name: cardData.name,
-        text: cardData.text,
-        flavorText: cardData.flavor_text,
-        ink: cardData.ink,
-        cost: cardData.cost,
-        rarity: cardData.rarity,
-        type: cardData.type as string[],
-        strength: cardData.strength,
-        willpower: cardData.willpower,
-        lore: cardData.lore,
-        collectorNumber: cardData.collector_number,
-        classifications: cardData.classifications as string[],
-        imageUrl: (cardData.image_uris as any)?.digital?.normal || (cardData.image_url as string) || null,
-      },
-      update: {
-        name: cardData.name,
-        text: cardData.text,
-        flavorText: cardData.flavor_text,
-        ink: cardData.ink,
-        cost: cardData.cost,
-        rarity: cardData.rarity,
-        type: cardData.type as string[],
-        strength: cardData.strength,
-        willpower: cardData.willpower,
-        lore: cardData.lore,
-        collectorNumber: cardData.collector_number,
-        classifications: cardData.classifications as string[],
-        imageUrl: (cardData.image_uris as any)?.digital?.normal || (cardData.image_url as string) || null,
-      },
-    });
-
+    // Ya no guardamos la carta en la DB local. 
+    // Solo creamos la relación en userCard usando el cardId de Lorcast.
     await prisma.userCard.create({
       data: {
         userId: session.userId,
@@ -100,28 +69,31 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     return [];
   }
 
-  const userCards = await prisma.userCard.findMany({
-    where: { userId: session.userId },
-    include: { card: true },
-    orderBy: { createdAt: "desc" },
-  });
+  try {
+    const userCards = await prisma.userCard.findMany({
+      where: { userId: session.userId },
+      orderBy: { createdAt: "desc" },
+    });
 
-  return userCards.map((uc) => ({
-    id: uc.card.id,
-    name: uc.card.name,
-    text: uc.card.text,
-    flavor_text: uc.card.flavorText,
-    ink: uc.card.ink,
-    cost: uc.card.cost,
-    rarity: uc.card.rarity,
-    type: uc.card.type as string[] | null,
-    strength: uc.card.strength,
-    willpower: uc.card.willpower,
-    lore: uc.card.lore,
-    collector_number: uc.card.collectorNumber,
-    classifications: uc.card.classifications as string[] | null,
-    image_url: uc.card.imageUrl,
-  }));
+    if (userCards.length === 0) return [];
+
+    // Recuperar detalles de cada carta desde la API de Lorcast en paralelo
+    const cardPromises = userCards.map(async (uc) => {
+      try {
+        const response = await fetch(`${API_BASE}/cards/${uc.cardId}`);
+        if (!response.ok) return null;
+        return await response.json() as LorcanaCard;
+      } catch {
+        return null;
+      }
+    });
+
+    const cards = await Promise.all(cardPromises);
+    return cards.filter((c): c is LorcanaCard => c !== null);
+  } catch (error) {
+    console.error("Error fetching user cards:", error);
+    return [];
+  }
 }
 
 export async function isCardSavedByUser(cardId: string): Promise<boolean> {

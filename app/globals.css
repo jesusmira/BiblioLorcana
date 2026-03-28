@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Work+Sans:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Work+Sans:wght@300;400;600;700&family=Cinzel+Decorative:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -21,7 +21,7 @@
   --stroke: rgba(245, 239, 231, 0.14);
   --stroke-strong: rgba(245, 239, 231, 0.2);
   --radius: 18px;
-  --font-title: "Cinzel", "Times New Roman", serif;
+  --font-title: "Cinzel Decorative", "Cinzel", serif;
   --font-body: "Work Sans", "Helvetica Neue", sans-serif;
   --surface: var(--panel);
   --surface-strong: var(--panel-strong);
@@ -43,12 +43,11 @@
   --chip-active-bg: rgba(217, 163, 83, 0.15);
   --texture-light: rgba(245, 239, 231, 0.02);
   --texture-dark: rgba(10, 8, 7, 0.08);
-  --title-gold-1: #fff2c7;
-  --title-gold-2: #e6b463;
-  --title-gold-3: #f6cf7e;
-  --title-outline: #2b2e8d;
-  --title-shadow: rgba(14, 18, 70, 0.55);
+  --title-fill: #050403;
+  --title-stroke: #f1c17a;
+  --title-glow: rgba(241, 193, 122, 0.45);
 }
+
 
 :root[data-theme="light"] {
   color-scheme: light;
@@ -83,12 +82,12 @@
   --chip-active-bg: rgba(197, 138, 60, 0.15);
   --texture-light: rgba(30, 26, 23, 0.03);
   --texture-dark: rgba(255, 255, 255, 0.18);
-  --title-gold-1: #ffe7b0;
-  --title-gold-2: #d8a24d;
-  --title-gold-3: #f1c56d;
-  --title-outline: #2a2c86;
-  --title-shadow: rgba(20, 24, 82, 0.4);
+  --title-fill: #23559C;
+  --title-stroke: #8a6534;
+  --title-glow: transparent;
 }
+
+
 
 body {
   margin: 0;
@@ -146,19 +145,18 @@ select {
 
 .lorcana-title {
   font-family: var(--font-title);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: linear-gradient(180deg, var(--title-gold-1), var(--title-gold-2) 55%, var(--title-gold-3));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  text-shadow:
-    0 1px 0 var(--title-outline),
-    0 2px 0 var(--title-outline),
-    0 3px 0 var(--title-outline),
-    1px 0 0 var(--title-outline),
-    -1px 0 0 var(--title-outline),
-    1px 1px 0 var(--title-outline),
-    -1px 1px 0 var(--title-outline),
-    2px 3px 6px var(--title-shadow);
+  color: var(--title-fill);
+  -webkit-text-stroke: 1.2px var(--title-stroke);
+  transition: all 0.3s ease;
 }
+
+
+
+@layer utilities {
+  .text-shadow-gold {
+    text-shadow: 0 0 20px var(--title-glow);
+  }
+}
+

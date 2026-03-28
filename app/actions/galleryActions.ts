@@ -57,3 +57,31 @@ export async function fetchCardsBySetAction(code: string): Promise<LorcanaCard[]
   });
   return parseResults(data, LorcanaCardSchema);
 }
+
+export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
+  const q = query.trim();
+  if (!q) {
+    return fetchAllCardsAction();
+  }
+  const endpoint = `${API_BASE}/cards/search?q=${encodeURIComponent(q)}`;
+  const data = await fetchJson<unknown>(endpoint, {
+    errorMessage: "No se pudo realizar la búsqueda",
+  });
+  return parseResults(data, LorcanaCardSchema);
+}
+
+export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {
+  try {
+    const sets = await fetchSetsAction();
+    // Fetch all cards for each set in parallel
+    const allCardsPromises = sets.map((set) => fetchCardsBySetAction(set.code));
+    const results = await Promise.all(allCardsPromises);
+    return results.flat();
+  } catch (error) {
+    console.error("Error fetching all cards:", error);
+    throw new Error("No se pudieron cargar todas las cartas. Por favor, intenta de nuevo.");
+  }
+}
+
+
+

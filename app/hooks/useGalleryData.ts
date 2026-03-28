@@ -1,25 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { fetchCardsBySetAction, fetchSetsAction } from "../actions/galleryActions";
+import { useState, useEffect, useMemo } from "react";
+import { fetchCardsBySetAction, fetchSetsAction, fetchAllCardsAction } from "../actions/galleryActions";
+import { useGalleryStore } from "../store/galleryStore";
 import type {
   LorcanaSet,
   LorcanaCard,
   GalleryFilters,
   UseGalleryDataReturn,
 } from "../types";
-
-interface SetsState {
-  data: LorcanaSet[];
-  loading: boolean;
-  error: string;
-}
-
-interface CardsState {
-  data: LorcanaCard[];
-  loading: boolean;
-  error: string;
-}
 
 const DEFAULT_FILTERS: GalleryFilters = {
   search: "",
@@ -30,64 +19,139 @@ const DEFAULT_FILTERS: GalleryFilters = {
 };
 
 export default function useGalleryData(defaultSetCode: string): UseGalleryDataReturn {
-  const [sets, setSets] = useState<SetsState>({ data: [], loading: true, error: "" });
-  const [cards, setCards] = useState<CardsState>({ data: [], loading: false, error: "" });
+  const { 
+    sets: cachedSets, 
+    setSets, 
+    isSetsValid, 
+    cardsBySet, 
+    setCards, 
+    isCardsValid,
+    allCards,
+    setAllCards,
+    isAllCardsValid
+  } = useGalleryStore();
+
+  const [loadingSets, setLoadingSets] = useState(false);
+  const [loadingCards, setLoadingCards] = useState(false);
+  const [setsError, setSetsError] = useState("");
+  const [cardsError, setCardsError] = useState("");
 
   const [selectedSet, setSelectedSet] = useState<string>(defaultSetCode);
   const [filters, setFilters] = useState<GalleryFilters>({ ...DEFAULT_FILTERS });
+  const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
+
+  // Debouncing para la búsqueda
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(filters.search);
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [filters.search]);
 
   const updateFilter = (name: string, value: string) =>
     setFilters((prev) => ({ ...prev, [name]: value }));
   const resetFilters = () => setFilters({ ...DEFAULT_FILTERS });
 
+  // Cargar Sets
   useEffect(() => {
+    if (isSetsValid()) return;
+
     let active = true;
+    setLoadingSets(true);
     (async () => {
       try {
         const data = await fetchSetsAction();
-        if (active) setSets({ data, loading: false, error: "" });
-      } catch {
-        if (active)
-          setSets((prev) => ({
-            ...prev,
-            loading: false,
-            error: "No se pudieron cargar los sets.",
-          }));
+        if (active) {
+          setSets(data);
+          setLoadingSets(false);
+        }
+      } catch (err) {
+        if (active) {
+          setSetsError("No se pudieron cargar los sets.");
+          setLoadingSets(false);
+        }
       }
     })();
-    return () => {
-      active = false;
-    };
-  }, []);
+    return () => { active = false; };
+  }, [isSetsValid, setSets]);
 
+  // Resetear filtros al cambiar de set
+  useEffect(() => {
+    if (selectedSet) {
+      resetFilters();
+    }
+  }, [selectedSet]);
+
+  // Cargar Cartas
   useEffect(() => {
     if (!selectedSet) return;
 
-    let active = true;
-    resetFilters();
-    setCards((prev) => ({ ...prev, loading: true, error: "" }));
+    // Caso 1: Todas las cartas (Global)
+    if (selectedSet === "all") {
+      if (isAllCardsValid()) return;
+      
+      let active = true;
+      setLoadingCards(true);
+      (async () => {
+        try {
+          const data = await fetchAllCardsAction();
+          if (active) {
+            setAllCards(data);
+            setLoadingCards(false);
+          }
+        } catch (err) {
+          if (active) {
+            setCardsError("Error al cargar todas las cartas.");
+            setLoadingCards(false);
+          }
+        }
+      })();
+      return () => { active = false; };
+    }
 
+    // Caso 2: Set específico
+    if (isCardsValid(selectedSet)) return;
+
+    let active = true;
+    setLoadingCards(true);
     (async () => {
       try {
         const data = await fetchCardsBySetAction(selectedSet);
-        if (active) setCards({ data, loading: false, error: "" });
-      } catch {
-        if (active)
-          setCards({ data: [], loading: false, error: "No se pudo cargar la galería." });
+        if (active) {
+          setCards(selectedSet, data);
+          setLoadingCards(false);
+        }
+      } catch (err) {
+        if (active) {
+          setCardsError(`No se pudieron cargar las cartas de ${selectedSet}.`);
+          setLoadingCards(false);
+        }
       }
     })();
-    return () => {
-      active = false;
-    };
-  }, [selectedSet]);
+    return () => { active = false; };
+  }, [selectedSet, isCardsValid, isAllCardsValid, setCards, setAllCards]);
+
+  // Filtrado y derivación de datos
+  // Si estamos en "all", usamos el filtro por nombre cliente
+  const displayCards = useMemo(() => {
+    if (selectedSet === "all") {
+      if (!debouncedSearch.trim()) return allCards;
+      const searchLower = debouncedSearch.toLowerCase();
+      return allCards.filter(card => 
+        card.name?.toLowerCase().includes(searchLower) || 
+        card.version?.toLowerCase().includes(searchLower)
+      );
+    }
+    return cardsBySet[selectedSet]?.data || [];
+  }, [selectedSet, debouncedSearch, allCards, cardsBySet]);
 
   return {
-    sets: sets.data,
-    loadingSets: sets.loading,
-    setError: sets.error,
-    cards: cards.data,
-    loadingCards: cards.loading,
-    cardError: cards.error,
+    sets: cachedSets,
+    loadingSets,
+    setError: setsError,
+    cards: displayCards,
+    loadingCards,
+    cardError: cardsError,
     selectedSet,
     setSelectedSet,
     ...filters,

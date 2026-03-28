@@ -63,7 +63,7 @@ La app estara disponible en: `http://localhost:3000`
 | `LORCAST_API_BASE` | URL de la API de Lorcast | `https://api.lorcast.com/v0` |
 | `NEXT_PUBLIC_PAGE_SIZE` | Cartas por pagina en la galeria | `24` |
 | `DATABASE_URL` | Conexion a PostgreSQL | `postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor` |
-| `OCRSPACE_API_KEY` | API key para OCR.space (opcional) | - |
+| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
 
 ## Comandos
 
@@ -162,7 +162,7 @@ public/
 - Favoritos guardados en localStorage
 - Traduccion de texto de cartas (ingles a español) con MyMemory API
 - Iconos Heroicons
-- Busqueda de cartas por imagen (OCR con OCR.space)
+- Busqueda de cartas por imagen (OCR con Claude Vision)
   - Compresion de imagenes para optimizar rendimiento
   - Detector de numeros de carta con correccion (l → 1, I → 1)
   - Busqueda en API de Lorcast y base de datos local

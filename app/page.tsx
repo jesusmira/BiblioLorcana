@@ -1,6 +1,6 @@
 import { Gallery } from "./components";
 
-const DEFAULT_SET_CODE = "1";
+const DEFAULT_SET_CODE = "all";
 
 export default function HomePage() {
   return (

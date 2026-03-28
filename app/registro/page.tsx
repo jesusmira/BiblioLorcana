@@ -71,7 +71,7 @@ export default function RegistroPage() {
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)]">Registro</h1>
+          <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)] text-shadow-gold">Registro</h1>
           <p className="mt-2 text-[var(--muted)]">Crea tu cuenta para acceder a la galeria</p>
         </div>
 
