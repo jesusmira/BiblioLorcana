@@ -164,7 +164,7 @@ function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
 
 export default function MisCartasPage() {
   const { user, isLoading: authLoading } = useAuth();
-  const { setSavedCardIds, removeSavedCardId } = useUserCardsStore();
+  const { setSavedCardIds, removeSavedCardId, cardQuantities } = useUserCardsStore();
   const [cards, setCards] = useState<LorcanaCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -177,6 +177,11 @@ export default function MisCartasPage() {
         const data = await getUserCards();
         setCards(data);
         setSavedCardIds(data.map(c => String(c.id)));
+        const quantities: Record<string, number> = {};
+        data.forEach(c => {
+          quantities[String(c.id)] = c.quantity ?? 1;
+        });
+        useUserCardsStore.setState({ cardQuantities: quantities });
       } catch {
         setError("Error al cargar las cartas desde tu colección.");
       } finally {
@@ -191,6 +196,27 @@ export default function MisCartasPage() {
     }
   }, [user, authLoading, setSavedCardIds]);
 
+  useEffect(() => {
+    const quantities = useUserCardsStore.getState().cardQuantities;
+    if (Object.keys(quantities).length > 0) {
+      const updatedCards = cards.map(c => ({
+        ...c,
+        quantity: quantities[String(c.id)] ?? c.quantity ?? 1,
+      }));
+      setCards(updatedCards);
+    }
+  }, [cardQuantities]);
+
+  const uniqueCards = Object.keys(cardQuantities).length || cards.length;
+
+  const totalCopies = useMemo(() => {
+    const qtyKeys = Object.keys(cardQuantities);
+    if (qtyKeys.length === 0) {
+      return cards.reduce((sum, c) => sum + (c.quantity ?? 1), 0);
+    }
+    return Object.values(cardQuantities).reduce((sum, qty) => sum + qty, 0);
+  }, [cards, cardQuantities]);
+
   const handleCardClick = useCallback((card: LorcanaCard) => {
     setSelectedCard(card);
   }, []);
@@ -201,18 +227,26 @@ export default function MisCartasPage() {
 
   const handleConfirmDelete = async () => {
     if (!confirmingCard) return;
-    const cardId = String(confirmingCard.id);
-    const result = await removeCardFromUser(cardId);
+    const cardIdToRemove = String(confirmingCard.id);
+    
+    const result = await removeCardFromUser(cardIdToRemove);
     if (result.success) {
-      setCards((prev) => prev.filter((c) => String(c.id) !== cardId));
-      removeSavedCardId(cardId);
+      const updatedCards = cards.filter((c) => String(c.id) !== cardIdToRemove);
+      setCards(updatedCards);
+      setSavedCardIds(updatedCards.map(c => String(c.id)));
+      removeSavedCardId(cardIdToRemove);
       setConfirmingCard(null);
     }
   };
 
   const closeModal = useCallback(() => {
     setSelectedCard(null);
-  }, []);
+    const quantities: Record<string, number> = {};
+    cards.forEach(c => {
+      quantities[String(c.id)] = c.quantity ?? 1;
+    });
+    useUserCardsStore.setState({ cardQuantities: quantities });
+  }, [cards]);
 
   const groupedCards = useMemo(() => {
     const groups = cards.reduce((acc, card) => {
@@ -228,11 +262,7 @@ export default function MisCartasPage() {
         acc[key] = groups[key];
         return acc;
       }, {} as Record<string, LorcanaCard[]>);
-  }, [cards]);
-
-  const totalCopies = useMemo(() => {
-    return cards.reduce((sum, c) => sum + (c.quantity ?? 1), 0);
-  }, [cards]);
+  }, [cards, cardQuantities]);
 
   if (authLoading || loading) {
     return (
@@ -298,7 +328,7 @@ export default function MisCartasPage() {
           <div>
             <h1 className="font-[var(--font-title)] text-4xl">Mi Colección</h1>
             <p className="text-[var(--muted)]">
-              {cards.length} {cards.length === 1 ? "carta única" : "cartas únicas"} · {totalCopies} {totalCopies === 1 ? "copia total" : "copias totales"} · {Object.keys(groupedCards).length} {Object.keys(groupedCards).length === 1 ? "set" : "sets"}
+              {uniqueCards} {uniqueCards === 1 ? "carta única" : "cartas únicas"} · {totalCopies} {totalCopies === 1 ? "copia total" : "copias totales"} · {Object.keys(groupedCards).length} {Object.keys(groupedCards).length === 1 ? "set" : "sets"}
             </p>
           </div>
         </div>

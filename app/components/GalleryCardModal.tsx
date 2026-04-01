@@ -13,7 +13,7 @@ import {
   translateText, 
   saveCardToUser, 
   removeCardFromUser,
-  updateCardQuantity 
+  updateCardQuantity as updateQuantityAction 
 } from "../actions";
 import {
   HeartIcon,
@@ -45,7 +45,7 @@ export default function GalleryCardModal({
 }: GalleryCardModalProps) {
   const { user } = useAuth();
   const { toggleFavorite, isFavorite } = useFavoritesStore();
-  const { addSavedCardId, removeSavedCardId, isSaved } = useUserCardsStore();
+  const { addSavedCardId, removeSavedCardId, isSaved, updateCardQuantity } = useUserCardsStore();
   
   const isCardFavorite = selected ? isFavorite(String(selected.id)) : false;
   const isCardSaved = selected ? isSaved(String(selected.id)) : false;
@@ -109,11 +109,11 @@ export default function GalleryCardModal({
     if (!selected || newQty < 1 || newQty > 10) return;
     
     setIsUpdatingQuantity(true);
-    const result = await updateCardQuantity(String(selected.id), newQty);
+    const result = await updateQuantityAction(String(selected.id), newQty);
     if (result.success) {
       setLocalQuantity(newQty);
-      // Actualizar el objeto selected localmente para que se refleje si se vuelve a abrir
       if (selected) selected.quantity = newQty;
+      updateCardQuantity(String(selected.id), newQty);
     }
     setIsUpdatingQuantity(false);
   };

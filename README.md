@@ -1,6 +1,6 @@
 # Archivo del Reino de Lorcana
 
-Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR y modo claro/oscuro.
+Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, recuperación de contraseña y modo claro/oscuro.
 
 ## Tech Stack
 
@@ -11,6 +11,7 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR y modo claro
 - **Zustand** (estado global)
 - **Prisma** (ORM + PostgreSQL)
 - **Anthropic Claude Vision** (OCR)
+- **Resend** (emails transaccionales)
 
 ## Requisitos
 
@@ -18,6 +19,7 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR y modo claro
 - PostgreSQL (Docker o local)
 - npm
 - API key de Anthropic (opcional, para OCR)
+- API key de Resend (para recuperación de contraseña)
 
 ## Instalación
 
@@ -36,8 +38,12 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR y modo claro
    ```bash
    cp .env.example .env
    
-   # Añadir tu API key de Anthropic para OCR (opcional)
+   # OCR (opcional)
    # NEXT_PUBLIC_ANTHROPIC_API_KEY=tu_api_key
+   
+   # Email (para recuperación de contraseña)
+   # RESEND_API_KEY=re_xxx
+   # APP_URL=http://localhost:3000
    ```
 
 4. **Iniciar la base de datos**
@@ -64,8 +70,10 @@ La app estará disponible en: `http://localhost:3000`
 | `LORCAST_API_BASE` | URL de la API de Lorcast | `https://api.lorcast.com/v0` |
 | `NEXT_PUBLIC_PAGE_SIZE` | Cartas por página en la galería | `16` |
 | `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
-| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
 | `JWT_SECRET` | Clave secreta para JWT | - |
+| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
+| `RESEND_API_KEY` | API key para emails (Recuperar contraseña) | - |
+| `APP_URL` | URL de la app (para enlaces de email) | `http://localhost:3000` |
 
 ## Comandos
 
@@ -77,6 +85,8 @@ La app estará disponible en: `http://localhost:3000`
 | `npm run lint` | Linting con ESLint |
 | `npx prisma studio` | UI de Prisma para la DB |
 | `npx prisma migrate dev` | Crear migración |
+| `npx prisma db push` | Sincronizar schema con DB |
+| `npx prisma generate` | Regenerar cliente Prisma |
 
 ## Páginas
 
@@ -86,6 +96,8 @@ La app estará disponible en: `http://localhost:3000`
 - `/mis-mazos` - Gestión de mazos
 - `/login` - Inicio de sesión
 - `/registro` - Registro de usuarios
+- `/olvide-contrasena` - Recuperar contraseña
+- `/restablecer-contrasena/[token]` - Nueva contraseña
 - `/como-jugar` - Manual del juego
 
 ## Estructura del Proyecto
@@ -93,22 +105,24 @@ La app estará disponible en: `http://localhost:3000`
 ```
 app/
 ├── actions/              # Server Actions
-├── api/                  # API Routes
-│   ├── auth/             # Autenticación
-│   ├── lorcast/          # Proxy a API de Lorcast
-│   └── ocr/              # OCR con Claude Vision
-├── buscar-imagen/        # Página de búsqueda por imagen
-├── como-jugar/           # Página cómo jugar
-│   └── components/       # Componentes de sección
-├── components/           # Componentes React globales
-├── hooks/                # Custom Hooks
-├── lib/                  # Utilidades, constantes, auth
-├── login/                # Página de login
-├── mis-cartas/            # Página de colección personal
-├── mis-mazos/            # Página de gestión de mazos
-├── registro/             # Página de registro
-├── store/                # Zustand stores
-└── types/                # Tipos TypeScript
+├── api/                 # API Routes
+│   ├── auth/            # Autenticación
+│   ├── lorcast/         # Proxy a API de Lorcast
+│   └── ocr/             # OCR con Claude Vision
+├── buscar-imagen/       # Página de búsqueda por imagen
+├── como-jugar/          # Página cómo jugar
+│   └── components/      # Componentes de sección
+├── components/          # Componentes React globales
+├── hooks/               # Custom Hooks
+├── lib/                 # Utilidades, constantes, auth, email
+├── login/               # Página de login
+├── mis-cartas/          # Página de colección personal
+├── mis-mazos/           # Página de gestión de mazos
+├── olvide-contrasena/   # Página de recuperación de contraseña
+├── registro/            # Página de registro
+├── restablecer-contrasena/[token]/ # Página de nueva contraseña
+├── store/               # Zustand stores
+└── types/               # Tipos TypeScript
 ```
 
 ## Constantes
@@ -120,6 +134,13 @@ Todas las constantes del proyecto están centralizadas en `app/lib/constants.ts`
 - `API` - LORCAST_BASE
 - `THEME` - DEFAULT
 
+## Validación
+
+Validación de formularios con Zod en `app/lib/schemas.ts`:
+- Login: email y password requeridos
+- Registro: contraseña robusta (8+ caracteres, mayúscula, minúscula, número, especial)
+- Recuperación de contraseña: misma validación robusta
+
 ## Características
 
 - Galería de cartas con paginación infinita
@@ -129,12 +150,20 @@ Todas las constantes del proyecto están centralizadas en `app/lib/constants.ts`
 - Tema claro/oscuro con toggle animado
 - Menú responsive
 - Registro y login de usuarios
+- Recuperación de contraseña por email (Resend)
+- Validación robusta de contraseñas con Zod
 - Diseño con tipografía Cinzel + Work Sans
 - Favoritos guardados en localStorage
 - Traducción de texto de cartas (inglés a español)
 - Búsqueda por imagen (OCR con Claude Vision)
 - Colección personal guardada en BD
 - Gestión de mazos con plantillas
+- Contador en tiempo real de cartas en colección
+
+## Usuario de Prueba
+
+- **Email:** test@lorcana.es
+- **Contraseña:** Test1234!
 
 ## Licencia
 

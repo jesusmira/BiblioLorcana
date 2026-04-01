@@ -3,59 +3,56 @@
 import { useState } from "react";
 import { useAuth } from "../lib/auth";
 import Link from "next/link";
+import { registerSchema, type RegisterInput } from "../lib/schemas";
 
 interface FormErrors {
-  name?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
+  name?: string[];
+  email?: string[];
+  password?: string[];
+  confirmPassword?: string[];
 }
 
 export default function RegistroPage() {
   const { register, isLoading: authLoading } = useAuth();
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState<RegisterInput>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!name.trim()) {
-      newErrors.name = "El nombre es requerido";
+  const handleChange = (field: keyof RegisterInput, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-
-    if (!email.trim()) {
-      newErrors.email = "El email es requerido";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Email invalido";
-    }
-
-    if (!password) {
-      newErrors.password = "La contrasena es requerida";
-    } else if (password.length < 8) {
-      newErrors.password = "Minimo 8 caracteres";
-    }
-
-    if (password !== confirmPassword) {
-      newErrors.confirmPassword = "Las contrasenas no coinciden";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    setApiError("");
+
+    const result = registerSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      const issues = result.error.issues;
+      for (const issue of issues) {
+        const field = issue.path[0] as keyof RegisterInput;
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = [];
+        }
+        fieldErrors[field]?.push(issue.message);
+      }
+      setErrors(fieldErrors);
+      return;
+    }
 
     setIsSubmitting(true);
-    setApiError("");
     try {
-      await register(name, email, password);
+      await register(formData.name, formData.email, formData.password);
     } catch (error) {
       setApiError(error instanceof Error ? error.message : "Error al registrar usuario");
     }
@@ -88,12 +85,14 @@ export default function RegistroPage() {
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={formData.name}
+              onChange={(e) => handleChange("name", e.target.value)}
               className={`${inputClass} ${errors.name ? "border-[var(--alert-ink)]" : ""}`}
               placeholder="Tu nombre"
             />
-            {errors.name && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.name}</p>}
+            {errors.name && errors.name.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <div>
@@ -103,42 +102,48 @@ export default function RegistroPage() {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
               className={`${inputClass} ${errors.email ? "border-[var(--alert-ink)]" : ""}`}
               placeholder="tu@email.com"
             />
-            {errors.email && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.email}</p>}
+            {errors.email && errors.email.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <div>
             <label htmlFor="password" className={labelClass}>
-              Contrasena
+              Contraseña
             </label>
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={(e) => handleChange("password", e.target.value)}
               className={`${inputClass} ${errors.password ? "border-[var(--alert-ink)]" : ""}`}
-              placeholder="Minimo 8 caracteres"
+              placeholder="Mínimo 8 caracteres, mayúscula, minúscula, número y especial"
             />
-            {errors.password && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.password}</p>}
+            {errors.password && errors.password.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <div>
             <label htmlFor="confirmPassword" className={labelClass}>
-              Confirmar contrasena
+              Confirmar contraseña
             </label>
             <input
               id="confirmPassword"
               type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={formData.confirmPassword}
+              onChange={(e) => handleChange("confirmPassword", e.target.value)}
               className={`${inputClass} ${errors.confirmPassword ? "border-[var(--alert-ink)]" : ""}`}
-              placeholder="Repite tu contrasena"
+              placeholder="Repite tu contraseña"
             />
-            {errors.confirmPassword && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.confirmPassword}</p>}
+            {errors.confirmPassword && errors.confirmPassword.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <button
@@ -153,7 +158,7 @@ export default function RegistroPage() {
         <p className="mt-6 text-center text-[0.9rem] text-[var(--muted)]">
           Ya tienes cuenta?{" "}
           <Link href="/login" className="text-[var(--accent)] hover:underline">
-            Iniciar sesion
+            Iniciar sesión
           </Link>
         </p>
       </section>

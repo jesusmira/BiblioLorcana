@@ -102,13 +102,23 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
 
     if (userCards.length === 0) return [];
 
-    // Recuperar detalles de cada carta desde la API de Lorcast en paralelo
+    // Recuperar detalles de cada carta desde la API de Lorcast
     const cardPromises = userCards.map(async (uc) => {
       try {
-        const response = await fetch(`${API_BASE}/cards/${uc.cardId}`);
-        if (!response.ok) return null;
+        // Intentar primero por ID directo
+        let response = await fetch(`${API_BASE}/cards/${uc.cardId}`);
+        
+        // Si no funciona, buscar por collector_number
+        if (!response.ok) {
+          // Buscar en el set "1" por collector number
+          response = await fetch(`${API_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
+          if (!response.ok) return null;
+          const data = await response.json();
+          return data.results?.[0] ? { ...data.results[0], quantity: uc.quantity } : null;
+        }
+        
         const card = await response.json() as LorcanaCard;
-        const quantity = (uc as any).quantity ?? 1;
+        const quantity = uc.quantity ?? 1;
         return { ...card, quantity } as LorcanaCard;
       } catch {
         return null;
@@ -153,6 +163,7 @@ export async function getUserCardIds(): Promise<string[]> {
       select: { cardId: true },
     });
 
+    // Devolver los IDs tal cual están guardados
     return userCards.map((uc) => uc.cardId);
   } catch (error) {
     console.error("Error fetching user card IDs:", error);
