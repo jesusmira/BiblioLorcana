@@ -1,8 +1,8 @@
 "use server";
 
+import axios from "axios";
+import { API } from "../lib/constants";
 import type { LorcanaCard, Deck, DeckCard } from "../types";
-
-const API_BASE = "https://api.lorcast.com/v0";
 
 const DECK_TEMPLATES = [
   {
@@ -44,20 +44,16 @@ export async function generateSampleDeck(): Promise<Deck> {
   let allCards: LorcanaCard[] = [];
 
   try {
-    const setsRes = await fetch(`${API_BASE}/sets`);
-    if (!setsRes.ok) throw new Error("No se pudieron obtener los sets");
-    const setsData = await setsRes.json();
-    const sets = setsData.results || setsData;
+    const setsRes = await axios.get(`${API.LORCAST_BASE}/sets`);
+    const sets = setsRes.data.results || setsRes.data;
 
     // Pick a random set
     const randomSet = sets[Math.floor(Math.random() * sets.length)];
     const setCode = randomSet.code || randomSet.id;
 
     // Use the correct endpoint: /sets/{code}/cards
-    const cardsRes = await fetch(`${API_BASE}/sets/${setCode}/cards`);
-    if (!cardsRes.ok) throw new Error(`No se pudieron obtener las cartas del set ${setCode}`);
-    const cardsData = await cardsRes.json();
-    allCards = cardsData.results || cardsData || [];
+    const cardsRes = await axios.get(`${API.LORCAST_BASE}/sets/${setCode}/cards`);
+    allCards = cardsRes.data.results || cardsRes.data || [];
   } catch (error) {
     console.error("Error fetching cards for sample deck:", error);
     return {

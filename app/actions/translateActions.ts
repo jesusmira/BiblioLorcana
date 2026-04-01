@@ -1,5 +1,7 @@
 "use server";
 
+import axios from "axios";
+
 interface TranslateResponse {
   translatedText?: string;
   error?: string;
@@ -62,15 +64,11 @@ export async function translateText(
   const encodedText = encodeURIComponent(safeText);
 
   try {
-    const response = await fetch(
+    const response = await axios.get(
       `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`
     );
 
-    if (!response.ok) {
-      return { error: `Error HTTP: ${response.status}` };
-    }
-
-    const data = await response.json();
+    const data = response.data;
 
     if (data.responseStatus === 200 && data.responseData?.translatedText) {
       // 2️⃣ Restaurar palabras protegidas después de traducir

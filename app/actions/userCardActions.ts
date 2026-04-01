@@ -1,5 +1,6 @@
 "use server";
 
+import axios from "axios";
 import { prisma } from "../lib/prisma";
 import { getSession } from "../lib/auth-utils";
 import { API } from "../lib/constants";
@@ -103,18 +104,17 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     const cardPromises = userCards.map(async (uc) => {
       try {
         // Intentar primero por ID directo
-        let response = await fetch(`${API.LORCAST_BASE}/cards/${uc.cardId}`);
+        let response = await axios.get(`${API.LORCAST_BASE}/cards/${uc.cardId}`);
         
         // Si no funciona, buscar por collector_number
-        if (!response.ok) {
+        if (response.status !== 200) {
           // Buscar en el set "1" por collector number
-          response = await fetch(`${API.LORCAST_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
-          if (!response.ok) return null;
-          const data = await response.json();
-          return data.results?.[0] ? { ...data.results[0], quantity: uc.quantity } : null;
+          const searchRes = await axios.get(`${API.LORCAST_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
+          if (searchRes.status !== 200 || !searchRes.data.results?.[0]) return null;
+          return { ...searchRes.data.results[0], quantity: uc.quantity };
         }
         
-        const card = await response.json() as LorcanaCard;
+        const card = response.data as LorcanaCard;
         const quantity = uc.quantity ?? 1;
         return { ...card, quantity } as LorcanaCard;
       } catch {

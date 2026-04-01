@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import axios from "axios";
 
 interface ClaudeVisionResult {
   success: boolean;
@@ -23,15 +24,8 @@ export function useClaudeVision(): UseClaudeVisionReturn {
     setError(null);
 
     try {
-      const response = await fetch("/api/ocr", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ imageBase64 }),
-      });
-
-      const data = await response.json();
+      const response = await axios.post("/api/ocr", { imageBase64 });
+      const data = response.data;
 
       if (!data.success) {
         setError(data.error || "Error al procesar imagen");
@@ -40,7 +34,7 @@ export function useClaudeVision(): UseClaudeVisionReturn {
 
       return { success: true, text: data.text };
     } catch (err) {
-      const errorMsg = err instanceof Error ? err.message : "Error de red";
+      const errorMsg = axios.isAxiosError(err) ? err.message : "Error de red";
       setError(errorMsg);
       return { success: false, error: errorMsg };
     } finally {
