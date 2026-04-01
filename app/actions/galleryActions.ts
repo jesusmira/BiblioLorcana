@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { fetchJson } from "../lib/fetcher";
+import { getCached, setCache } from "../lib/cache";
 import { LorcanaCardSchema, LorcanaSetSchema, ResultsSchema } from "../lib/lorcastSchemas";
 import type { LorcanaSet, LorcanaCard } from "../types";
 
@@ -45,17 +46,33 @@ const parseResults = <T>(data: unknown, schema: z.ZodType<T>): T[] => {
 };
 
 export async function fetchSetsAction(): Promise<LorcanaSet[]> {
+  const cacheKey = "lorcast:sets";
+  const cached = getCached<LorcanaSet[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   const data = await fetchJson<unknown>(`${API_BASE}/sets`, {
     errorMessage: "No se pudieron cargar los sets",
   });
-  return parseResults(data, LorcanaSetSchema);
+  const result = parseResults(data, LorcanaSetSchema);
+  setCache(cacheKey, result, 10 * 60 * 1000);
+  return result;
 }
 
 export async function fetchCardsBySetAction(code: string): Promise<LorcanaCard[]> {
+  const cacheKey = `lorcast:cards:${code}`;
+  const cached = getCached<LorcanaCard[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   const data = await fetchJson<unknown>(`${API_BASE}/sets/${code}/cards`, {
     errorMessage: "No se pudieron cargar las cartas",
   });
-  return parseResults(data, LorcanaCardSchema);
+  const result = parseResults(data, LorcanaCardSchema);
+  setCache(cacheKey, result, 5 * 60 * 1000);
+  return result;
 }
 
 export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
@@ -63,11 +80,20 @@ export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
   if (!q) {
     return fetchAllCardsAction();
   }
+
+  const cacheKey = `lorcast:search:${q.toLowerCase()}`;
+  const cached = getCached<LorcanaCard[]>(cacheKey);
+  if (cached) {
+    return cached;
+  }
+
   const endpoint = `${API_BASE}/cards/search?q=${encodeURIComponent(q)}`;
   const data = await fetchJson<unknown>(endpoint, {
     errorMessage: "No se pudo realizar la búsqueda",
   });
-  return parseResults(data, LorcanaCardSchema);
+  const result = parseResults(data, LorcanaCardSchema);
+  setCache(cacheKey, result, 2 * 60 * 1000);
+  return result;
 }
 
 export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {
