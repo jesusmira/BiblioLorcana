@@ -7,7 +7,7 @@ import {
   Bars3Icon,
   UserCircleIcon,
   RectangleStackIcon,
-  HeartIcon,
+  SparklesIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import LogoMark from "./LogoMark";
@@ -200,12 +200,12 @@ export default function SiteHeader() {
                   Mis cartas
                 </Link>
                 <Link
-                  href="/favoritos"
+                  href="/mis-mazos"
                   className="flex items-center gap-3 rounded-full px-4 py-2 text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
                   onClick={() => setIsOpen(false)}
                 >
-                  <HeartIcon className="h-4 w-4 text-[var(--muted)]" />
-                  Favoritos
+                  <SparklesIcon className="h-4 w-4 text-[var(--muted)]" />
+                  Mis mazos
                 </Link>
                 <button
                   type="button"

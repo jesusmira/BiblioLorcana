@@ -1,0 +1,11 @@
+export { AnatomyPoint } from "./AnatomyPoint";
+export { CombatCard } from "./CombatCard";
+export { RatioItem } from "./RatioItem";
+export { AdvancedStrategyCard } from "./AdvancedStrategyCard";
+export { CoreStrategyCard } from "./CoreStrategyCard";
+export { SectionObjetivo } from "./SectionObjetivo";
+export { SectionAnatomia } from "./SectionAnatomia";
+export { SectionTurno } from "./SectionTurno";
+export { SectionProporcion } from "./SectionProporcion";
+export { SectionEstrategias } from "./SectionEstrategias";
+export { SectionMaestria } from "./SectionMaestria";

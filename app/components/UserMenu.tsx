@@ -7,7 +7,7 @@ import {
   ChevronUpIcon,
   UserCircleIcon,
   RectangleStackIcon,
-  HeartIcon,
+  SparklesIcon,
   ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
@@ -90,12 +90,12 @@ export default function UserMenu() {
               Mis cartas
             </Link>
             <Link
-              href="/favoritos"
+              href="/mis-mazos"
               className="flex items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
               onClick={() => setIsOpen(false)}
             >
-              <HeartIcon className="h-4 w-4 text-[var(--muted)]" />
-              Favoritos
+              <SparklesIcon className="h-4 w-4 text-[var(--muted)]" />
+              Mis mazos
             </Link>
 
           </div>

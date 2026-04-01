@@ -63,6 +63,31 @@ export async function removeCardFromUser(cardId: string): Promise<SaveCardRespon
   }
 }
 
+export async function updateCardQuantity(cardId: string, quantity: number): Promise<SaveCardResponse> {
+  const session = await getSession();
+  if (!session) return { success: false, error: "Debes iniciar sesión" };
+  
+  if (quantity < 1 || quantity > 10) {
+    return { success: false, error: "La cantidad debe estar entre 1 y 10" };
+  }
+
+  try {
+    await (prisma.userCard as any).update({
+      where: {
+        userId_cardId: {
+          userId: session.userId,
+          cardId: String(cardId),
+        },
+      },
+      data: { quantity },
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error updating card quantity:", error);
+    return { success: false, error: "Error al actualizar la cantidad" };
+  }
+}
+
 export async function getUserCards(): Promise<LorcanaCard[]> {
   const session = await getSession();
   if (!session) {
@@ -82,14 +107,16 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
       try {
         const response = await fetch(`${API_BASE}/cards/${uc.cardId}`);
         if (!response.ok) return null;
-        return await response.json() as LorcanaCard;
+        const card = await response.json() as LorcanaCard;
+        const quantity = (uc as any).quantity ?? 1;
+        return { ...card, quantity } as LorcanaCard;
       } catch {
         return null;
       }
     });
 
     const cards = await Promise.all(cardPromises);
-    return cards.filter((c): c is LorcanaCard => c !== null);
+    return (cards.filter((c) => c !== null) as LorcanaCard[]);
   } catch (error) {
     console.error("Error fetching user cards:", error);
     return [];
@@ -112,4 +139,23 @@ export async function isCardSavedByUser(cardId: string): Promise<boolean> {
   });
 
   return !!userCard;
+}
+
+export async function getUserCardIds(): Promise<string[]> {
+  const session = await getSession();
+  if (!session) {
+    return [];
+  }
+
+  try {
+    const userCards = await prisma.userCard.findMany({
+      where: { userId: session.userId },
+      select: { cardId: true },
+    });
+
+    return userCards.map((uc) => uc.cardId);
+  } catch (error) {
+    console.error("Error fetching user card IDs:", error);
+    return [];
+  }
 }

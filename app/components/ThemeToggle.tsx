@@ -3,20 +3,18 @@
 import { useEffect } from "react";
 import { useThemeStore } from "../store";
 import type { Theme } from "../types";
+import { STORAGE_KEYS, THEME } from "../lib/constants";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
-
-const THEME_STORAGE_KEY = "lorcana-theme";
-const DEFAULT_THEME: Theme = "dark";
 
 const readStoredTheme = (): Theme => {
   if (typeof window === "undefined") {
-    return DEFAULT_THEME;
+    return THEME.DEFAULT;
   }
 
   try {
-    return (localStorage.getItem(THEME_STORAGE_KEY) as Theme) || DEFAULT_THEME;
+    return (localStorage.getItem(STORAGE_KEYS.THEME) as Theme) || THEME.DEFAULT;
   } catch {
-    return DEFAULT_THEME;
+    return THEME.DEFAULT;
   }
 };
 
@@ -42,7 +40,7 @@ export default function ThemeToggle() {
   useEffect(() => {
     applyTheme(theme);
     try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
+      localStorage.setItem(STORAGE_KEYS.THEME, theme);
     } catch {
       // Ignore storage errors.
     }

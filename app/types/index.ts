@@ -24,6 +24,7 @@ export interface LorcanaCard {
   collector_number?: string | null;
   classifications?: string[] | null;
   image_uris?: CardImageUris | null;
+  quantity?: number;
   set?: {
     name?: string | null;
   } | null;
@@ -114,4 +115,27 @@ export interface UseModalCardReturn {
   openCard: (card: LorcanaCard) => void;
   closeModal: () => void;
   pickRandom: () => void;
+}
+
+// ── Deck Types ──
+
+export interface DeckCard {
+  cardId: string;
+  name: string;
+  quantity: number;
+  cost: number | null;
+  ink: string | null;
+  type: string | null;
+  rarity: string | null;
+  image: string | null;
+}
+
+export interface Deck {
+  id: string;
+  name: string;
+  description: string;
+  inkColors: string[];
+  cards: DeckCard[];
+  fullCards: LorcanaCard[];
+  totalCards: number;
 }

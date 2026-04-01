@@ -10,13 +10,12 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR y modo claro
 - **Tailwind CSS**
 - **Zustand** (estado global)
 - **Prisma** (ORM + PostgreSQL)
-- **Docker** (PostgreSQL)
 - **Anthropic Claude Vision** (OCR)
 
 ## Requisitos
 
 - Node.js 18+
-- Docker / Docker Desktop
+- PostgreSQL (Docker o local)
 - npm
 - API key de Anthropic (opcional, para OCR)
 
@@ -63,8 +62,8 @@ La app estará disponible en: `http://localhost:3000`
 | Variable | Descripción | Valor por defecto |
 |----------|-------------|-------------------|
 | `LORCAST_API_BASE` | URL de la API de Lorcast | `https://api.lorcast.com/v0` |
-| `NEXT_PUBLIC_PAGE_SIZE` | Cartas por página en la galería | `24` |
-| `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor` |
+| `NEXT_PUBLIC_PAGE_SIZE` | Cartas por página en la galería | `16` |
+| `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
 | `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
 | `JWT_SECRET` | Clave secreta para JWT | - |
 
@@ -73,111 +72,69 @@ La app estará disponible en: `http://localhost:3000`
 | Comando | Descripción |
 |---------|-------------|
 | `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de producción |
+| `npm run build` | Build de producción + typecheck |
 | `npm run start` | Servidor de producción |
+| `npm run lint` | Linting con ESLint |
 | `npx prisma studio` | UI de Prisma para la DB |
 | `npx prisma migrate dev` | Crear migración |
-| `npx prisma generate` | Regenerar cliente de Prisma |
 
 ## Páginas
 
 - `/` - Galería principal de cartas
 - `/buscar-imagen` - Búsqueda de cartas por imagen (OCR)
 - `/mis-cartas` - Colección personal del usuario
+- `/mis-mazos` - Gestión de mazos
 - `/login` - Inicio de sesión
 - `/registro` - Registro de usuarios
-- `/como-jugar` - Información del juego
+- `/como-jugar` - Manual del juego
 
 ## Estructura del Proyecto
 
 ```
 app/
-├── actions/           # Server Actions
-├── api/              # API Routes
-│   ├── auth/         # Autenticación
-│   ├── cards/        # Cartas locales
-│   ├── lorcast/      # Proxy a API de Lorcast
-│   └── ocr/          # OCR con Claude Vision
-├── buscar-imagen/    # Página de búsqueda por imagen
-├── components/       # Componentes React
-├── hooks/            # Custom Hooks
-├── lib/              # Utilidades y cliente Prisma
-├── login/            # Página de login
-├── mis-cartas/       # Página de colección personal
-├── registro/        # Página de registro
-├── store/            # Zustand stores
-└── types/            # Tipos TypeScript
+├── actions/              # Server Actions
+├── api/                  # API Routes
+│   ├── auth/             # Autenticación
+│   ├── lorcast/          # Proxy a API de Lorcast
+│   └── ocr/              # OCR con Claude Vision
+├── buscar-imagen/        # Página de búsqueda por imagen
+├── como-jugar/           # Página cómo jugar
+│   └── components/       # Componentes de sección
+├── components/           # Componentes React globales
+├── hooks/                # Custom Hooks
+├── lib/                  # Utilidades, constantes, auth
+├── login/                # Página de login
+├── mis-cartas/            # Página de colección personal
+├── mis-mazos/            # Página de gestión de mazos
+├── registro/             # Página de registro
+├── store/                # Zustand stores
+└── types/                # Tipos TypeScript
 ```
+
+## Constantes
+
+Todas las constantes del proyecto están centralizadas en `app/lib/constants.ts`:
+
+- `APP` - DEFAULT_SET_CODE, PAGE_SIZE
+- `STORAGE_KEYS` - OCR_IMAGE, THEME
+- `API` - LORCAST_BASE
+- `THEME` - DEFAULT
 
 ## Características
 
-- **Galería de cartas** con paginación infinita
-- **Filtros** por tinta, tipo, rareza y búsqueda
-- **Selector de set** de cartas
-- **Modal** con detalles de carta
-- **Tema claro/oscuro** con toggle animado
-- **Menú responsive** con hamburguesa
-- **Registro y login** de usuarios
-- **Diseño** con tipografía Cinzel + Work Sans
-- **Favoritos** guardados en localStorage
-- **Traducción** de texto de cartas (inglés a español) con MyMemory API
-- **Búsqueda por imagen** (OCR con Claude Vision)
-  - Compresión de imágenes para optimizar rendimiento
-  - Detección automática de números de carta
-  - Soporte para cartas normales y promocionales
-  - Búsqueda en API de Lorcast y base de datos local
-- **Colección personal** de cartas guardadas en BD
-- **Página "Mis Cartas"** con galería de cartas guardadas
-
-## Base de Datos
-
-- **Contenedor Docker**: PostgreSQL 16-alpine
-- **Puerto**: 5432
-- **Usuario**: biblioLor_user
-- **Contraseña**: biblioLor_pass
-- **Base de datos**: biblioLor
-
-### Tablas
-
-#### users
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| id | UUID | Identificador único |
-| name | String | Nombre del usuario |
-| email | String | Email (único) |
-| password | String | Contraseña hasheada |
-| role | Enum | USER o ADMIN |
-| createdAt | DateTime | Fecha de creación |
-| updatedAt | DateTime | Fecha de actualización |
-
-#### cards
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| id | UUID | Identificador único |
-| name | String? | Nombre de la carta |
-| text | String? | Texto de habilidad |
-| flavorText | String? | Texto de sabor |
-| ink | String? | Tinta |
-| cost | Int? | Coste de ink |
-| rarity | String? | Rareza |
-| type | String[] | Tipos |
-| strength | Int? | Fuerza |
-| willpower | Int? | Voluntad |
-| lore | Int? | Historia |
-| collectorNumber | String? | Número de carta |
-| classifications | String[] | Clasificaciones |
-| imageUrl | String? | URL de imagen |
-| promoSet | String? | Set promocional |
-| nonPromoSet | String? | Set no promocional |
-| createdAt | DateTime | Fecha de creación |
-
-#### user_cards
-| Campo | Tipo | Descripción |
-|-------|------|-------------|
-| id | UUID | Identificador único |
-| userId | String | FK a users |
-| cardId | String | FK a cards |
-| createdAt | DateTime | Fecha de creación |
+- Galería de cartas con paginación infinita
+- Filtros por tinta, tipo, rareza y búsqueda
+- Selector de set de cartas
+- Modal con detalles de carta
+- Tema claro/oscuro con toggle animado
+- Menú responsive
+- Registro y login de usuarios
+- Diseño con tipografía Cinzel + Work Sans
+- Favoritos guardados en localStorage
+- Traducción de texto de cartas (inglés a español)
+- Búsqueda por imagen (OCR con Claude Vision)
+- Colección personal guardada en BD
+- Gestión de mazos con plantillas
 
 ## Licencia
 

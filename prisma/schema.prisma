@@ -23,6 +23,7 @@ model UserCard {
   id        String   @id @default(uuid())
   userId    String   @map("user_id")
   cardId    String   @map("card_id")
+  quantity  Int      @default(1)
   createdAt DateTime @default(now())
 
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -4,8 +4,7 @@ import { useRef } from "react";
 import { useRouter } from "next/navigation";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import imageCompression from "browser-image-compression";
-
-const IMAGE_STORAGE_KEY = "ocr_image_data";
+import { STORAGE_KEYS } from "../lib/constants";
 
 interface ImageUploadButtonProps {
   className?: string;
@@ -59,7 +58,7 @@ export default function ImageUploadButton({ className = "" }: ImageUploadButtonP
       try {
         const compressedFile = await compressImage(file);
         const jpegData = await convertToJpeg(compressedFile);
-        localStorage.setItem(IMAGE_STORAGE_KEY, jpegData);
+        localStorage.setItem(STORAGE_KEYS.OCR_IMAGE, jpegData);
         router.push("/buscar-imagen");
       } catch (error) {
         console.error("Error al procesar imagen:", error);

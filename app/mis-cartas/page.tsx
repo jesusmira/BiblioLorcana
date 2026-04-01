@@ -1,41 +1,184 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useAuth } from "../lib/auth";
-import { removeCardFromUser } from "../actions";
-import type { LorcanaCard } from "../types";
+import { getUserCards, removeCardFromUser } from "../actions";
+import { useUserCardsStore } from "../store";
 import {
+  GalleryCardModal,
+  ConfirmationDialog,
+} from "../components";
+import {
+  FolderIcon,
   ArrowLeftIcon,
   TrashIcon,
-  HeartIcon,
-  ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
+import type { LorcanaCard } from "../types";
+
+const INK_COLORS: Record<string, string> = {
+  amber: "#F59E0B",
+  amethyst: "#8B5CF6",
+  emerald: "#10B981",
+  ruby: "#EF4444",
+  sapphire: "#3B82F6",
+  steel: "#6B7280",
+};
+
+function getInkColor(ink: string | null): string {
+  if (!ink) return "var(--muted)";
+  return INK_COLORS[ink.toLowerCase()] || "var(--muted)";
+}
+
+function InkDot({ ink }: { ink: string | null }) {
+  return (
+    <span
+      className="inline-block h-3 w-3 rounded-full border border-white/20 shadow-sm"
+      style={{ backgroundColor: getInkColor(ink) }}
+      title={ink || ""}
+    />
+  );
+}
+
+function getCardImage(card: LorcanaCard): string | null {
+  return (
+    card.image_uris?.digital?.small ||
+    card.image_uris?.digital?.normal ||
+    null
+  );
+}
+
+interface CardRowProps {
+  card: LorcanaCard;
+  onCardClick: (card: LorcanaCard) => void;
+  onRemoveClick: (card: LorcanaCard) => void;
+}
+
+function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, below: false });
+  const rowRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const image = getCardImage(card);
+
+  const handleMouseEnter = () => {
+    timeoutRef.current = setTimeout(() => {
+      if (rowRef.current) {
+        const rect = rowRef.current.getBoundingClientRect();
+        const spaceAbove = rect.top;
+        const showBelow = spaceAbove < 300;
+        setTooltipPos({
+          x: rect.left + 16,
+          y: showBelow ? rect.bottom + 8 : rect.top - 8,
+          below: showBelow,
+        });
+      }
+      setShowTooltip(true);
+    }, 300);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShowTooltip(false);
+  };
+
+  const cardType = Array.isArray(card.type) && card.type.length > 0 ? card.type[0] : null;
+
+  return (
+    <div
+      ref={rowRef}
+      className="group flex items-center gap-2 rounded-xl pr-4 pl-8 py-2.5 transition hover:bg-[var(--surface-soft)] cursor-pointer"
+      onClick={() => onCardClick(card)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* Quantity Badge */}
+      <span className="flex h-7 min-w-[1.75rem] items-center justify-center rounded-lg bg-[var(--accent)]/10 px-1.5 text-sm font-bold text-[var(--accent)] tabular-nums">
+        {card.quantity ?? 1}x
+      </span>
+
+      <InkDot ink={card.ink ?? null} />
+
+      <span className="flex-1 text-sm font-medium text-[var(--ink)] truncate group-hover:text-[var(--accent)] transition-colors ml-2">
+        {card.name}
+        {card.version ? <span className="text-[var(--muted)]">, {card.version}</span> : null}
+      </span>
+
+      <div className="flex items-center gap-8">
+        {cardType && (
+          <span className="hidden sm:inline w-24 text-xs text-[var(--muted)] bg-[var(--surface-soft)] px-2 py-0.5 rounded-full text-center">
+            {cardType}
+          </span>
+        )}
+
+        {card.rarity && (
+          <span className="hidden md:inline w-12 text-xs text-[var(--muted)] text-center">
+            {card.rarity}
+          </span>
+        )}
+
+        <span className="w-6 flex justify-center items-center h-6 rounded-full bg-[var(--surface-soft)] text-xs font-bold text-[var(--muted)]">
+          {card.cost ?? "?"}
+        </span>
+      </div>
+
+      {/* Delete button */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemoveClick(card);
+        }}
+        className="flex h-6 w-6 items-center justify-center rounded-full text-[var(--muted)] opacity-0 transition group-hover:opacity-100 hover:bg-[var(--alert)]/10 hover:text-[var(--alert)]"
+        aria-label="Eliminar carta"
+      >
+        <TrashIcon className="h-3.5 w-3.5" />
+      </button>
+
+      {/* Image Tooltip — fixed position */}
+      {showTooltip && image && (
+        <div
+          className="fixed z-[60] pointer-events-none animate-in fade-in zoom-in-95 duration-200"
+          style={{
+            left: `${tooltipPos.x}px`,
+            top: tooltipPos.below ? `${tooltipPos.y}px` : undefined,
+            bottom: tooltipPos.below ? undefined : `${window.innerHeight - tooltipPos.y}px`,
+          }}
+        >
+          <div className="rounded-2xl overflow-hidden shadow-2xl border border-[var(--stroke)] bg-[var(--surface)]">
+            <Image
+              src={image}
+              alt={card.name || "Carta"}
+              width={200}
+              height={280}
+              className="block rounded-xl"
+              unoptimized
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 
 export default function MisCartasPage() {
   const { user, isLoading: authLoading } = useAuth();
+  const { setSavedCardIds, removeSavedCardId } = useUserCardsStore();
   const [cards, setCards] = useState<LorcanaCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [removingId, setRemovingId] = useState<string | null>(null);
+  const [selectedCard, setSelectedCard] = useState<LorcanaCard | null>(null);
+  const [confirmingCard, setConfirmingCard] = useState<LorcanaCard | null>(null);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
-        const res = await fetch("/api/user/cards");
-        if (!res.ok) {
-          if (res.status === 401) {
-            setError("Debes iniciar sesión para ver tus cartas");
-          } else {
-            setError("Error al cargar las cartas");
-          }
-          return;
-        }
-        const data = await res.json();
+        const data = await getUserCards();
         setCards(data);
+        setSavedCardIds(data.map(c => String(c.id)));
       } catch {
-        setError("Error al cargar las cartas");
+        setError("Error al cargar las cartas desde tu colección.");
       } finally {
         setLoading(false);
       }
@@ -46,23 +189,57 @@ export default function MisCartasPage() {
     } else if (!authLoading && !user) {
       setLoading(false);
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, setSavedCardIds]);
 
-  const handleRemoveCard = async (cardId: string) => {
-    setRemovingId(cardId);
+  const handleCardClick = useCallback((card: LorcanaCard) => {
+    setSelectedCard(card);
+  }, []);
+
+  const handleRemoveClick = useCallback((card: LorcanaCard) => {
+    setConfirmingCard(card);
+  }, []);
+
+  const handleConfirmDelete = async () => {
+    if (!confirmingCard) return;
+    const cardId = String(confirmingCard.id);
     const result = await removeCardFromUser(cardId);
     if (result.success) {
       setCards((prev) => prev.filter((c) => String(c.id) !== cardId));
+      removeSavedCardId(cardId);
+      setConfirmingCard(null);
     }
-    setRemovingId(null);
   };
+
+  const closeModal = useCallback(() => {
+    setSelectedCard(null);
+  }, []);
+
+  const groupedCards = useMemo(() => {
+    const groups = cards.reduce((acc, card) => {
+      const setName = card.set?.name || "Otros";
+      if (!acc[setName]) acc[setName] = [];
+      acc[setName].push(card);
+      return acc;
+    }, {} as Record<string, LorcanaCard[]>);
+
+    return Object.keys(groups)
+      .sort()
+      .reduce((acc, key) => {
+        acc[key] = groups[key];
+        return acc;
+      }, {} as Record<string, LorcanaCard[]>);
+  }, [cards]);
+
+  const totalCopies = useMemo(() => {
+    return cards.reduce((sum, c) => sum + (c.quantity ?? 1), 0);
+  }, [cards]);
 
   if (authLoading || loading) {
     return (
       <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-2xl">
         <div className="flex flex-col items-center gap-4">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent"></div>
-          <p className="text-[var(--muted)]">Cargando...</p>
+          <p className="text-[var(--muted)]">Consultando tu colección...</p>
         </div>
       </main>
     );
@@ -71,14 +248,16 @@ export default function MisCartasPage() {
   if (!user) {
     return (
       <main className="mx-auto flex min-h-screen flex-col items-center px-4 pb-12 pt-24 max-w-2xl text-center">
-        <ExclamationTriangleIcon className="mb-4 h-16 w-16 text-[var(--muted)]" />
-        <h1 className="mb-4 font-[var(--font-title)] text-2xl">Mis Cartas</h1>
-        <p className="mb-6 text-[var(--muted)]">
-          Debes iniciar sesión para ver tus cartas guardadas
+        <div className="mb-6 rounded-full bg-[var(--surface-soft)] p-6">
+          <FolderIcon className="h-12 w-12 text-[var(--muted)]" />
+        </div>
+        <h1 className="mb-4 font-[var(--font-title)] text-3xl">Mis Cartas</h1>
+        <p className="mb-8 text-[var(--muted)] text-lg">
+          Inicia sesión para registrar y gestionar tu propia colección de Lorcana.
         </p>
         <Link
           href="/login"
-          className="rounded-full bg-[var(--accent)] px-6 py-3 font-semibold text-white transition hover:opacity-90"
+          className="rounded-full bg-[var(--accent)] px-8 py-3.5 font-bold text-white transition hover:scale-105 active:scale-95 shadow-lg shadow-[var(--accent)]/20"
         >
           Iniciar sesión
         </Link>
@@ -89,10 +268,10 @@ export default function MisCartasPage() {
   if (error) {
     return (
       <main className="mx-auto flex min-h-screen flex-col items-center px-4 pb-12 pt-24 max-w-2xl text-center">
-        <p className="text-[var(--alert)]">{error}</p>
+        <p className="text-[var(--alert)] bg-[var(--alert)]/10 px-4 py-2 rounded-lg">{error}</p>
         <Link
           href="/"
-          className="mt-4 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
+          className="mt-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
         >
           <ArrowLeftIcon className="h-5 w-5" />
           Volver a la galería
@@ -102,87 +281,109 @@ export default function MisCartasPage() {
   }
 
   return (
-    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-4xl">
-      <Link
-        href="/"
-        className="mb-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"
-      >
-        <ArrowLeftIcon className="h-5 w-5" />
-        Volver a la galería
-      </Link>
-
-      <header className="mb-8 text-center">
-        <div className="mb-2 flex items-center justify-center gap-3">
-          <HeartIcon className="h-8 w-8 text-[var(--accent)]" />
-          <h1 className="font-[var(--font-title)] text-3xl">Mis Cartas</h1>
+    <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-5xl font-[var(--font-sans)]">
+      {/* Header */}
+      <div className="mb-8 flex flex-col gap-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]"
+        >
+          <ArrowLeftIcon className="h-4 w-4" />
+          Volver a la galería
+        </Link>
+        <div className="flex items-center gap-4">
+          <div className="rounded-2xl bg-[var(--accent)]/10 p-3">
+            <FolderIcon className="h-8 w-8 text-[var(--accent)]" />
+          </div>
+          <div>
+            <h1 className="font-[var(--font-title)] text-4xl">Mi Colección</h1>
+            <p className="text-[var(--muted)]">
+              {cards.length} {cards.length === 1 ? "carta única" : "cartas únicas"} · {totalCopies} {totalCopies === 1 ? "copia total" : "copias totales"} · {Object.keys(groupedCards).length} {Object.keys(groupedCards).length === 1 ? "set" : "sets"}
+            </p>
+          </div>
         </div>
-        <p className="text-[var(--muted)]">
-          {cards.length} {cards.length === 1 ? "carta guardada" : "cartas guardadas"}
-        </p>
-      </header>
+      </div>
 
       {cards.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-12 text-center">
-          <HeartIcon className="h-12 w-12 text-[var(--muted)]" />
-          <p className="text-[var(--muted)]">
-            Aún no tienes cartas guardadas
-          </p>
+        <div className="flex flex-col items-center gap-6 rounded-[24px] border border-[var(--stroke)] bg-[var(--surface-soft)]/50 p-16 text-center backdrop-blur-sm">
+          <div className="rounded-full bg-[var(--surface)] p-6 shadow-inner">
+            <FolderIcon className="h-12 w-12 text-[var(--muted)] opacity-40" />
+          </div>
+          <div className="max-w-xs">
+            <h2 className="mb-2 text-xl font-bold">Tu carpeta está vacía</h2>
+            <p className="text-[var(--muted)]">
+              Explora la galería y usa el icono de carpeta para añadir cartas a tu colección personal.
+            </p>
+          </div>
           <Link
             href="/"
-            className="rounded-full bg-[var(--accent)] px-6 py-3 font-semibold text-white transition hover:opacity-90"
+            className="rounded-full bg-[var(--foreground)] px-8 py-3 font-bold text-[var(--surface)] transition hover:opacity-90 active:scale-95"
           >
             Explorar cartas
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              className="group relative overflow-hidden rounded-[16px] border border-[var(--stroke)] bg-[var(--surface-soft)] p-4"
-            >
-              <div className="relative mb-4 aspect-[2/3] overflow-hidden rounded-[12px] bg-[var(--surface)]">
-                {card.image_uris?.digital?.normal ? (
-                  <Image
-                    src={card.image_uris.digital.normal}
-                    alt={card.name || "Carta"}
-                    fill
-                    sizes="(max-width: 640px) 50vw, 33vw"
-                    className="object-contain"
-                  />
-                ) : (
-                  <div className="grid h-full place-items-center text-[var(--muted)]">
-                    Sin imagen
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[0.75rem] uppercase tracking-[1px] text-[var(--muted)]">
-                    {card.set?.name}
-                  </p>
-                  <h3 className="truncate font-[var(--font-title)] text-[1rem]">
-                    {card.name}
-                  </h3>
-                </div>
-                <button
-                  onClick={() => handleRemoveCard(String(card.id))}
-                  disabled={removingId === String(card.id)}
-                  className="ml-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[var(--muted)] transition hover:bg-[var(--alert)]/20 hover:text-[var(--alert)] disabled:opacity-50"
-                  aria-label="Eliminar de mis cartas"
-                >
-                  {removingId === String(card.id) ? (
-                    <div className="h-4 w-4 animate-spin rounded-full border border-[var(--alert)] border-t-transparent"></div>
-                  ) : (
-                    <TrashIcon className="h-4 w-4" />
-                  )}
-                </button>
-              </div>
+        <div className="rounded-[24px] border border-[var(--stroke)] bg-[var(--surface)] shadow-[var(--card-shadow)] overflow-visible">
+          <div className="px-4 py-2">
+            {/* Column Headers */}
+            <div className="flex items-center gap-2 pr-4 pl-8 py-2 text-[0.7rem] uppercase tracking-wider text-[var(--muted)]">
+              <span className="flex h-7 min-w-[1.75rem] items-center justify-center">QTY</span>
+              <span className="w-3" />
+              <span className="flex-1 ml-2">Nombre</span>
+              <span className="flex items-center gap-8">
+                <span className="hidden sm:inline w-24 text-center">Tipo</span>
+                <span className="hidden md:inline w-12 text-center">Rareza</span>
+                <span className="w-6 flex justify-center">⬡</span>
+              </span>
+              <span className="w-6" />
             </div>
-          ))}
+
+            <div className="flex flex-col gap-2">
+              {Object.entries(groupedCards).map(([setName, setCards]) => (
+                <div key={setName} className="flex flex-col gap-1">
+                  <div className="px-4 py-2.5 bg-[var(--surface-soft)]/20 flex items-center gap-3 rounded-t-lg border-b border-[var(--stroke)]/30 mb-1">
+                    <FolderIcon className="h-4 w-4 text-[var(--muted)]" />
+                    <span className="font-[var(--font-title)] text-sm font-bold text-[var(--ink)]">
+                      {setName}
+                    </span>
+                  </div>
+                  {setCards
+                    .sort((a, b) => {
+                      const costDiff = (a.cost ?? 99) - (b.cost ?? 99);
+                      if (costDiff !== 0) return costDiff;
+                      return (a.name ?? "").localeCompare(b.name ?? "");
+                    })
+                    .map((card) => (
+                      <CardRow
+                        key={card.id}
+                        card={card}
+                        onCardClick={handleCardClick}
+                        onRemoveClick={handleRemoveClick}
+                      />
+                    ))}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       )}
+
+      <GalleryCardModal
+        selected={selectedCard}
+        onClose={closeModal}
+        hideActions={true}
+      />
+
+      <ConfirmationDialog
+        isOpen={!!confirmingCard}
+        title="¿Eliminar de tu colección?"
+        message={`¿Estás seguro de que quieres quitar a "${confirmingCard?.name}" de tu carpeta personal?`}
+        confirmLabel="Eliminar carta"
+        cancelLabel="Cancelar"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setConfirmingCard(null)}
+        isDestructive={true}
+      />
     </main>
   );
 }

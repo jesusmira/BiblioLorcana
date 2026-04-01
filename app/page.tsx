@@ -1,6 +1,9 @@
-import { Gallery } from "./components";
+"use client";
 
-const DEFAULT_SET_CODE = "all";
+import Link from "next/link";
+import { PlayIcon } from "@heroicons/react/24/outline";
+import { Gallery } from "./components";
+import { APP } from "./lib/constants";
 
 export default function HomePage() {
   return (
@@ -18,9 +21,11 @@ export default function HomePage() {
           Explora cartas reales desde la API de Lorcast y filtra por tinta,
           rareza o tipo.
         </p>
+        <div className="mt-2 h-px w-96 bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-60"></div>
+
       </header>
 
-      <Gallery defaultSetCode={DEFAULT_SET_CODE} />
+      <Gallery defaultSetCode={APP.DEFAULT_SET_CODE} />
     </div>
   );
 }

@@ -1,15 +1,29 @@
 "use client";
 
+import { useEffect } from "react";
 import { GalleryCards, GalleryHeader, GallerySectionHeader } from "./index";
 import { useGalleryFilters, useGalleryData, useModalCard, usePagination } from "../hooks";
-
-const PAGE_SIZE = Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 24;
+import { useAuth } from "../lib/auth";
+import { useUserCardsStore } from "../store";
+import { getUserCardIds } from "../actions";
+import { APP } from "../lib/constants";
 
 interface GalleryProps {
   defaultSetCode: string;
 }
 
 export default function Gallery({ defaultSetCode }: GalleryProps) {
+  const { user } = useAuth();
+  const { setSavedCardIds } = useUserCardsStore();
+
+  useEffect(() => {
+    if (user) {
+      getUserCardIds().then(setSavedCardIds);
+    } else {
+      setSavedCardIds([]);
+    }
+  }, [user, setSavedCardIds]);
+
   const galleryData = useGalleryData(defaultSetCode);
   const {
     sets,
@@ -45,7 +59,7 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
     visibleItems: visibleCards,
     canLoadMore,
     loadMore,
-  } = usePagination(filteredCards, PAGE_SIZE, [cards, search, ink, type, rarity, sort]);
+  } = usePagination(filteredCards, APP.PAGE_SIZE, [cards, search, ink, type, rarity, sort]);
 
   const selectedSetData = sets.find((set) => set.code === selectedSet);
 
@@ -59,7 +73,7 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
   const buttonGhost = `${buttonBase} border border-[var(--stroke)] bg-transparent text-[var(--ink)]`;
 
   return (
-    <main className="mt-8 flex flex-col gap-5">
+    <main className="mt-8 flex flex-col gap-5 max-[900px]:px-4 px-16">
       <GalleryHeader
         selectedSetData={selectedSetData}
         loadingSets={loadingSets}

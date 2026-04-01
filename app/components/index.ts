@@ -16,3 +16,4 @@ export { default as StatusCard } from "./StatusCard";
 export { default as TagChip } from "./TagChip";
 export { default as ThemeToggle } from "./ThemeToggle";
 export { default as UserMenu } from "./UserMenu";
+export { default as ConfirmationDialog } from "./ConfirmationDialog";

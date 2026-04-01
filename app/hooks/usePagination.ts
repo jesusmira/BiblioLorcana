@@ -5,7 +5,7 @@ import type { UsePaginationReturn } from "../types";
 
 export default function usePagination<T>(
   items: T[] = [],
-  pageSize: number = 24,
+  pageSize: number = 16,
   deps: unknown[] = []
 ): UsePaginationReturn<T> {
   const [visibleCount, setVisibleCount] = useState<number>(pageSize);

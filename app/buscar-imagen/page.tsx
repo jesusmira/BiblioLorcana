@@ -11,14 +11,13 @@ import {
   translateText,
 } from "../actions";
 import { useAuth } from "../lib/auth";
+import { STORAGE_KEYS } from "../lib/constants";
 import type { LorcanaCard } from "../types";
 import {
   ArrowLeftIcon,
   HeartIcon,
   LanguageIcon,
 } from "@heroicons/react/24/outline";
-
-const IMAGE_STORAGE_KEY = "ocr_image_data";
 
 export default function ImageSearchPage() {
   const { user } = useAuth();
@@ -37,10 +36,10 @@ export default function ImageSearchPage() {
   const [showPromoTooltip, setShowPromoTooltip] = useState(false);
 
   useEffect(() => {
-    const storedImage = localStorage.getItem(IMAGE_STORAGE_KEY);
+    const storedImage = localStorage.getItem(STORAGE_KEYS.OCR_IMAGE);
     if (storedImage) {
       setImageData(storedImage);
-      localStorage.removeItem(IMAGE_STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEYS.OCR_IMAGE);
     }
   }, []);
 
@@ -330,12 +329,14 @@ export default function ImageSearchPage() {
               <button onClick={handleTranslateClick} className="mt-1 text-left text-xs text-[var(--accent)] underline">Mostrar original</button>
             )}
           </div>
-          <div className="mt-auto flex flex-col gap-3">
+            <div className="mt-auto flex flex-col gap-3">
             <StatGrid card={foundCard} />
-            <div className="flex flex-wrap gap-2 max-[900px]:justify-center">
+            <div className="flex flex-wrap justify-center gap-3 max-[900px]:justify-center">
               <TagChip>{cardInk}</TagChip>
               {types.slice(0, 2).map((item) => <TagChip key={item}>{item}</TagChip>)}
+              <span className="w-4" />
               <TagChip>{normalizeLabel(foundCard.rarity)}</TagChip>
+              <span className="w-4" />
               {(foundCard.classifications as string[])?.map((item) => <TagChip key={item}>{item}</TagChip>)}
             </div>
             {saveSuccess && <div className="flex items-center gap-2 rounded-[12px] bg-green-500/20 p-3 text-green-400">{saveSuccess}</div>}

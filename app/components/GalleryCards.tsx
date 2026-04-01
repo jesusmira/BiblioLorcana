@@ -6,7 +6,7 @@ import GalleryCardModal from "./GalleryCardModal";
 import type { LorcanaCard } from "../types";
 
 const cardBase =
-  "group relative flex flex-col gap-3 overflow-hidden rounded-[22px] border border-[var(--stroke)] bg-[var(--surface)] p-4 shadow-[var(--card-shadow)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] max-[720px]:text-center";
+  "group relative flex flex-col gap-3 overflow-hidden rounded-[22px] border border-[var(--stroke)] bg-[var(--surface)] p-4 shadow-[var(--card-shadow)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]";
 
 interface GalleryCardsProps {
   cardError: string;
@@ -33,7 +33,7 @@ export default function GalleryCards({
 }: GalleryCardsProps) {
   return (
     <>
-      <section className="grid gap-[22px] [grid-template-columns:repeat(4,minmax(0,1fr))] max-[1300px]:[grid-template-columns:repeat(3,minmax(0,1fr))] max-[980px]:[grid-template-columns:repeat(2,minmax(0,1fr))] max-[640px]:grid-cols-1">
+      <section className="grid gap-[20px] [grid-template-columns:repeat(4,minmax(0,1fr))] max-[900px]:[grid-template-columns:repeat(3,minmax(0,1fr))] max-[600px]:grid-cols-1">
         {cardError ? (
           <StatusCard
             className={cardBase}
