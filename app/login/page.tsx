@@ -1,47 +1,51 @@
 "use client";
 
 import { useState } from "react";
-import { useAuth } from "../lib/auth";
 import Link from "next/link";
+import { useAuth } from "../lib/auth";
+import { loginSchema, type LoginInput } from "../lib/schemas";
 
 interface FormErrors {
-  email?: string;
-  password?: string;
+  email?: string[];
+  password?: string[];
 }
 
 export default function LoginPage() {
   const { login, isLoading: authLoading } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState<LoginInput>({ email: "", password: "" });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
 
-  const validate = (): boolean => {
-    const newErrors: FormErrors = {};
-
-    if (!email.trim()) {
-      newErrors.email = "El email es requerido";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Email invalido";
+  const handleChange = (field: keyof LoginInput, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
     }
-
-    if (!password) {
-      newErrors.password = "La contrasena es requerida";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+    setApiError("");
+
+    const result = loginSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: FormErrors = {};
+      const issues = result.error.issues;
+      for (const issue of issues) {
+        const field = issue.path[0] as keyof LoginInput;
+        if (!fieldErrors[field]) {
+          fieldErrors[field] = [];
+        }
+        fieldErrors[field]?.push(issue.message);
+      }
+      setErrors(fieldErrors);
+      return;
+    }
 
     setIsSubmitting(true);
-    setApiError("");
     try {
-      await login(email, password);
+      await login(formData.email, formData.password);
     } catch (error) {
       setApiError(error instanceof Error ? error.message : "Error al iniciar sesión");
     }
@@ -74,27 +78,31 @@ export default function LoginPage() {
             <input
               id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => handleChange("email", e.target.value)}
               className={`${inputClass} ${errors.email ? "border-[var(--alert-ink)]" : ""}`}
               placeholder="tu@email.com"
             />
-            {errors.email && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.email}</p>}
+            {errors.email && errors.email.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <div>
             <label htmlFor="password" className={labelClass}>
-              Contrasena
+              Contraseña
             </label>
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={(e) => handleChange("password", e.target.value)}
               className={`${inputClass} ${errors.password ? "border-[var(--alert-ink)]" : ""}`}
-              placeholder="Tu contrasena"
+              placeholder="Tu contraseña"
             />
-            {errors.password && <p className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{errors.password}</p>}
+            {errors.password && errors.password.map((msg, i) => (
+              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
+            ))}
           </div>
 
           <div className="flex items-center justify-between">
@@ -102,9 +110,9 @@ export default function LoginPage() {
               <input type="checkbox" className="h-4 w-4 rounded border-[var(--stroke)] accent-[var(--accent)]" />
               Recordarme
             </label>
-            <a href="#" className="text-[0.9rem] text-[var(--accent)] hover:underline">
-              Olvidaste tu contrasena?
-            </a>
+            <Link href="/olvide-contrasena" className="text-[0.9rem] text-[var(--accent)] hover:underline">
+              Olvidaste tu contraseña?
+            </Link>
           </div>
 
           <button
@@ -112,7 +120,7 @@ export default function LoginPage() {
             disabled={isSubmitting || authLoading}
             className="w-full rounded-full bg-[var(--accent)] px-6 py-3 text-base font-semibold text-white shadow-[0_12px_24px_rgba(197,138,60,0.35)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_32px_rgba(197,138,60,0.45)] disabled:opacity-50 disabled:hover:translate-y-0"
           >
-            {isSubmitting ? "Iniciando sesion..." : "Iniciar sesion"}
+            {isSubmitting ? "Iniciando sesión..." : "Iniciar sesión"}
           </button>
         </form>
 

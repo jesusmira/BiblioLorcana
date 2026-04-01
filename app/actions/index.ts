@@ -10,3 +10,4 @@ export {
   updateCardQuantity
 } from "./userCardActions";
 export { generateSampleDeck } from "./deckActions";
+export { requestPasswordReset, resetPassword, validateResetToken } from "./authActions";
