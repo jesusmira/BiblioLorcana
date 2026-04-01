@@ -1,17 +1,20 @@
 import { NextResponse } from "next/server";
 import { loginUser, setSession } from "../../../lib/auth-utils";
+import { loginSchema, validateRequest } from "../../../lib/schemas";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, password } = body;
 
-    if (!email || !password) {
+    const validation = validateRequest(loginSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Email y contraseña son requeridos" },
+        { error: validation.errors.join(", ") },
         { status: 400 }
       );
     }
+
+    const { email, password } = validation.data;
 
     const user = await loginUser({ email, password });
 

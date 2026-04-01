@@ -57,9 +57,11 @@ export async function getSession(): Promise<TokenPayload | null> {
 export async function setSession(payload: TokenPayload): Promise<void> {
   const token = await createToken(payload);
   const cookieStore = await cookies();
+  const isProduction = process.env.NODE_ENV === "production";
+  
   cookieStore.set("auth_token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: isProduction,
     sameSite: "lax",
     maxAge: 60 * 60 * 24 * 7,
     path: "/",

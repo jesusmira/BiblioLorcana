@@ -2,9 +2,8 @@
 
 import { prisma } from "../lib/prisma";
 import { getSession } from "../lib/auth-utils";
+import { API } from "../lib/constants";
 import type { LorcanaCard } from "../types";
-
-const API_BASE = "https://api.lorcast.com/v0";
 
 interface SaveCardResponse {
   success: boolean;
@@ -20,8 +19,6 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
   const cardId = String(cardData.id);
 
   try {
-    // Ya no guardamos la carta en la DB local. 
-    // Solo creamos la relación en userCard usando el cardId de Lorcast.
     await prisma.userCard.create({
       data: {
         userId: session.userId,
@@ -72,7 +69,7 @@ export async function updateCardQuantity(cardId: string, quantity: number): Prom
   }
 
   try {
-    await (prisma.userCard as any).update({
+    await prisma.userCard.update({
       where: {
         userId_cardId: {
           userId: session.userId,
@@ -106,12 +103,12 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     const cardPromises = userCards.map(async (uc) => {
       try {
         // Intentar primero por ID directo
-        let response = await fetch(`${API_BASE}/cards/${uc.cardId}`);
+        let response = await fetch(`${API.LORCAST_BASE}/cards/${uc.cardId}`);
         
         // Si no funciona, buscar por collector_number
         if (!response.ok) {
           // Buscar en el set "1" por collector number
-          response = await fetch(`${API_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
+          response = await fetch(`${API.LORCAST_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
           if (!response.ok) return null;
           const data = await response.json();
           return data.results?.[0] ? { ...data.results[0], quantity: uc.quantity } : null;

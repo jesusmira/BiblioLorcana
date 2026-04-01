@@ -1,24 +1,20 @@
 import { NextResponse } from "next/server";
 import { registerUser, setSession } from "../../../lib/auth-utils";
+import { registerSchema, validateRequest } from "../../../lib/schemas";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, password } = body;
 
-    if (!name || !email || !password) {
+    const validation = validateRequest(registerSchema, body);
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Todos los campos son requeridos" },
+        { error: validation.errors.join(", ") },
         { status: 400 }
       );
     }
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: "La contraseña debe tener al menos 6 caracteres" },
-        { status: 400 }
-      );
-    }
+    const { name, email, password } = validation.data;
 
     const user = await registerUser({ name, email, password });
 

@@ -297,7 +297,7 @@ export default function MisMazosPage() {
           <ArrowLeftIcon className="h-4 w-4" />
           Volver a la galería
         </Link>
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-start gap-4">
           <div className="flex items-center gap-4">
             <div className="rounded-2xl bg-[var(--accent)]/10 p-3">
               <SparklesIcon className="h-8 w-8 text-[var(--accent)]" />
