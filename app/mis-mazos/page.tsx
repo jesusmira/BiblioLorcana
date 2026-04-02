@@ -1,259 +1,35 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useAuth } from "../lib/auth";
-import { generateSampleDeck } from "../actions";
-import { GalleryCardModal } from "../components";
+import { useMisMazos } from "./_hooks/useMisMazos";
+import {
+  GalleryCardModal,
+} from "../components";
+import {
+  InkDot,
+  ManaCurve,
+  InkBreakdown,
+  DeckCardRow,
+} from "../_shared/_components";
 import {
   ArrowLeftIcon,
   ArrowPathIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
-import type { Deck, DeckCard, LorcanaCard } from "../types";
-
-const INK_COLORS: Record<string, string> = {
-  amber: "#F59E0B",
-  amethyst: "#8B5CF6",
-  emerald: "#10B981",
-  ruby: "#EF4444",
-  sapphire: "#3B82F6",
-  steel: "#6B7280",
-};
-
-function getInkColor(ink: string | null): string {
-  if (!ink) return "var(--muted)";
-  return INK_COLORS[ink.toLowerCase()] || "var(--muted)";
-}
-
-function InkDot({ ink }: { ink: string | null }) {
-  return (
-    <span
-      className="inline-block h-3 w-3 rounded-full border border-white/20 shadow-sm"
-      style={{ backgroundColor: getInkColor(ink) }}
-      title={ink || ""}
-    />
-  );
-}
-
-function ManaCurve({ cards }: { cards: DeckCard[] }) {
-  const costMap: Record<number, number> = {};
-  let maxCount = 0;
-
-  for (const card of cards) {
-    const cost = card.cost ?? 0;
-    const capped = Math.min(cost, 7);
-    costMap[capped] = (costMap[capped] || 0) + card.quantity;
-    if (costMap[capped] > maxCount) maxCount = costMap[capped];
-  }
-
-  return (
-    <div className="flex items-end gap-1.5 h-20">
-      {Array.from({ length: 8 }, (_, i) => {
-        const count = costMap[i] || 0;
-        const height = maxCount > 0 ? (count / maxCount) * 100 : 0;
-        return (
-          <div key={i} className="flex flex-col items-center gap-1 flex-1">
-            <span className="text-[0.6rem] text-[var(--muted)] tabular-nums">
-              {count || ""}
-            </span>
-            <div
-              className="w-full rounded-t-sm bg-[var(--accent)] opacity-70 transition-all duration-500"
-              style={{ height: `${Math.max(height, 4)}%` }}
-            />
-            <span className="text-[0.65rem] font-bold text-[var(--muted)]">
-              {i === 7 ? "7+" : i}
-            </span>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function InkBreakdown({ cards }: { cards: DeckCard[] }) {
-  const inkMap: Record<string, number> = {};
-  let total = 0;
-
-  for (const card of cards) {
-    const ink = card.ink || "Otro";
-    inkMap[ink] = (inkMap[ink] || 0) + card.quantity;
-    total += card.quantity;
-  }
-
-  return (
-    <div className="flex flex-col gap-2">
-      {Object.entries(inkMap)
-        .sort((a, b) => b[1] - a[1])
-        .map(([ink, count]) => {
-          const pct = total > 0 ? Math.round((count / total) * 100) : 0;
-          return (
-            <div key={ink} className="flex items-center gap-3">
-              <InkDot ink={ink} />
-              <span className="text-sm font-medium text-[var(--ink)] min-w-[5rem]">
-                {ink}
-              </span>
-              <div className="flex-1 h-2 rounded-full bg-[var(--surface-soft)] overflow-hidden">
-                <div
-                  className="h-full rounded-full transition-all duration-700"
-                  style={{
-                    width: `${pct}%`,
-                    backgroundColor: getInkColor(ink),
-                  }}
-                />
-              </div>
-              <span className="text-xs text-[var(--muted)] tabular-nums min-w-[3rem] text-right">
-                {count} ({pct}%)
-              </span>
-            </div>
-          );
-        })}
-    </div>
-  );
-}
-
-interface CardRowProps {
-  card: DeckCard;
-  onCardClick: (cardId: string) => void;
-}
-
-function CardRow({ card, onCardClick }: CardRowProps) {
-  const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, below: false });
-  const rowRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleMouseEnter = () => {
-    timeoutRef.current = setTimeout(() => {
-      if (rowRef.current) {
-        const rect = rowRef.current.getBoundingClientRect();
-        const spaceAbove = rect.top;
-        const showBelow = spaceAbove < 300;
-        setTooltipPos({
-          x: rect.left + 16,
-          y: showBelow ? rect.bottom + 8 : rect.top - 8,
-          below: showBelow,
-        });
-      }
-      setShowTooltip(true);
-    }, 300);
-  };
-
-  const handleMouseLeave = () => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setShowTooltip(false);
-  };
-
-  return (
-    <div
-      ref={rowRef}
-      className="group relative flex items-center gap-3 rounded-xl px-4 py-2.5 transition hover:bg-[var(--surface-soft)] cursor-pointer"
-      onClick={() => onCardClick(card.cardId)}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <span className="flex h-7 min-w-[1.75rem] items-center justify-center rounded-lg bg-[var(--accent)]/10 px-1.5 text-sm font-bold text-[var(--accent)] tabular-nums">
-        {card.quantity}x
-      </span>
-
-      <InkDot ink={card.ink} />
-
-      <span className="flex-1 text-sm font-medium text-[var(--ink)] truncate group-hover:text-[var(--accent)] transition-colors">
-        {card.name}
-      </span>
-
-      {card.type && (
-        <span className="hidden sm:inline text-xs text-[var(--muted)] bg-[var(--surface-soft)] px-2 py-0.5 rounded-full text-left">
-          {card.type}
-        </span>
-      )}
-
-      {card.rarity && (
-        <span className="hidden md:inline text-xs text-[var(--muted)] text-left">
-          {card.rarity}
-        </span>
-      )}
-
-      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--surface-soft)] text-xs font-bold text-[var(--muted)]">
-        {card.cost ?? "?"}
-      </span>
-
-      {/* Image Tooltip — fixed position to avoid overflow clipping */}
-      {showTooltip && card.image && (
-        <div
-          className="fixed z-[60] pointer-events-none animate-in fade-in zoom-in-95 duration-200"
-          style={{
-            left: `${tooltipPos.x}px`,
-            top: tooltipPos.below ? `${tooltipPos.y}px` : undefined,
-            bottom: tooltipPos.below ? undefined : `${window.innerHeight - tooltipPos.y}px`,
-          }}
-        >
-          <div className="rounded-2xl overflow-hidden shadow-2xl border border-[var(--stroke)] bg-[var(--surface)]">
-            <Image
-              src={card.image}
-              alt={card.name}
-              width={200}
-              height={280}
-              className="block rounded-xl"
-              unoptimized
-            />
-          </div>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function MisMazosPage() {
   const { user, isLoading: authLoading } = useAuth();
-  const [deck, setDeck] = useState<Deck | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isRegenerating, setIsRegenerating] = useState(false);
-  const [selectedCard, setSelectedCard] = useState<LorcanaCard | null>(null);
-
-  const fetchDeck = async () => {
-    setLoading(true);
-    try {
-      const data = await generateSampleDeck();
-      setDeck(data);
-    } catch {
-      setDeck(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const regenerate = async () => {
-    setIsRegenerating(true);
-    try {
-      const data = await generateSampleDeck();
-      setDeck(data);
-    } catch {
-      /* noop */
-    } finally {
-      setIsRegenerating(false);
-    }
-  };
-
-  const handleCardClick = useCallback(
-    (cardId: string) => {
-      if (!deck) return;
-      const fullCard = deck.fullCards.find((c) => String(c.id) === cardId);
-      if (fullCard) setSelectedCard(fullCard);
-    },
-    [deck]
-  );
-
-  const closeModal = useCallback(() => {
-    setSelectedCard(null);
-  }, []);
-
-  useEffect(() => {
-    if (!authLoading) {
-      fetchDeck();
-    }
-  }, [authLoading]);
+  const {
+    deck,
+    loading,
+    isRegenerating,
+    selectedCard,
+    regenerate,
+    handleCardClick,
+    closeModal,
+    fetchDeck,
+  } = useMisMazos();
 
   if (authLoading || loading) {
     return (
@@ -288,7 +64,6 @@ export default function MisMazosPage() {
 
   return (
     <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-5xl font-[var(--font-sans)]">
-      {/* Header */}
       <div className="mb-12 flex flex-col gap-4">
         <Link
           href="/"
@@ -314,9 +89,7 @@ export default function MisMazosPage() {
 
       {deck && deck.cards.length > 0 ? (
         <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-          {/* Left: Card List */}
           <div className="rounded-[24px] border border-[var(--stroke)] bg-[var(--surface)] shadow-[var(--card-shadow)] overflow-hidden">
-            {/* Deck Header */}
             <div className="flex items-center justify-between gap-4 border-b border-[var(--stroke)] px-6 py-5">
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-3">
@@ -348,9 +121,7 @@ export default function MisMazosPage() {
               </div>
             </div>
 
-            {/* Card List */}
             <div className="divide-y divide-[var(--stroke)]/30 px-2 py-2">
-              {/* Column Headers */}
               <div className="flex items-center gap-3 px-4 py-2 text-[0.7rem] uppercase tracking-wider text-[var(--muted)]">
                 <span className="min-w-[1.75rem] text-center">QTY</span>
                 <span className="w-3" />
@@ -361,7 +132,7 @@ export default function MisMazosPage() {
               </div>
 
               {deck.cards.map((card) => (
-                <CardRow
+                <DeckCardRow
                   key={card.cardId}
                   card={card}
                   onCardClick={handleCardClick}
@@ -370,9 +141,7 @@ export default function MisMazosPage() {
             </div>
           </div>
 
-          {/* Right: Deck Stats */}
           <div className="flex flex-col gap-6 lg:sticky lg:top-24 lg:self-start">
-            {/* Mana Curve */}
             <div className="rounded-[20px] border border-[var(--stroke)] bg-[var(--surface)] p-5 shadow-[var(--card-shadow)]">
               <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[var(--muted)]">
                 Curva de Maná
@@ -380,7 +149,6 @@ export default function MisMazosPage() {
               <ManaCurve cards={deck.cards} />
             </div>
 
-            {/* Ink Breakdown */}
             <div className="rounded-[20px] border border-[var(--stroke)] bg-[var(--surface)] p-5 shadow-[var(--card-shadow)]">
               <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[var(--muted)]">
                 Distribución de Tinta
@@ -388,7 +156,6 @@ export default function MisMazosPage() {
               <InkBreakdown cards={deck.cards} />
             </div>
 
-            {/* Quick Stats */}
             <div className="rounded-[20px] border border-[var(--stroke)] bg-[var(--surface)] p-5 shadow-[var(--card-shadow)]">
               <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-[var(--muted)]">
                 Estadísticas Rápidas
@@ -449,7 +216,6 @@ export default function MisMazosPage() {
         </div>
       )}
 
-      {/* Card Detail Modal */}
       <GalleryCardModal selected={selectedCard} onClose={closeModal} />
     </main>
   );

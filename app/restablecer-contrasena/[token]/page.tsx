@@ -1,96 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { resetPassword, validateResetToken } from "@/app/actions";
+import { usePasswordReset } from "./_hooks/usePasswordReset";
 import { ArrowLeftIcon, KeyIcon, CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
-interface FormErrors {
-  password?: string[];
-  confirmPassword?: string[];
-}
-
 export default function RestablecerContrasenaPage({ params }: { params: Promise<{ token: string }> }) {
-  const router = useRouter();
-  const [token, setToken] = useState<string>("");
-  const [isValid, setIsValid] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState({ password: "", confirmPassword: "" });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [apiError, setApiError] = useState("");
-
+  const [token, setToken] = useState("");
+  
   useEffect(() => {
     const loadParams = async () => {
       const resolved = await params;
       setToken(resolved.token);
-      
-      const valid = await validateResetToken(resolved.token);
-      setIsValid(valid);
-      setLoading(false);
     };
     loadParams();
   }, [params]);
 
-  const handleChange = (field: "password" | "confirmPassword", value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setApiError("");
-    
-    if (!formData.password) {
-      setErrors({ password: ["La contraseña es requerida"] });
-      return;
-    }
-    
-    if (formData.password.length < 8) {
-      setErrors({ password: ["Mínimo 8 caracteres"] });
-      return;
-    }
-    
-    if (!/[A-Z]/.test(formData.password)) {
-      setErrors({ password: ["Al menos una mayúscula"] });
-      return;
-    }
-    
-    if (!/[a-z]/.test(formData.password)) {
-      setErrors({ password: ["Al menos una minúscula"] });
-      return;
-    }
-    
-    if (!/[0-9]/.test(formData.password)) {
-      setErrors({ password: ["Al menos un número"] });
-      return;
-    }
-    
-    if (!/[^A-Za-z0-9]/.test(formData.password)) {
-      setErrors({ password: ["Al menos un carácter especial"] });
-      return;
-    }
-    
-    if (formData.password !== formData.confirmPassword) {
-      setErrors({ confirmPassword: ["Las contraseñas no coinciden"] });
-      return;
-    }
-
-    setIsSubmitting(true);
-    const result = await resetPassword(token, formData.password, formData.confirmPassword);
-    
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      setApiError(result.error || "Error al restablecer la contraseña");
-    }
-    
-    setIsSubmitting(false);
-  };
+  const {
+    isValid,
+    loading,
+    formData,
+    errors,
+    isSubmitting,
+    isSuccess,
+    apiError,
+    handleChange,
+    handleSubmit,
+  } = usePasswordReset(token);
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";

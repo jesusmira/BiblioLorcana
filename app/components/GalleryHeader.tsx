@@ -4,6 +4,7 @@ import type { ChangeEvent } from "react";
 import { ActiveSetSummary, SelectField, ImageUploadButton } from "./index";
 import { normalizeLabel } from "../lib";
 import { useAuth } from "../lib/auth";
+import { buttonSolid, buttonGhost } from "./Button";
 import type { LorcanaSet } from "../types";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
@@ -27,8 +28,6 @@ interface GalleryHeaderProps {
   inkValues: string[];
   typeValues: string[];
   rarityValues: string[];
-  buttonGhost: string;
-  buttonSolid: string;
   pickRandom: () => void;
   resetFilters: () => void;
   setError: string;
@@ -55,8 +54,6 @@ export default function GalleryHeader({
   inkValues,
   typeValues,
   rarityValues,
-  buttonGhost,
-  buttonSolid,
   pickRandom,
   resetFilters,
   setError,

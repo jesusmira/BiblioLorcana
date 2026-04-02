@@ -3,54 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../lib/auth";
-import { loginSchema, type LoginInput } from "../lib/schemas";
-
-interface FormErrors {
-  email?: string[];
-  password?: string[];
-}
+import { useLogin } from "./_hooks/useLogin";
 
 export default function LoginPage() {
-  const { login, isLoading: authLoading } = useAuth();
-  const [formData, setFormData] = useState<LoginInput>({ email: "", password: "" });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [apiError, setApiError] = useState("");
-
-  const handleChange = (field: keyof LoginInput, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setApiError("");
-
-    const result = loginSchema.safeParse(formData);
-    if (!result.success) {
-      const fieldErrors: FormErrors = {};
-      const issues = result.error.issues;
-      for (const issue of issues) {
-        const field = issue.path[0] as keyof LoginInput;
-        if (!fieldErrors[field]) {
-          fieldErrors[field] = [];
-        }
-        fieldErrors[field]?.push(issue.message);
-      }
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await login(formData.email, formData.password);
-    } catch (error) {
-      setApiError(error instanceof Error ? error.message : "Error al iniciar sesión");
-    }
-    setIsSubmitting(false);
-  };
+  const { isLoading: authLoading } = useAuth();
+  const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useLogin();
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";

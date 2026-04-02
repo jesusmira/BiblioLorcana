@@ -12,6 +12,8 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, recuperaci�
 - **Prisma** (ORM + PostgreSQL)
 - **Anthropic Claude Vision** (OCR)
 - **Resend** (emails transaccionales)
+- **Axios** (HTTP client)
+- **Upstash Redis** (rate limiting en producción)
 
 ## Requisitos
 
@@ -74,6 +76,8 @@ La app estará disponible en: `http://localhost:3000`
 | `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
 | `RESEND_API_KEY` | API key para emails (Recuperar contraseña) | - |
 | `APP_URL` | URL de la app (para enlaces de email) | `http://localhost:3000` |
+| `UPSTASH_REDIS_REST_URL` | URL de Upstash Redis (producción) | - |
+| `UPSTASH_REDIS_REST_TOKEN` | Token de Upstash Redis (producción) | - |
 
 ## Comandos
 
@@ -90,7 +94,7 @@ La app estará disponible en: `http://localhost:3000`
 
 ## Páginas
 
-- `/` - Galería principal de cartas
+- `/` - Galería principal de cartas (por defecto Winterspell)
 - `/buscar-imagen` - Búsqueda de cartas por imagen (OCR)
 - `/mis-cartas` - Colección personal del usuario
 - `/mis-mazos` - Gestión de mazos
@@ -104,25 +108,35 @@ La app estará disponible en: `http://localhost:3000`
 
 ```
 app/
-├── actions/              # Server Actions
-├── api/                 # API Routes
-│   ├── auth/            # Autenticación
-│   ├── lorcast/         # Proxy a API de Lorcast
-│   └── ocr/             # OCR con Claude Vision
-├── buscar-imagen/       # Página de búsqueda por imagen
-├── como-jugar/          # Página cómo jugar
-│   └── components/      # Componentes de sección
-├── components/          # Componentes React globales
-├── hooks/               # Custom Hooks
-├── lib/                 # Utilidades, constantes, auth, email
-├── login/               # Página de login
-├── mis-cartas/          # Página de colección personal
-├── mis-mazos/           # Página de gestión de mazos
-├── olvide-contrasena/   # Página de recuperación de contraseña
-├── registro/            # Página de registro
-├── restablecer-contrasena/[token]/ # Página de nueva contraseña
-├── store/               # Zustand stores
-└── types/               # Tipos TypeScript
+├── _shared/                 # Componentes reutilizados entre páginas
+│   ├── _components/        # CardRow, InkDot, ManaCurve, etc.
+├── actions/                 # Server Actions
+├── api/                    # API Routes
+│   ├── auth/              # Autenticación
+│   ├── lorcast/           # Proxy a API de Lorcast
+│   └── ocr/               # OCR con Claude Vision
+├── buscar-imagen/          # Página de búsqueda por imagen
+│   └── _hooks/            # Hook específico de la página
+├── como-jugar/             # Página cómo jugar
+│   └── components/         # Componentes de sección
+├── components/              # Componentes React globales
+├── hooks/                  # Custom Hooks globales
+├── lib/                    # Utilidades, constantes, auth, email
+├── login/                  # Página de login
+│   └── _hooks/            # Hook específico
+├── mis-cartas/             # Página de colección personal
+│   └── _hooks/            # Hook específico
+├── mis-mazos/             # Página de gestión de mazos
+│   └── _hooks/            # Hook específico
+├── olvide-contrasena/     # Página de recuperación
+│   └── _hooks/            # Hook específico
+├── registro/               # Página de registro
+│   └── _hooks/            # Hook específico
+├── restablecer-contrasena/[token]/ # Nueva contraseña
+│   └── _hooks/            # Hook específico
+├── services/              # Servicios (lorcastService)
+├── store/                 # Zustand stores
+└── types/                 # Tipos TypeScript
 ```
 
 ## Constantes
@@ -144,10 +158,11 @@ Validación de formularios con Zod en `app/lib/schemas.ts`:
 ## Características
 
 - Galería de cartas con paginación infinita
+- Set por defecto: **Winterspell**
 - Filtros por tinta, tipo, rareza y búsqueda
 - Selector de set de cartas
 - Modal con detalles de carta
-- Tema claro/oscuro con toggle animado
+- Tema claro/oscuro con persistencia
 - Menú responsive
 - Registro y login de usuarios
 - Recuperación de contraseña por email (Resend)
@@ -159,6 +174,9 @@ Validación de formularios con Zod en `app/lib/schemas.ts`:
 - Colección personal guardada en BD
 - Gestión de mazos con plantillas
 - Contador en tiempo real de cartas en colección
+- Rate limiting con Upstash Redis (producción)
+- Caching de API con memoria
+- Arquitectura limpia: hooks específicos por página, componentes compartidos en `_shared/`
 
 ## Usuario de Prueba
 

@@ -99,7 +99,6 @@ export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
 export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {
   try {
     const sets = await fetchSetsAction();
-    // Fetch all cards for each set in parallel
     const allCardsPromises = sets.map((set) => fetchCardsBySetAction(set.code));
     const results = await Promise.all(allCardsPromises);
     return results.flat();

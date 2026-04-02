@@ -13,7 +13,9 @@ export interface LorcanaCard {
   name?: string | null;
   version?: string | null;
   text?: string | null;
+  abilities?: string | null;
   flavor_text?: string | null;
+  flavorText?: string | null;
   ink?: string | null;
   cost?: number | null;
   rarity?: string | null;
@@ -22,13 +24,14 @@ export interface LorcanaCard {
   willpower?: number | null;
   lore?: number | null;
   collector_number?: string | null;
+  collector_count?: string | null;
   classifications?: string[] | null;
+  imageUrl?: string | null;
   image_uris?: CardImageUris | null;
   quantity?: number;
   set?: {
     name?: string | null;
   } | null;
-  [key: string]: unknown;
 }
 
 export interface LorcanaSet {

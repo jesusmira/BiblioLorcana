@@ -1,63 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useAuth } from "../lib/auth";
 import Link from "next/link";
-import { registerSchema, type RegisterInput } from "../lib/schemas";
-
-interface FormErrors {
-  name?: string[];
-  email?: string[];
-  password?: string[];
-  confirmPassword?: string[];
-}
+import { useRegistro } from "./_hooks/useRegistro";
 
 export default function RegistroPage() {
-  const { register, isLoading: authLoading } = useAuth();
-  const [formData, setFormData] = useState<RegisterInput>({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [apiError, setApiError] = useState("");
-
-  const handleChange = (field: keyof RegisterInput, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    if (errors[field as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [field]: undefined }));
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setApiError("");
-
-    const result = registerSchema.safeParse(formData);
-    if (!result.success) {
-      const fieldErrors: FormErrors = {};
-      const issues = result.error.issues;
-      for (const issue of issues) {
-        const field = issue.path[0] as keyof RegisterInput;
-        if (!fieldErrors[field]) {
-          fieldErrors[field] = [];
-        }
-        fieldErrors[field]?.push(issue.message);
-      }
-      setErrors(fieldErrors);
-      return;
-    }
-
-    setIsSubmitting(true);
-    try {
-      await register(formData.name, formData.email, formData.password);
-    } catch (error) {
-      setApiError(error instanceof Error ? error.message : "Error al registrar usuario");
-    }
-    setIsSubmitting(false);
-  };
+  const { isLoading: authLoading } = useAuth();
+  const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useRegistro();
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";

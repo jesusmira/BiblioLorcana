@@ -1,6 +1,6 @@
 "use client";
 
-import { StatusCard } from "./index";
+import { StatusCard, buttonGhost } from "./index";
 import GalleryCardItem from "./GalleryCardItem";
 import GalleryCardModal from "./GalleryCardModal";
 import type { LorcanaCard } from "../types";
@@ -15,7 +15,6 @@ interface GalleryCardsProps {
   openCard: (card: LorcanaCard) => void;
   canLoadMore: boolean;
   onLoadMore: () => void;
-  buttonGhost: string;
   selected: LorcanaCard | null;
   closeModal: () => void;
 }
@@ -27,7 +26,6 @@ export default function GalleryCards({
   openCard,
   canLoadMore,
   onLoadMore,
-  buttonGhost,
   selected,
   closeModal,
 }: GalleryCardsProps) {

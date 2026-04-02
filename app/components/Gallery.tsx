@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { GalleryCards, GalleryHeader, GallerySectionHeader } from "./index";
+import { GalleryCards, GalleryHeader, GallerySectionHeader, buttonSolid, buttonGhost } from "./index";
 import { useGalleryFilters, useGalleryData, useModalCard, usePagination } from "../hooks";
 import { useAuth } from "../lib/auth";
 import { useUserCardsStore } from "../store";
@@ -67,11 +67,6 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
     cards: filteredCards,
   });
 
-  const buttonBase =
-    "rounded-full px-[18px] py-3 text-[0.95rem] font-semibold transition duration-200 hover:-translate-y-0.5";
-  const buttonSolid = `${buttonBase} bg-[var(--accent)] text-white shadow-[0_12px_24px_rgba(197,138,60,0.35)]`;
-  const buttonGhost = `${buttonBase} border border-[var(--stroke)] bg-transparent text-[var(--ink)]`;
-
   return (
     <main className="mt-8 flex flex-col gap-5 max-[900px]:px-4 px-16">
       <GalleryHeader
@@ -94,8 +89,6 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
         inkValues={inkValues}
         typeValues={typeValues}
         rarityValues={rarityValues}
-        buttonGhost={buttonGhost}
-        buttonSolid={buttonSolid}
         pickRandom={pickRandom}
         resetFilters={resetFilters}
         setError={setError}
@@ -114,7 +107,6 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
         openCard={openCard}
         canLoadMore={canLoadMore}
         onLoadMore={loadMore}
-        buttonGhost={buttonGhost}
         selected={selected}
         closeModal={closeModal}
       />

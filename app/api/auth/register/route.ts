@@ -4,7 +4,7 @@ import { registerSchema, validateRequest } from "../../../lib/schemas";
 import { rateLimit } from "../../../lib/rateLimit";
 
 export async function POST(request: NextRequest) {
-  const rateLimitResponse = rateLimit(request);
+  const rateLimitResponse = await rateLimit(request);
   if (rateLimitResponse) {
     return rateLimitResponse;
   }

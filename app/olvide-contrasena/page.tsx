@@ -1,43 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { requestPasswordReset } from "@/app/actions";
+import { usePasswordResetRequest } from "./_hooks/usePasswordResetRequest";
 import { ArrowLeftIcon, EnvelopeIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 
 export default function OlvideContrasenaPage() {
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
-
-    if (!email.trim()) {
-      setError("El email es requerido");
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Email inválido");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const result = await requestPasswordReset(email);
-
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      setError(result.error || "Error al solicitar el restablecimiento");
-    }
-
-    setIsSubmitting(false);
-  };
+  const { email, isSubmitting, isSuccess, error, setEmail, handleSubmit } = usePasswordResetRequest();
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";
