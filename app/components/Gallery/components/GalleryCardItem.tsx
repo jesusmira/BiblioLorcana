@@ -1,18 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { clsx } from "clsx";
 import type { KeyboardEvent } from "react";
-import CardArtwork from "./CardArtwork";
-import type { LorcanaCard } from "../types";
-import { useAuth } from "../lib/auth";
-import { useFavoritesStore, useUserCardsStore } from "../store";
-import { saveCardToUser, removeCardFromUser } from "../actions";
+import CardArtwork from "../../CardArtwork";
+import type { LorcanaCard } from "../../../types";
+import { useAuth } from "../../../lib/auth";
+import { useFavoritesStore, useUserCardsStore } from "../../../store";
+import { saveCardToUser, removeCardFromUser } from "../../../actions";
 import {
   HeartIcon,
   FolderIcon,
   ArrowPathIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+
+const cardActionBase = "flex h-8 w-8 items-center justify-center rounded-full shadow-md";
+const cardActionActive = "bg-[var(--accent)] text-white";
+const cardActionInactive = "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
+const cardActionSaved = "bg-[#2D2D2D] text-[var(--accent)]";
 
 interface GalleryCardItemProps {
   card: LorcanaCard;
@@ -88,7 +94,7 @@ export default function GalleryCardItem({
 
   return (
     <article
-      className={`${cardBaseClass} cursor-pointer relative`}
+      className={clsx(cardBaseClass, "cursor-pointer relative")}
       role="button"
       tabIndex={0}
       aria-label={`Ver detalles de ${ariaName}`}
@@ -100,19 +106,13 @@ export default function GalleryCardItem({
       <div className="relative">
         {user && (
           <div
-            className={`absolute right-2 top-2 z-10 flex flex-col gap-2 transition-opacity duration-200 ${
-              isHovered ? "opacity-100" : "opacity-0"
-            }`}
+            className={clsx("absolute right-2 top-2 z-10 flex flex-col gap-2 transition-opacity duration-200", isHovered ? "opacity-100" : "opacity-0")}
           >
             {!hideDefaultActions && (
               <>
                 <button
                   onClick={handleFavoriteClick}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full shadow-md ${
-                    isCardFavorite
-                      ? "bg-[var(--accent)] text-white"
-                      : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
-                  }`}
+                  className={clsx(cardActionBase, isCardFavorite ? cardActionActive : cardActionInactive)}
                   aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
                 >
                   <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
@@ -120,11 +120,7 @@ export default function GalleryCardItem({
                 <button
                   onClick={handleSaveClick}
                   disabled={isSaving}
-                  className={`flex h-8 w-8 items-center justify-center rounded-full shadow-md ${
-                    isCardSaved
-                      ? "bg-[#2D2D2D] text-[var(--accent)]"
-                      : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
-                  }`}
+                  className={clsx(cardActionBase, isCardSaved ? cardActionSaved : cardActionInactive)}
                   aria-label={isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"}
                 >
                   {isSaving ? (

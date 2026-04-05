@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePasswordReset } from "./_hooks/usePasswordReset";
 import { ArrowLeftIcon, KeyIcon, CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { inputError } from "../../lib/styles";
+import { clsx } from "clsx";
 
 export default function RestablecerContrasenaPage({ params }: { params: Promise<{ token: string }> }) {
   const [token, setToken] = useState("");
@@ -120,7 +122,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleChange("password", e.target.value)}
-                className={`${inputClass} pl-12 ${errors.password ? "border-[var(--alert-ink)]" : ""}`}
+                className={clsx(inputClass, "pl-12", errors.password && "border-[var(--alert-ink)]")}
                 placeholder="Mínimo 8 caracteres"
               />
             </div>
@@ -138,7 +140,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
               type="password"
               value={formData.confirmPassword}
               onChange={(e) => handleChange("confirmPassword", e.target.value)}
-              className={`${inputClass} ${errors.confirmPassword ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.confirmPassword)}
               placeholder="Repite tu contraseña"
             />
             {errors.confirmPassword && errors.confirmPassword.map((msg, i) => (

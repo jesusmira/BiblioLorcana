@@ -14,6 +14,8 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, recuperaci�
 - **Resend** (emails transaccionales)
 - **Axios** (HTTP client)
 - **Upstash Redis** (rate limiting en producción)
+- **clsx** + **tailwind-merge** (utilidades de clases)
+- **Heroicons** (iconos)
 
 ## Requisitos
 
@@ -120,8 +122,23 @@ app/
 ├── como-jugar/             # Página cómo jugar
 │   └── components/         # Componentes de sección
 ├── components/              # Componentes React globales
+│   ├── Gallery/           # Subcarpeta de componentes de galería
+│   │   ├── components/    # GalleryCards, GalleryCardItem, GalleryCardModal
+│   │   ├── header/        # GalleryHeader, GallerySectionHeader
+│   │   └── styles.ts      # Estilos compartidos
+│   ├── SiteHeader/        # Header con navegación
+│   │   ├── HeaderLogo.tsx
+│   │   ├── HeaderNav.tsx
+│   │   ├── HeaderActions.tsx
+│   │   ├── HeaderMobileNav.tsx
+│   │   ├── UserMenuContent.tsx
+│   │   └── useHeaderScroll.ts
+│   └── CookieBanner/      # Banner de cookies
 ├── hooks/                  # Custom Hooks globales
 ├── lib/                    # Utilidades, constantes, auth, email
+│   ├── styles.ts          # Estilos compartidos (clsx utilities)
+│   ├── cn.ts              # Función classNames
+│   └── constants.ts        # Constantes del proyecto
 ├── login/                  # Página de login
 │   └── _hooks/            # Hook específico
 ├── mis-cartas/             # Página de colección personal
@@ -136,8 +153,32 @@ app/
 │   └── _hooks/            # Hook específico
 ├── services/              # Servicios (lorcastService)
 ├── store/                 # Zustand stores
+│   ├── cookieConsentStore.ts
+│   ├── favoritesStore.ts
+│   ├── galleryStore.ts
+│   ├── themeStore.ts
+│   └── userCardsStore.ts
 └── types/                 # Tipos TypeScript
 ```
+
+## Principios y Buenas Prácticas
+
+El proyecto sigue principios de Clean Code y SOLID:
+
+- **SRP**: Cada componente tiene responsabilidad única
+- **OCP**: Componentes extensibles sin modificar existentes
+- **DIP**: Dependencias a través de abstracciones (props/hooks)
+- **ISP**: Interfaces pequeñas y específicas
+- **DRY**: Código重复ido minimizado con hooks y componentes compartidos
+
+### Estructura de Componentes
+
+Los componentes complejos están organizados en carpetas con:
+- `index.ts` - Barrel exports
+- Componentes hijos en subcarpetas
+- Tipos en `types.ts`
+- Estilos en `styles.ts`
+- Hooks personalizados cuando corresponde
 
 ## Constantes
 
@@ -147,6 +188,9 @@ Todas las constantes del proyecto están centralizadas en `app/lib/constants.ts`
 - `STORAGE_KEYS` - OCR_IMAGE, THEME
 - `API` - LORCAST_BASE
 - `THEME` - DEFAULT
+
+Los colores de inks están en `app/lib/styles.ts`:
+- `INK_COLORS` - Mapa de colores por tinta
 
 ## Validación
 
@@ -162,21 +206,22 @@ Validación de formularios con Zod en `app/lib/schemas.ts`:
 - Filtros por tinta, tipo, rareza y búsqueda
 - Selector de set de cartas
 - Modal con detalles de carta
+- Traducción de texto de cartas (inglés a español)
+- Botón scroll-to-top
 - Tema claro/oscuro con persistencia
 - Menú responsive
+- Banner de cookies con gestión de consentimiento
 - Registro y login de usuarios
 - Recuperación de contraseña por email (Resend)
 - Validación robusta de contraseñas con Zod
 - Diseño con tipografía Cinzel + Work Sans
 - Favoritos guardados en localStorage
-- Traducción de texto de cartas (inglés a español)
-- Búsqueda por imagen (OCR con Claude Vision)
 - Colección personal guardada en BD
 - Gestión de mazos con plantillas
 - Contador en tiempo real de cartas en colección
 - Rate limiting con Upstash Redis (producción)
 - Caching de API con memoria
-- Arquitectura limpia: hooks específicos por página, componentes compartidos en `_shared/`
+- Arquitectura limpia: hooks específicos por página, componentes compartidos
 
 ## Usuario de Prueba
 

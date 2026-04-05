@@ -1,15 +1,12 @@
 export { default as ActiveSetSummary } from "./ActiveSetSummary";
 export { default as CardArtwork } from "./CardArtwork";
 export { Button, buttonSolid, buttonGhost } from "./Button";
-export { default as Gallery } from "./Gallery";
-export { default as GalleryCards } from "./GalleryCards";
-export { default as GalleryCardItem } from "./GalleryCardItem";
-export { default as GalleryCardModal } from "./GalleryCardModal";
+export { default as CookieBanner } from "./CookieBanner";
+export { default as Gallery, GalleryCards, GalleryCardItem, GalleryCardModal, GalleryHeader, GallerySectionHeader } from "./Gallery/index";
 export { default as ImageUploadButton } from "./ImageUploadButton";
 export { default as LogoMark } from "./LogoMark";
+export { default as ScrollToTop } from "./ScrollToTop";
 export { default as SiteHeader } from "./SiteHeader";
-export { default as GalleryHeader } from "./GalleryHeader";
-export { default as GallerySectionHeader } from "./GallerySectionHeader";
 export { default as SearchBar } from "./SearchBar";
 export { default as SelectField } from "./SelectField";
 export { default as StatGrid } from "./StatGrid";

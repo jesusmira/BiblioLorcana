@@ -1,9 +1,10 @@
 "use client";
 
-import { StatusCard, buttonGhost } from "./index";
+import { StatusCard } from "../../index";
+import { buttonGhost } from "../../index";
 import GalleryCardItem from "./GalleryCardItem";
 import GalleryCardModal from "./GalleryCardModal";
-import type { LorcanaCard } from "../types";
+import type { LorcanaCard } from "../../../types";
 
 const cardBase =
   "group relative flex flex-col gap-3 overflow-hidden rounded-[22px] border border-[var(--stroke)] bg-[var(--surface)] p-4 shadow-[var(--card-shadow)] transition duration-200 hover:-translate-y-1 hover:shadow-[var(--card-shadow-hover)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)]";

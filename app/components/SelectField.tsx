@@ -1,6 +1,7 @@
 "use client";
 
-import type { ChangeEvent, ReactNode } from "react";
+import { useState, type ChangeEvent, type ReactNode } from "react";
+import { clsx } from "clsx";
 import { ChevronUpIcon } from "@heroicons/react/24/outline";
 
 interface SelectFieldProps {
@@ -25,6 +26,8 @@ export default function SelectField({
   disabled = false,
   children,
 }: SelectFieldProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="relative">
       <label
@@ -39,11 +42,15 @@ export default function SelectField({
         onChange={onChange}
         disabled={disabled}
         className={selectBaseClass}
+        onClick={() => setIsOpen((prev) => !prev)}
+        onBlur={() => setIsOpen(false)}
       >
         {children}
       </select>
       <div className={selectIconWrapperClass} aria-hidden="true">
-        <ChevronUpIcon className="h-4 w-4 text-[var(--muted)]" />
+        <ChevronUpIcon
+          className={clsx("h-4 w-4 text-[var(--muted)] transition-transform", isOpen && "rotate-180")}
+        />
       </div>
     </div>
   );

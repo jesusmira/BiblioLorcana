@@ -1,5 +1,6 @@
 import "./globals.css";
 import { SiteHeader } from "./components";
+import CookieBanner from "./components/CookieBanner";
 import { AuthProvider } from "./lib/auth";
 import type { Metadata, Viewport } from "next";
 
@@ -26,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           <SiteHeader />
           {children}
+          <CookieBanner />
         </AuthProvider>
       </body>
     </html>

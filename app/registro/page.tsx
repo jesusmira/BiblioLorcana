@@ -3,6 +3,7 @@
 import { useAuth } from "../lib/auth";
 import Link from "next/link";
 import { useRegistro } from "./_hooks/useRegistro";
+import { inputError } from "../lib/styles";
 
 export default function RegistroPage() {
   const { isLoading: authLoading } = useAuth();
@@ -36,7 +37,7 @@ export default function RegistroPage() {
               type="text"
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              className={`${inputClass} ${errors.name ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.name)}
               placeholder="Tu nombre"
             />
             {errors.name && errors.name.map((msg, i) => (
@@ -53,7 +54,7 @@ export default function RegistroPage() {
               type="email"
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              className={`${inputClass} ${errors.email ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.email)}
               placeholder="tu@email.com"
             />
             {errors.email && errors.email.map((msg, i) => (
@@ -70,7 +71,7 @@ export default function RegistroPage() {
               type="password"
               value={formData.password}
               onChange={(e) => handleChange("password", e.target.value)}
-              className={`${inputClass} ${errors.password ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.password)}
               placeholder="Mínimo 8 caracteres, mayúscula, minúscula, número y especial"
             />
             {errors.password && errors.password.map((msg, i) => (
@@ -87,7 +88,7 @@ export default function RegistroPage() {
               type="password"
               value={formData.confirmPassword}
               onChange={(e) => handleChange("confirmPassword", e.target.value)}
-              className={`${inputClass} ${errors.confirmPassword ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.confirmPassword)}
               placeholder="Repite tu contraseña"
             />
             {errors.confirmPassword && errors.confirmPassword.map((msg, i) => (

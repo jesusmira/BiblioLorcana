@@ -17,6 +17,7 @@ import {
   ArrowPathIcon,
   SparklesIcon,
 } from "@heroicons/react/24/outline";
+import { spinner } from "../lib/styles";
 
 export default function MisMazosPage() {
   const { user, isLoading: authLoading } = useAuth();
@@ -115,7 +116,7 @@ export default function MisMazosPage() {
                   aria-label="Generar nuevo mazo"
                 >
                   <ArrowPathIcon
-                    className={`h-4 w-4 ${isRegenerating ? "animate-spin" : ""}`}
+                    className={spinner(isRegenerating)}
                   />
                 </button>
               </div>

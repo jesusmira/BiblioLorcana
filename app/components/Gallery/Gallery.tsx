@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect } from "react";
-import { GalleryCards, GalleryHeader, GallerySectionHeader, buttonSolid, buttonGhost } from "./index";
-import { useGalleryFilters, useGalleryData, useModalCard, usePagination } from "../hooks";
-import { useAuth } from "../lib/auth";
-import { useUserCardsStore } from "../store";
-import { getUserCardIds } from "../actions";
-import { APP } from "../lib/constants";
+import { useGalleryFilters, useGalleryData, useModalCard, usePagination } from "../../hooks";
+import { useAuth } from "../../lib/auth";
+import { useUserCardsStore } from "../../store";
+import { getUserCardIds } from "../../actions";
+import { APP } from "../../lib/constants";
+import { GalleryCards, GalleryHeader, GallerySectionHeader, ScrollToTop } from "./index";
 
 interface GalleryProps {
   defaultSetCode: string;
@@ -110,6 +110,8 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
         selected={selected}
         closeModal={closeModal}
       />
+
+      <ScrollToTop />
     </main>
   );
 }

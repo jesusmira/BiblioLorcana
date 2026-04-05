@@ -1,26 +1,13 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { clsx } from "clsx";
 import { useAuth } from "../lib/auth";
-import Link from "next/link";
-import {
-  ChevronUpIcon,
-  UserCircleIcon,
-  RectangleStackIcon,
-  SparklesIcon,
-  ArrowRightOnRectangleIcon,
-} from "@heroicons/react/24/outline";
-
-const mockUser = {
-  id: "1",
-  name: "Usuario Demo",
-  email: "demo@ejemplo.com",
-  role: "USER" as const,
-};
+import { ChevronUpIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { UserMenuContent } from "./SiteHeader/UserMenuContent";
 
 export default function UserMenu() {
-  const { user: authUser, logout } = useAuth();
-  const user = mockUser;
+  const { user, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -38,6 +25,8 @@ export default function UserMenu() {
     logout();
     setIsOpen(false);
   };
+
+  if (!user) return null;
 
   const initials = user.name
     .split(" ")
@@ -62,53 +51,17 @@ export default function UserMenu() {
           {user.name}
         </span>
         <ChevronUpIcon
-          className={`h-4 w-4 text-[var(--muted)] transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={clsx("h-4 w-4 text-[var(--muted)] transition-transform", isOpen && "rotate-180")}
         />
       </button>
 
       {isOpen && (
         <div className="absolute right-0 top-full z-50 mt-2 w-56 overflow-hidden rounded-[16px] border border-[var(--stroke)] bg-[var(--surface)] py-2 shadow-[var(--panel-shadow)]">
-          <div className="border-b border-[var(--stroke)] px-4 pb-3 pt-2">
-            <p className="text-[0.9rem] font-medium text-[var(--ink)]">{user.name}</p>
-            <p className="text-[0.8rem] text-[var(--muted)]">{user.email}</p>
-          </div>
-          <div className="py-1">
-            <Link
-              href="/perfil"
-              className="flex items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
-              onClick={() => setIsOpen(false)}
-            >
-              <UserCircleIcon className="h-4 w-4 text-[var(--muted)]" />
-              Mi perfil
-            </Link>
-            <Link
-              href="/mis-cartas"
-              className="flex items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
-              onClick={() => setIsOpen(false)}
-            >
-              <RectangleStackIcon className="h-4 w-4 text-[var(--muted)]" />
-              Mis cartas
-            </Link>
-            <Link
-              href="/mis-mazos"
-              className="flex items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--ink)] transition hover:bg-[var(--surface-strong)]"
-              onClick={() => setIsOpen(false)}
-            >
-              <SparklesIcon className="h-4 w-4 text-[var(--muted)]" />
-              Mis mazos
-            </Link>
-
-          </div>
-          <div className="border-t border-[var(--stroke)] pt-1">
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="flex w-full items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--alert-ink)] transition hover:bg-[var(--surface-strong)]"
-            >
-              <ArrowRightOnRectangleIcon className="h-4 w-4" />
-              Cerrar sesion
-            </button>
-          </div>
+          <UserMenuContent
+            user={user}
+            onItemClick={() => setIsOpen(false)}
+            showHeader
+          />
         </div>
       )}
     </div>

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePasswordResetRequest } from "./_hooks/usePasswordResetRequest";
 import { ArrowLeftIcon, EnvelopeIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import { inputError } from "../lib/styles";
+import { clsx } from "clsx";
 
 export default function OlvideContrasenaPage() {
   const { email, isSubmitting, isSuccess, error, setEmail, handleSubmit } = usePasswordResetRequest();
@@ -63,7 +65,7 @@ export default function OlvideContrasenaPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={`${inputClass} pl-12 ${error ? "border-[var(--alert-ink)]" : ""}`}
+                  className={clsx(inputClass, "pl-12", error && "border-[var(--alert-ink)]")}
                   placeholder="tu@email.com"
                 />
               </div>

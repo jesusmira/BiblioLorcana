@@ -1,12 +1,14 @@
 "use client";
 
 import type { ChangeEvent } from "react";
-import { ActiveSetSummary, SelectField, ImageUploadButton } from "./index";
-import { normalizeLabel } from "../lib";
-import { useAuth } from "../lib/auth";
-import { buttonSolid, buttonGhost } from "./Button";
-import type { LorcanaSet } from "../types";
+import { clsx } from "clsx";
+import { ActiveSetSummary, SelectField, ImageUploadButton, buttonSolid, buttonGhost } from "../../index";
+import { normalizeLabel } from "../../../lib";
+import { useAuth } from "../../../lib/auth";
+import type { LorcanaSet } from "../../../types";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
+const inkChipBase = "rounded-full border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] py-2 text-[0.9rem] transition duration-200";
 
 interface GalleryHeaderProps {
   selectedSetData: LorcanaSet | undefined;
@@ -167,10 +169,7 @@ export default function GalleryHeader({
             {inkValues.map((value) => (
               <button
                 key={value}
-                className={`rounded-full border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] py-2 text-[0.9rem] transition duration-200 ${ink === value
-                    ? "border-[var(--accent)] bg-[var(--chip-active-bg)]"
-                    : ""
-                  }`}
+                className={clsx(inkChipBase, ink === value && "border-[var(--accent)] bg-[var(--chip-active-bg)]")}
                 onClick={() => onInkChange(ink === value ? "" : value)}
                 type="button"
               >

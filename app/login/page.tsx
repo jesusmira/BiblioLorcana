@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../lib/auth";
 import { useLogin } from "./_hooks/useLogin";
+import { inputError } from "../lib/styles";
 
 export default function LoginPage() {
   const { isLoading: authLoading } = useAuth();
@@ -37,7 +38,7 @@ export default function LoginPage() {
               type="email"
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              className={`${inputClass} ${errors.email ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.email)}
               placeholder="tu@email.com"
             />
             {errors.email && errors.email.map((msg, i) => (
@@ -54,7 +55,7 @@ export default function LoginPage() {
               type="password"
               value={formData.password}
               onChange={(e) => handleChange("password", e.target.value)}
-              className={`${inputClass} ${errors.password ? "border-[var(--alert-ink)]" : ""}`}
+              className={inputError(inputClass, !!errors.password)}
               placeholder="Tu contraseña"
             />
             {errors.password && errors.password.map((msg, i) => (

@@ -1,18 +1,16 @@
 "use client";
 
+import { INK_COLORS } from "../../../lib/styles";
+
 interface InkLegendItem {
   label: string;
   color: string;
 }
 
-const inkLegend: InkLegendItem[] = [
-  { label: "Amber", color: "#f1b463" },
-  { label: "Amethyst", color: "#9b79c9" },
-  { label: "Emerald", color: "#4fa96b" },
-  { label: "Ruby", color: "#d85c57" },
-  { label: "Sapphire", color: "#4c84c4" },
-  { label: "Steel", color: "#8d9aa5" },
-];
+const inkLegend: InkLegendItem[] = Object.entries(INK_COLORS).map(([label, color]) => ({
+  label,
+  color,
+}));
 
 interface GallerySectionHeaderProps {
   visibleCount: number;

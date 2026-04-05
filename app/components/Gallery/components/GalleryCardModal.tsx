@@ -1,20 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import CardArtwork from "./CardArtwork";
-import StatGrid from "./StatGrid";
-import TagChip from "./TagChip";
-import ConfirmationDialog from "./ConfirmationDialog";
-import { getTypes, normalizeInk, normalizeLabel } from "../lib";
-import type { LorcanaCard } from "../types";
-import { useAuth } from "../lib/auth";
-import { useFavoritesStore, useUserCardsStore } from "../store";
+import { clsx } from "clsx";
+import CardArtwork from "../../CardArtwork";
+import StatGrid from "../../StatGrid";
+import TagChip from "../../TagChip";
+import ConfirmationDialog from "../../ConfirmationDialog";
+import { getTypes, normalizeInk, normalizeLabel } from "../../../lib";
+import type { LorcanaCard } from "../../../types";
+import { useAuth } from "../../../lib/auth";
+
+const actionButtonBase = "flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
+const actionButtonActive = "bg-[var(--accent)] text-white";
+const favoriteButtonBase = "flex h-7 w-7 items-center justify-center rounded-full";
+const saveButtonBase = "flex h-7 px-2 items-center justify-center rounded-full gap-1.5 transition-all text-[0.7rem] font-bold";
+const saveButtonActive = "bg-[#2D2D2D] text-[var(--accent)]";
+import { useFavoritesStore, useUserCardsStore } from "../../../store";
 import { 
   translateText, 
   saveCardToUser, 
   removeCardFromUser,
   updateCardQuantity as updateQuantityAction 
-} from "../actions";
+} from "../../../actions";
 import {
   HeartIcon,
   LanguageIcon,
@@ -258,78 +265,68 @@ export default function GalleryCardModal({
                 <p className="text-[0.75rem] uppercase tracking-[2px]">
                   {selected.set?.name || "Set"} · {selected.collector_number}
                 </p>
-                <h3 id={titleId} className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2 max-[900px]:justify-center">
+                  <h3 id={titleId} className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2 max-[900px]:justify-center">
                   {cardName}
                   {selected.version ? `, ${selected.version}` : ""}
                   
-                  {user && (
-                    <span className="flex gap-1 items-center">
-                      {/* Botón Traducir - Siempre visible si hay usuario */}
-                      <button
-                        onClick={handleTranslateClick}
-                        disabled={isTranslating}
-                        className={`flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)] ${
-                          translatedText !== null ? "text-[var(--accent)]" : ""
-                        }`}
-                        aria-label={translatedText !== null ? "Ocultar traducción" : "Traducir carta"}
-                      >
-                        {isTranslating ? (
-                          <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                        ) : translatedText !== null ? (
-                          <CheckIcon className="h-4 w-4" />
-                        ) : (
-                          <LanguageIcon className="h-4 w-4" />
+                  <span className="flex gap-1 items-center">
+                    {/* Botón Traducir - Siempre visible */}
+                    <button
+                      onClick={handleTranslateClick}
+                      disabled={isTranslating}
+                      className={clsx(actionButtonBase, translatedText !== null && "text-[var(--accent)]")}
+                      aria-label={translatedText !== null ? "Ocultar traducción" : "Traducir carta"}
+                    >
+                      {isTranslating ? (
+                        <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                      ) : translatedText !== null ? (
+                        <CheckIcon className="h-4 w-4" />
+                      ) : (
+                        <LanguageIcon className="h-4 w-4" />
+                      )}
+                    </button>
+
+                    {user && (
+                      <>
+                        {!hideActions && (
+                          <>
+                            <button
+                              onClick={handleFavoriteClick}
+                              className={clsx(favoriteButtonBase, isCardFavorite ? actionButtonActive : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]")}
+                              aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                            >
+                              <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+                            </button>
+                            <button
+                              onClick={handleSaveClick}
+                              disabled={isSaving}
+                              className={clsx(saveButtonBase, isCardSaved ? saveButtonActive : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]")}
+                              aria-label={isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"}
+                            >
+                              {isSaving ? (
+                                <ArrowPathIcon className="h-4 w-4 animate-spin" />
+                              ) : (
+                                <>
+                                  <FolderIcon className="h-4 w-4" fill={isCardSaved ? "currentColor" : "none"} />
+                                  {isCardSaved && <span>YA LA TIENES</span>}
+                                </>
+                              )}
+                            </button>
+                          </>
                         )}
-                      </button>
 
-                      {/* Acciones de la Galería Principal */}
-                      {!hideActions && (
-                        <>
+                        {hideActions && (
                           <button
-                            onClick={handleFavoriteClick}
-                            className={`flex h-7 w-7 items-center justify-center rounded-full ${
-                              isCardFavorite
-                                ? "bg-[var(--accent)] text-white"
-                                : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
-                            }`}
-                            aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                            onClick={() => setIsConfirmingDelete(true)}
+                            className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] hover:bg-[var(--alert)] hover:text-white transition-colors"
+                            aria-label="Eliminar de mi colección"
                           >
-                            <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+                            <TrashIcon className="h-4 w-4" />
                           </button>
-                          <button
-                            onClick={handleSaveClick}
-                            disabled={isSaving}
-                            className={`flex h-7 px-2 items-center justify-center rounded-full gap-1.5 transition-all text-[0.7rem] font-bold ${
-                              isCardSaved
-                                ? "bg-[#2D2D2D] text-[var(--accent)]"
-                                : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]"
-                            }`}
-                            aria-label={isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"}
-                          >
-                            {isSaving ? (
-                              <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                            ) : (
-                              <>
-                                <FolderIcon className="h-4 w-4" fill={isCardSaved ? "currentColor" : "none"} />
-                                {isCardSaved && <span>YA LA TIENES</span>}
-                              </>
-                            )}
-                          </button>
-                        </>
-                      )}
-
-                      {/* Acciones de Mi Colección */}
-                      {hideActions && (
-                        <button
-                          onClick={() => setIsConfirmingDelete(true)}
-                          className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] hover:bg-[var(--alert)] hover:text-white transition-colors"
-                          aria-label="Eliminar de mi colección"
-                        >
-                          <TrashIcon className="h-4 w-4" />
-                        </button>
-                      )}
-                    </span>
-                  )}
+                        )}
+                      </>
+                    )}
+                  </span>
                 </h3>
 
                 <p id={descriptionId} className="min-h-[4.5rem] whitespace-pre-line text-[var(--muted)]">
