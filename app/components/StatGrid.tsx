@@ -1,16 +1,18 @@
 "use client";
 
 import type { LorcanaCard } from "../types";
+import { ResourceIcon, type ResourceType } from "./ResourceIcon";
 
 interface StatItem {
   key: keyof LorcanaCard;
   label: string;
+  icon: ResourceType;
 }
 
 const statItems: StatItem[] = [
-  { key: "strength", label: "Fuerza" },
-  { key: "willpower", label: "Voluntad" },
-  { key: "lore", label: "Lore" },
+  { key: "strength", label: "Fuerza", icon: "strength" },
+  { key: "willpower", label: "Voluntad", icon: "willpower" },
+  { key: "lore", label: "Lore", icon: "lore" },
 ];
 
 const formatStat = (value: unknown): string | number =>
@@ -28,7 +30,10 @@ export default function StatGrid({ card }: StatGridProps) {
           <span className="block font-bold text-[var(--ink)]">
             {formatStat(card[item.key])}
           </span>
-          {item.label}
+          <span className="flex items-center justify-center gap-1">
+            <ResourceIcon type={item.icon} size={14} />
+            {item.label}
+          </span>
         </div>
       ))}
     </div>

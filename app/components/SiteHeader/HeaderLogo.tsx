@@ -23,9 +23,11 @@ export function HeaderLogo({ onMenuToggle }: HeaderLogoProps) {
         </svg>
       </button>
       <div className={HEADER_STYLES.logoContainer}>
-        <LogoMark size={36} />
-        <span className={HEADER_STYLES.title}>Archivo del Reino</span>
-      </div>
+          <Link href="/" className="flex items-center gap-3">
+            <LogoMark size={36} />
+            <span className={HEADER_STYLES.title}>Archivo del Reino</span>
+          </Link>
+        </div>
     </div>
   );
 }

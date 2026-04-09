@@ -18,6 +18,10 @@ model User {
   updatedAt        DateTime    @updatedAt
   userCards        UserCard[]
 
+  // Perfil
+  avatarUrl        String?
+  bio              String?
+
   @@map("users")
 }
 
@@ -37,4 +41,35 @@ model UserCard {
 enum Role {
   USER
   ADMIN
+}
+
+model StarterDeck {
+  id          String            @id
+  name        String
+  set         String
+  inks        String[]
+  description String
+  profile     String
+  cards       StarterDeckCard[]
+
+  @@map("starter_decks")
+}
+
+model StarterDeckCard {
+  id           String      @id @default(cuid())
+  deckId       String      @map("deck_id")
+  cardId       String      @map("card_id")
+  name         String
+  quantity     Int
+  ink          String
+  type         String
+  cost         Int
+  rarity       String
+  subtypes     String?
+  abilities    String?
+  imageUrl     String?
+
+  deck         StarterDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@map("starter_deck_cards")
 }

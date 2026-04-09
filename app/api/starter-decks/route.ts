@@ -1,15 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-import { PrismaPg } from "@prisma/adapter-pg";
-import pg from "pg";
-import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 import axios from "axios";
 
-const connectionString = process.env.DATABASE_URL || "postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor?schema=public";
-const pool = new pg.Pool({ connectionString });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({ adapter });
-
-const API_BASE = "https://api.lorcast.com/v0";
+const LORCAST_API_BASE = process.env.LORCAST_API_BASE || "https://api.lorcast.com/v0";
 
 const STARTER_DECKS_DATA = [
   {
@@ -169,20 +161,9 @@ const STARTER_DECKS_DATA = [
   },
 ];
 
-async function getCardIdByCollector(collectorNumber: string): Promise<string | null> {
-  try {
-    const response = await fetch(`${API_BASE}/sets/1/cards?collector_number=${collectorNumber}`);
-    if (!response.ok) return null;
-    const data = await response.json();
-    return data.results?.[0]?.id || null;
-  } catch {
-    return null;
-  }
-}
-
 async function fetchCardFromLorcast(setNum: string, cardNum: string) {
   try {
-    const response = await axios.get(`${API_BASE}/cards/${setNum}/${cardNum}`, {
+    const response = await axios.get(`${LORCAST_API_BASE}/cards/${setNum}/${cardNum}`, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;
@@ -192,121 +173,63 @@ async function fetchCardFromLorcast(setNum: string, cardNum: string) {
   }
 }
 
-async function seedStarterDecks() {
-  console.log("Seeding starter decks...");
-
-  for (const deckData of STARTER_DECKS_DATA) {
-    const existingDeck = await prisma.starterDeck.findUnique({
-      where: { id: deckData.id },
-    });
-
-    if (existingDeck) {
-      console.log(`Deleting existing deck: ${deckData.id}`);
-      await prisma.starterDeck.delete({ where: { id: deckData.id } });
-    }
-
-    const cardsData = [];
-    for (const { quantity, cardId } of deckData.cards) {
-      const [setNum, cardNum] = cardId.split("-");
-      const cardData = await fetchCardFromLorcast(setNum, cardNum);
-
-      if (cardData) {
-        cardsData.push({
-          cardId,
-          name: cardData.name || cardId,
-          quantity,
-          ink: cardData.ink || "?",
-          type: cardData.type?.[0] || "Character",
-          cost: cardData.cost ?? 0,
-          rarity: cardData.rarity || "Common",
-          subtypes: cardData.type?.slice(1).join(", ") || null,
-          abilities: cardData.abilities || cardData.text || null,
-          imageUrl: cardData.image_uris?.digital?.large || cardData.image_uris?.digital?.normal || null,
-        });
-      } else {
-        cardsData.push({
-          cardId,
-          name: cardId,
-          quantity,
-          ink: "?",
-          type: "Character",
-          cost: 0,
-          rarity: "Common",
-          subtypes: null,
-          abilities: null,
-          imageUrl: null,
-        });
-      }
-    }
-
-    await prisma.starterDeck.create({
-      data: {
-        id: deckData.id,
-        name: deckData.name,
-        set: deckData.set,
-        inks: deckData.inks,
-        description: deckData.description,
-        profile: deckData.profile,
-        cards: {
-          create: cardsData,
-        },
-      },
-    });
-
-    console.log(`Created starter deck: ${deckData.id} - ${deckData.name} (${cardsData.length} unique cards)`);
-  }
-
-  console.log("Starter decks seeded successfully!");
-}
-
-async function main() {
-  console.log("Starting seed...");
-
-  const hashedPassword = await bcrypt.hash("Test1234!", 10);
-  const user = await prisma.user.upsert({
-    where: { email: "test@lorcana.es" },
-    update: {},
-    create: {
-      name: "Test Lorcana",
-      email: "test@lorcana.es",
-      password: hashedPassword,
-      role: "USER",
-    },
-  });
-  console.log("Created user:", user.email);
-
-  const collectorNumbers = ["51", "84", "195", "146", "61", "164", "2", "137", "202", "173"];
-  const names = [
-    "Mickey Mouse - Wayward Sorcerer",
-    "Elsa - Snow Queen",
-    "Simba - Fierce Pride",
-    "Maleficent - Mistress of Evil",
-    "Ariel - Excited Diver",
-    "Aladdin - Diamond in the Rough",
-    "Mickey Mouse - True Sorcerer",
-    "Hades - Lord of the Underworld",
-    "Tinker Bell - Tiny Tactician",
-    "Beast - Tragic Hero",
-  ];
-
-  for (let i = 0; i < collectorNumbers.length; i++) {
-    const cardId = await getCardIdByCollector(collectorNumbers[i]);
-    if (cardId) {
-      await prisma.userCard.upsert({
-        where: { userId_cardId: { userId: user.id, cardId } },
-        update: {},
-        create: { userId: user.id, cardId, quantity: 1 },
+async function buildDeckCards(cardsData: { quantity: number; cardId: string }[]) {
+  const cards = [];
+  
+  for (const { quantity, cardId } of cardsData) {
+    const [setNum, cardNum] = cardId.split("-");
+    const cardData = await fetchCardFromLorcast(setNum, cardNum);
+    
+    if (cardData) {
+      cards.push({
+        id: `sd-${cardId}`,
+        cardId,
+        name: cardData.name || cardId,
+        quantity,
+        ink: cardData.ink || "?",
+        type: cardData.type?.[0] || "Character",
+        cost: cardData.cost ?? 0,
+        rarity: cardData.rarity || "Common",
+        subtypes: cardData.type?.slice(1).join(", ") || null,
+        abilities: cardData.abilities || cardData.text || null,
+        imageUrl: cardData.image_uris?.digital?.large || cardData.image_uris?.digital?.normal || null,
+        strength: cardData.strength ?? null,
+        willpower: cardData.willpower ?? null,
+        lore: cardData.lore ?? null,
+        flavorText: cardData.flavor_text || null,
       });
-      console.log(`Added card ${i + 1}: ${names[i]} (${cardId})`);
-    } else {
-      console.log(`Failed to find card: ${names[i]} (#${collectorNumbers[i]})`);
     }
   }
 
-  await seedStarterDecks();
-
-  console.log("Seed completed!");
+  return cards;
 }
 
-main()
-  .finally(() => prisma.$disconnect());
+export async function GET() {
+  try {
+    const decks = await Promise.all(
+      STARTER_DECKS_DATA.map(async (deck) => {
+        const cards = await buildDeckCards(deck.cards);
+        const { cards: _, ...deckWithoutCards } = deck;
+        return {
+          ...deckWithoutCards,
+          cards,
+        };
+      })
+    );
+
+    return NextResponse.json(decks);
+  } catch (error) {
+    console.error("Error building starter decks:", error);
+    return NextResponse.json(
+      { error: "Error building starter decks" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST() {
+  return NextResponse.json(
+    { message: "Endpoint configured. Use database to save starter decks." },
+    { status: 200 }
+  );
+}

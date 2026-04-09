@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Archivo del Reino | Lorcana Collection Vault</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@200;300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "primary": "#e9b362",
+              "on-primary": "#2a1c0a",
+              "background": "#161212",
+              "surface": "#1c1717",
+              "outline": "#4f4538",
+              "accent-gold": "#ffd18f",
+              "deep-burgundy": "#2d1a1a"
+            },
+            "fontFamily": {
+              "headline": ["Noto Serif", "serif"],
+              "body": ["Manrope", "sans-serif"],
+              "label": ["Manrope", "sans-serif"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background: radial-gradient(circle at center, #2d1a1a 0%, #161212 100%);
+            color: #eae0e0;
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .royal-title {
+            font-family: 'Noto Serif', serif;
+            color: #ffd18f;
+            text-shadow: 0 0 15px rgba(233, 179, 98, 0.4);
+            letter-spacing: -0.02em;
+        }
+        .golden-gradient {
+            background: linear-gradient(135deg, #ffd18f 0%, #e9b362 100%);
+            box-shadow: 0 0 20px rgba(233, 179, 98, 0.25);
+        }
+        .golden-glow:hover {
+            box-shadow: 0 0 30px rgba(233, 179, 98, 0.4);
+            transform: scale(0.98);
+        }
+        .archive-card {
+            background: rgba(28, 23, 23, 0.8);
+            border: 1px solid rgba(233, 179, 98, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .card-fan-item {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .card-fan-container:hover .card-fan-item:nth-child(1) { transform: rotate(-15deg) translateX(-60px); }
+        .card-fan-container:hover .card-fan-item:nth-child(2) { transform: rotate(-5deg) translateY(-20px); }
+        .card-fan-container:hover .card-fan-item:nth-child(3) { transform: rotate(10deg) translateX(60px); }
+        
+        /* Predicted Component Styling overrides for Header */
+        .header-sep {
+            background: linear-gradient(to right, transparent, #e9b362, transparent);
+            height: 1px;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<!-- Predicted TopNavBar (COMPONENTS_6) -->
+<header class="fixed top-0 w-full z-50 bg-[#161212] shadow-2xl">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif text-[#ffd18f] drop-shadow-[0_0_8px_rgba(233,179,98,0.4)] tracking-tighter">
+            Archivo del Reino
+        </div>
+<nav class="hidden md:flex gap-10 font-['Noto_Serif'] tracking-wider uppercase text-sm">
+<a class="text-[#ffd18f] border-b-2 border-[#e9b362] pb-1" href="#">Galería</a>
+<a class="text-[#eae0e0]/70 hover:text-[#ffd18f] transition-colors" href="#">Cómo Jugar</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="text-[#eae0e0]/70 hover:text-[#ffd18f] font-['Noto_Serif'] tracking-wider uppercase text-sm transition-transform duration-300 hover:scale-95">Login</button>
+<button class="golden-gradient text-[#2a1c0a] px-6 py-2 rounded-sm font-bold font-['Noto_Serif'] tracking-wider uppercase text-sm transition-transform duration-300 hover:scale-95 golden-glow">
+                Registro
+            </button>
+</div>
+</div>
+<div class="header-sep w-full"></div>
+</header>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-7xl mx-auto px-8 mb-40 relative">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="z-10">
+<span class="inline-block py-1 px-4 mb-8 rounded-full border border-primary/20 bg-primary/5 text-primary text-xs font-['Manrope'] tracking-[0.2em] uppercase font-semibold">
+                    Acceso al Altar de Tinta
+                </span>
+<h1 class="text-6xl md:text-8xl font-headline font-bold leading-[0.95] tracking-tighter mb-8 royal-title italic">
+                    El Archivo del Reino te espera.
+                </h1>
+<p class="text-xl text-[#eae0e0]/70 font-body max-w-lg mb-12 leading-relaxed font-light italic">
+                    La herramienta definitiva para coleccionistas de Lorcana. Gestiona tu inventario, construye mazos y traduce cartas con la precisión del Cronista Real.
+                </p>
+<div class="flex flex-wrap gap-6">
+<button class="golden-gradient text-on-primary px-10 py-5 rounded-sm font-bold text-lg golden-glow transition-all duration-300 font-headline uppercase tracking-widest">
+                        Empezar Crónica
+                    </button>
+<button class="bg-transparent border border-primary/30 text-primary px-10 py-5 rounded-sm font-bold text-lg hover:bg-primary/10 transition-colors font-headline uppercase tracking-widest">
+                        Ver Demo
+                    </button>
+</div>
+</div>
+<!-- Card Gallery Layout (Fanned Cards) -->
+<div class="relative h-[600px] flex items-center justify-center perspective-[1000px] card-fan-container">
+<div class="absolute -inset-10 bg-primary/5 blur-[120px] rounded-full opacity-40"></div>
+<!-- Card 1 -->
+<div class="card-fan-item absolute w-72 h-[400px] transform -rotate-12 -translate-x-32 z-10 shadow-2xl rounded-xl overflow-hidden border border-white/10">
+<img alt="Lorcana Card 1" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgXJtpYaWUCYiJ_zmOygK48rkW1oIWxoHT2BndlMe_vc28x3TGwhybHvKkoui31XonfFhSZv9hFGZJLxrAdtVj9whePtYmAPojBzoWzabeD7JRk3kyXmfAHG4rHtDQrxNKiaDy0DiptGvJYFd2PUYPhf6W8q_lZzPZXWbFYlcN7JN2dQex1Vgrv6zXmdlgVV9KvjfZLKwoHNs3c6z5UbaY1PP6Gu0yuZ1oqKyUUmHWd-zaJvCxuCk_q64JrqHMDqQYgdC9ze1vzhE"/>
+</div>
+<!-- Card 2 (Center) -->
+<div class="card-fan-item absolute w-72 h-[400px] z-30 shadow-2xl rounded-xl overflow-hidden border border-primary/30 scale-110">
+<img alt="Lorcana Card 2" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjDG-kl6CKOcSn7WFfD5oA8FvdtQEVCg3bMaOt-tgtVJ_zkQQQcCurULdr84I6pnw4AUT05lgzDJvMuCuKiRF_Z_02uuzm-bRzOSQFNCfWvT0bMIxCARTr5zhUKTIBeH4IpvwbfFNidpp7bacdGTy-slKlsb9QGxLa47jjBJaWa0P70BaeHzuc1Pt0byiq6HbgjUZghyEbN4PR5KYE_7TVhyaNxkiSCz2NxTDkE4x478vp1wcCcBnwXJXaEK7BenDfs-uvxg74nZ0"/>
+</div>
+<!-- Card 3 -->
+<div class="card-fan-item absolute w-72 h-[400px] transform rotate-12 translate-x-32 z-20 shadow-2xl rounded-xl overflow-hidden border border-white/10">
+<img alt="Lorcana Card 3" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxkHI3U_U4kJmOij_bObQcN7dK5i8kyLwBgc6M2EIZZbxl716HwiD_eiNy5cy8Lv0yUQRSBEcelXxVxsK2mSeBQFA1fFAyl65mb_orQKA_s4KM1_14l_sQ21Hkq9OB9xcsAksbB5BtgOLC_cJnZ8gh0ph3tNTyQAQ5SFXpGBtuWDwmvv7Nys-MbBm_uvOeUI1tp8s87_p7_0ytQpKhaDGyrOE9-0wnuVYz7kDnTogvo-4fiQCZqnrwtHOV9c3SS5iXG4G003juBLA"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="py-32 mb-32 relative">
+<div class="max-w-7xl mx-auto px-8">
+<div class="mb-20 text-center">
+<h2 class="text-5xl font-headline font-bold mb-6 royal-title tracking-tight italic">Potencia tu colección.</h2>
+<p class="text-[#eae0e0]/60 max-w-2xl mx-auto font-light text-lg italic">Diseñado para los iluminadores más exigentes, nuestro sistema integra tecnología de vanguardia con la pasión por el coleccionismo.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-6 gap-8">
+<!-- Feature 1 -->
+<div class="md:col-span-4 archive-card rounded-xl p-12 relative group overflow-hidden">
+<div class="flex flex-col h-full justify-between relative z-10">
+<div>
+<span class="material-symbols-outlined text-primary text-5xl mb-8" data-icon="camera_enhance">camera_enhance</span>
+<h3 class="text-4xl font-headline font-bold mb-6 text-accent-gold italic">Búsqueda con IA</h3>
+<p class="text-[#eae0e0]/70 text-xl max-w-md font-light leading-relaxed">Toma una foto de cualquier carta y encuéntrala al instante en nuestra base de datos sagrada. Sin errores, sin esperas.</p>
+</div>
+<div class="mt-16 flex gap-6 opacity-40 group-hover:opacity-100 transition-opacity">
+<div class="bg-black/40 px-6 py-3 rounded-sm text-sm border border-primary/10 tracking-widest uppercase">Escaneando...</div>
+<div class="bg-primary/20 px-6 py-3 rounded-sm text-sm border border-primary/40 text-primary tracking-widest uppercase">Maléfica - 98% Match</div>
+</div>
+</div>
+<div class="absolute right-0 bottom-0 w-2/3 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
+</div>
+<!-- Feature 2 -->
+<div class="md:col-span-2 archive-card rounded-xl p-12 flex flex-col justify-between group transition-transform duration-500 hover:scale-[1.02]">
+<div>
+<span class="material-symbols-outlined text-primary text-5xl mb-8" data-icon="inventory_2">inventory_2</span>
+<h3 class="text-3xl font-headline font-bold mb-6 text-accent-gold italic">Gestión de Inventario</h3>
+</div>
+<p class="text-[#eae0e0]/70 font-light leading-relaxed">Control total de tu colección en un solo lugar. Filtros por rareza, set y estado místico.</p>
+</div>
+<!-- Feature 3 -->
+<div class="md:col-span-3 archive-card rounded-xl p-12 flex flex-col justify-between group transition-transform duration-500 hover:scale-[1.02]">
+<div>
+<span class="material-symbols-outlined text-primary text-5xl mb-8" data-icon="style">style</span>
+<h3 class="text-3xl font-headline font-bold mb-6 text-accent-gold italic">Creador de Mazos</h3>
+<p class="text-[#eae0e0]/70 mb-10 font-light leading-relaxed">Diseña y prueba estrategias ganadoras con nuestro simulador estadístico avanzado.</p>
+</div>
+<div class="w-full bg-black/40 h-40 rounded-sm border border-primary/10 p-6 flex gap-3 items-end">
+<div class="bg-primary/30 h-16 w-full rounded-sm"></div>
+<div class="bg-primary/50 h-32 w-full rounded-sm"></div>
+<div class="bg-primary/40 h-20 w-full rounded-sm"></div>
+<div class="bg-primary h-28 w-full rounded-sm"></div>
+</div>
+</div>
+<!-- Feature 4 -->
+<div class="md:col-span-3 archive-card rounded-xl p-12 flex flex-col justify-between group transition-transform duration-500 hover:scale-[1.02]">
+<div>
+<span class="material-symbols-outlined text-primary text-5xl mb-8" data-icon="translate">translate</span>
+<h3 class="text-3xl font-headline font-bold mb-6 text-accent-gold italic">Traducciones al Instante</h3>
+<p class="text-[#eae0e0]/70 font-light leading-relaxed">Disfruta de tus cartas en español con un solo clic. Nuestra IA mantiene el contexto y los términos oficiales del juego.</p>
+</div>
+<div class="flex gap-6 mt-12">
+<div class="bg-primary/10 text-primary p-4 px-6 rounded-sm border border-primary/30 font-bold font-headline">ES</div>
+<div class="bg-white/5 p-4 px-6 rounded-sm border border-white/10 text-[#eae0e0]/40 font-headline">EN</div>
+<div class="bg-white/5 p-4 px-6 rounded-sm border border-white/10 text-[#eae0e0]/40 font-headline">FR</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Cómo Funciona -->
+<section class="max-w-7xl mx-auto px-8 mb-40">
+<div class="text-center mb-24">
+<h2 class="text-5xl md:text-6xl font-headline font-bold mb-6 royal-title italic">De físico a digital en segundos.</h2>
+<p class="text-[#eae0e0]/60 text-xl font-light italic">El proceso más fluido para digitalizar tu pasión.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+<!-- Step 1 -->
+<div class="relative group">
+<div class="text-9xl font-headline font-bold text-primary/10 absolute -top-16 -left-6 select-none group-hover:text-primary/20 transition-colors duration-700">1</div>
+<div class="relative pt-8">
+<h4 class="text-2xl font-headline font-bold mb-6 text-accent-gold italic">Sube tu Colección</h4>
+<p class="text-[#eae0e0]/70 leading-relaxed font-light">Escanea tus cartas con la cámara de tu móvil o añádelas manualmente desde nuestro buscador ultra-rápido.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative group">
+<div class="text-9xl font-headline font-bold text-primary/10 absolute -top-16 -left-6 select-none group-hover:text-primary/20 transition-colors duration-700">2</div>
+<div class="relative pt-8">
+<h4 class="text-2xl font-headline font-bold mb-6 text-accent-gold italic">Organiza y Filtra</h4>
+<p class="text-[#eae0e0]/70 leading-relaxed font-light">Usa potentes filtros para encontrar lo que necesitas. Ordena por coste de tinta, fuerza, voluntad o rareza.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative group">
+<div class="text-9xl font-headline font-bold text-primary/10 absolute -top-16 -left-6 select-none group-hover:text-primary/20 transition-colors duration-700">3</div>
+<div class="relative pt-8">
+<h4 class="text-2xl font-headline font-bold mb-6 text-accent-gold italic">Comparte y Compite</h4>
+<p class="text-[#eae0e0]/70 leading-relaxed font-light">Exporta tus mazos a Pixelborn o muéstralos en Discord. Presume de tus pulls más raros con el mundo.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="max-w-6xl mx-auto px-8 mb-40">
+<div class="archive-card rounded-2xl p-20 text-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-radial-gradient(circle at top right, rgba(233, 179, 98, 0.1), transparent) pointer-events-none"></div>
+<div class="relative z-10">
+<h2 class="text-5xl md:text-7xl font-headline font-bold mb-10 royal-title italic tracking-tighter">Únete a los coleccionistas del Reino.</h2>
+<p class="text-[#eae0e0]/70 text-2xl mb-14 max-w-3xl mx-auto font-light italic">Únete a miles de iluminadores que ya están optimizando sus mazos con tecnología de vanguardia.</p>
+<button class="golden-gradient text-on-primary px-14 py-6 rounded-sm font-bold text-xl golden-glow transition-all duration-300 font-headline uppercase tracking-[0.2em]">
+                    Crear mi cuenta
+                </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Predicted Footer (COMPONENTS_6) -->
+<footer class="bg-[#161212] w-full border-t border-[#4f4538]/20">
+<div class="flex flex-col items-center justify-center py-16 px-4 space-y-10 w-full max-w-screen-2xl mx-auto">
+<div class="text-2xl font-serif text-[#ffd18f] drop-shadow-[0_0_8px_rgba(233,179,98,0.2)] tracking-tighter italic">
+            Archivo del Reino
+        </div>
+<div class="flex gap-12 flex-wrap justify-center font-['Manrope'] font-light tracking-widest text-xs uppercase">
+<a class="text-[#eae0e0]/40 hover:text-[#ffd18f] transition-opacity" href="#">Privacidad</a>
+<a class="text-[#eae0e0]/40 hover:text-[#ffd18f] transition-opacity" href="#">Términos del Archivo</a>
+<a class="text-[#eae0e0]/40 hover:text-[#ffd18f] transition-opacity" href="#">Contacto Real</a>
+</div>
+<div class="text-[#e9b362] font-['Manrope'] font-light tracking-widest text-xs uppercase opacity-60">
+            © 2024 Archivo del Reino de Lorcana. El Cronista Real preserva estas memorias.
+        </div>
+</div>
+</footer>
+</body></html>

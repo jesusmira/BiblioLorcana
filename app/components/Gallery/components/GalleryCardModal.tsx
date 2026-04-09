@@ -6,6 +6,7 @@ import CardArtwork from "../../CardArtwork";
 import StatGrid from "../../StatGrid";
 import TagChip from "../../TagChip";
 import ConfirmationDialog from "../../ConfirmationDialog";
+import { CardText } from "../../CardText";
 import { getTypes, normalizeInk, normalizeLabel } from "../../../lib";
 import type { LorcanaCard } from "../../../types";
 import { useAuth } from "../../../lib/auth";
@@ -330,7 +331,7 @@ export default function GalleryCardModal({
                 </h3>
 
                 <p id={descriptionId} className="min-h-[4.5rem] whitespace-pre-line text-[var(--muted)]">
-                  {translatedText !== null ? translatedText : selected.text ?? ""}
+                  {translatedText !== null ? <CardText text={translatedText} /> : <CardText text={selected.text ?? ""} />}
                 </p>
                 {translateError && (
                   <p className="text-[var(--alert)] text-sm">{translateError}</p>
@@ -345,7 +346,7 @@ export default function GalleryCardModal({
                       aria-hidden="true"
                     ></span>
                     <p className="italic text-[var(--muted)]">
-                      {translatedFlavor !== null ? translatedFlavor : selected.flavor_text}
+                      {translatedFlavor !== null ? <CardText text={translatedFlavor} /> : <CardText text={selected.flavor_text} />}
                     </p>
                   </>
                 ) : null}
