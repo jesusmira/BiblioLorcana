@@ -76,3 +76,23 @@ export async function changePassword(oldPassword: string, newPassword: string) {
     return { error: "Error al cambiar la contraseña" };
   }
 }
+
+export async function deleteAccount() {
+  const session = await getSession();
+
+  if (!session?.userId) {
+    return { error: "No autorizado" };
+  }
+
+  try {
+    await prisma.user.delete({
+      where: { id: session.userId },
+    });
+
+    revalidatePath("/perfil");
+    return { success: true };
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    return { error: "Error al eliminar la cuenta" };
+  }
+}

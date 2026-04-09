@@ -38,12 +38,12 @@ export function HowItWorks() {
         <div className="grid grid-cols-1 gap-16 px-4 md:grid-cols-3 md:px-0">
           {steps.map((step) => (
             <div key={step.number} className="relative group">
-              <div className="absolute -top-16 -left-6 select-none text-9xl font-bold text-[var(--accent)]/10 transition-colors duration-700 group-hover:text-[var(--accent)]/20" style={{ fontFamily: "var(--font-body)" }}>
+              <div className="absolute -top-16 -left-6 select-none text-9xl font-bold transition-colors duration-700 group-hover:opacity-70" style={{ fontFamily: "var(--font-body)", color: "var(--accent)" }}>
                 {step.number}
               </div>
 
               <div className="relative pt-10">
-                <h4 className="mb-6 text-2xl font-bold text-[var(--accent-strong)]" style={{ fontFamily: "var(--font-title)", fontStyle: "italic" }}>
+                <h4 className="mb-6  mt-2 text-2xl font-bold text-[var(--accent-strong)]" style={{ fontFamily: "var(--font-title)", fontStyle: "italic" }}>
                   {step.title}
                 </h4>
                 <p className="leading-relaxed text-[var(--muted)]">{step.description}</p>

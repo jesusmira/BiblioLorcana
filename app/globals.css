@@ -40,6 +40,7 @@
   --switch-icon-strong: #2a1c13;
   --alert-bg: rgba(216, 92, 87, 0.18);
   --alert-ink: #f3bdbb;
+  --alert: #d85c57;
   --chip-active-bg: rgba(217, 163, 83, 0.15);
   --texture-light: rgba(245, 239, 231, 0.02);
   --texture-dark: rgba(10, 8, 7, 0.08);
@@ -79,6 +80,7 @@
   --switch-icon-strong: #1c1b3f;
   --alert-bg: rgba(216, 92, 87, 0.12);
   --alert-ink: #8c2c2c;
+  --alert: #d85c57;
   --chip-active-bg: rgba(197, 138, 60, 0.15);
   --texture-light: rgba(30, 26, 23, 0.03);
   --texture-dark: rgba(255, 255, 255, 0.18);

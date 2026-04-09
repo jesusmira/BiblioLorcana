@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../lib/auth";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { EditProfileModal } from "./EditProfileModal";
+import { deleteAccount } from "./actions";
 
 interface PerfilData {
   name: string;
@@ -14,10 +16,13 @@ interface PerfilData {
 }
 
 export default function PerfilPage() {
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isLoading: authLoading, logout } = useAuth();
+  const router = useRouter();
   const [perfilData, setPerfilData] = useState<PerfilData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchPerfil() {
@@ -57,6 +62,21 @@ export default function PerfilPage() {
 
   const handleEditSuccess = (data: { name: string; bio: string | null; avatarUrl: string | null }) => {
     setPerfilData((prev) => prev ? { ...prev, name: data.name, bio: data.bio, avatarUrl: data.avatarUrl } : null);
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    setDeleteError(null);
+
+    const result = await deleteAccount();
+
+    if (result.success) {
+      await logout();
+      router.push("/");
+    } else {
+      setDeleteError(result.error || "Error al eliminar la cuenta");
+      setIsDeleting(false);
+    }
   };
 
   if (authLoading || isLoading) {
@@ -178,8 +198,54 @@ export default function PerfilPage() {
               Cambiar contraseña
             </Link>
           </div>
+
+          {/* Eliminar cuenta */}
+          <div className="mt-8 pt-6 border-t border-[var(--stroke)] w-full max-w-md">
+            <p className="text-center text-[var(--muted)] text-sm mb-4">
+              ¿Quieres eliminar tu cuenta? Esta acción es permanente y no se puede deshacer.
+            </p>
+            <div className="flex justify-center">
+              <button
+                onClick={() => setIsDeleting(true)}
+                className="rounded-full border border-[var(--alert)] px-6 py-2 text-sm font-medium text-[var(--alert)] transition hover:bg-[var(--alert)] hover:text-white"
+              >
+                Eliminar mi cuenta
+              </button>
+            </div>
+            {deleteError && (
+              <p className="text-center text-sm text-[var(--alert)] mt-2">{deleteError}</p>
+            )}
+          </div>
         </div>
       </section>
+
+      {/* Modal de confirmación para eliminar cuenta */}
+      {isDeleting && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
+          <div className="w-full max-w-md rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)]">
+            <h2 className="text-xl font-bold text-[var(--ink)] mb-4">Eliminar cuenta</h2>
+            <p className="text-[var(--muted)] mb-6">
+              ¿Estás seguro de que quieres eliminar tu cuenta? 
+              <br /><br />
+              <strong>Esta acción es permanente</strong> y eliminará todos tus datos de la base de datos, incluyendo tu colección y favoritos.
+            </p>
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => setIsDeleting(false)}
+                className="rounded-full border border-[var(--stroke)] px-6 py-2 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--stroke-strong)]"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={handleDeleteAccount}
+                className="rounded-full bg-[var(--alert)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+              >
+                Eliminar cuenta
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <EditProfileModal
         isOpen={isEditModalOpen}
