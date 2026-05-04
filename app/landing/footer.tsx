@@ -9,13 +9,13 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-12 font-light tracking-widest text-xs uppercase">
-          <a href="#" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
+          <a href="/privacidad" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
             Privacidad
           </a>
-          <a href="#" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
+          <a href="/terminos" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
             Términos del Archivo
           </a>
-          <a href="#" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
+          <a href="/contacto" className="text-[var(--muted)]/40 transition-opacity hover:text-[var(--accent)]">
             Contacto Real
           </a>
         </div>

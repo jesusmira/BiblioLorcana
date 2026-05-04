@@ -139,7 +139,7 @@ export default function MisCartasPage() {
                 <div key={setName} className="flex flex-col gap-1">
                   <div className="px-4 py-2.5 bg-[var(--surface-soft)]/20 flex items-center gap-3 rounded-t-lg border-b border-[var(--stroke)]/30 mb-1">
                     <FolderIcon className="h-4 w-4 text-[var(--muted)]" />
-                    <span className="font-[var(--font-title)] text-sm font-bold text-[var(--ink)]">
+                    <span className="font-[var(--font-title)] text-sm  text-[var(--ink)]">
                       {setName}
                     </span>
                   </div>

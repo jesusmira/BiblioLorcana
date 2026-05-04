@@ -75,6 +75,10 @@ export const useGalleryStore = create<GalleryState>()(
     {
       name: "lorcana-gallery-cache",
       storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        sets: state.sets,
+        setsUpdatedAt: state.setsUpdatedAt,
+      }),
     }
   )
 );

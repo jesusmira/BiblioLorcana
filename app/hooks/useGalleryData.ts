@@ -60,6 +60,7 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
     setLoadingSets(true);
     (async () => {
       try {
+        setSetsError("");
         const data = await fetchSetsAction();
         if (active) {
           setSets(data);
@@ -88,20 +89,26 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
 
     // Caso 1: Todas las cartas (Global)
     if (selectedSet === "all") {
-      if (isAllCardsValid()) return;
+      if (isAllCardsValid()) {
+        setCardsError("");
+        return;
+      }
       
       let active = true;
       setLoadingCards(true);
+      setCardsError("");
       (async () => {
         try {
           const data = await fetchAllCardsAction();
           if (active) {
             setAllCards(data);
+            setCardsError("");
             setLoadingCards(false);
           }
         } catch (err) {
           if (active) {
-            setCardsError("Error al cargar todas las cartas.");
+            const message = err instanceof Error ? err.message : "Error al cargar todas las cartas.";
+            setCardsError(message);
             setLoadingCards(false);
           }
         }
@@ -110,20 +117,26 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
     }
 
     // Caso 2: Set específico
-    if (isCardsValid(selectedSet)) return;
+    if (isCardsValid(selectedSet)) {
+      setCardsError("");
+      return;
+    }
 
     let active = true;
     setLoadingCards(true);
+    setCardsError("");
     (async () => {
       try {
         const data = await fetchCardsBySetAction(selectedSet);
         if (active) {
           setCards(selectedSet, data);
+          setCardsError("");
           setLoadingCards(false);
         }
       } catch (err) {
         if (active) {
-          setCardsError(`No se pudieron cargar las cartas de ${selectedSet}.`);
+          const message = err instanceof Error ? err.message : `No se pudieron cargar las cartas de ${selectedSet}.`;
+          setCardsError(message);
           setLoadingCards(false);
         }
       }
