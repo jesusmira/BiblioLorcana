@@ -71,7 +71,7 @@ export function Hero() {
                   src={heroCards[1].image}
                   width={252}
                   height={353}
-                  className="w-full"
+                  className="w-full h-auto"
                   unoptimized
                 />
               </div>

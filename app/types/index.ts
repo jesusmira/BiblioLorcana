@@ -142,3 +142,44 @@ export interface Deck {
   fullCards: LorcanaCard[];
   totalCards: number;
 }
+
+export interface DeckCardEntry {
+  cardId: string;
+  name: string;
+  quantity: number;
+}
+
+export interface UserDeck {
+  id: string;
+  name: string;
+  description: string;
+  format?: string;
+  strategy?: string;
+  tier?: string;
+  tags?: string[];
+  inkColors?: string[];
+  cards: DeckCardEntry[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const DECK_FORMATS = [
+  "Casual",
+  "Competitivo",
+  "Vintage",
+  "Standard",
+  "Any",
+] as const;
+
+export const DECK_STRATEGIES = [
+  "Aggro",
+  "Control",
+  "Midrange",
+  "Combo",
+  "Ramp",
+  "Bounce",
+  "Chalice",
+  "Steel",
+] as const;
+
+export const DECK_TIERS = ["S", "A", "B", "C"] as const;

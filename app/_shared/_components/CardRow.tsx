@@ -1,14 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
 import { InkDot } from "./InkDot";
 import type { LorcanaCard } from "../../types";
 
 function getCardImage(card: LorcanaCard): string | null {
   return (
-    card.image_uris?.digital?.small ||
+    card.image_uris?.digital?.large ||
     card.image_uris?.digital?.normal ||
+    card.image_uris?.digital?.small ||
+    card.imageUrl ||
     null
   );
 }
@@ -21,25 +22,20 @@ interface CardRowProps {
 
 export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0, below: false });
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const rowRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const image = getCardImage(card);
 
   const handleMouseEnter = useCallback(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
     timeoutRef.current = setTimeout(() => {
-      if (rowRef.current) {
-        const rect = rowRef.current.getBoundingClientRect();
-        const spaceAbove = rect.top;
-        const showBelow = spaceAbove < 300;
-        setTooltipPos({
-          x: rect.left + 16,
-          y: showBelow ? rect.bottom + 8 : rect.top - 8,
-          below: showBelow,
-        });
-      }
       setShowTooltip(true);
-    }, 300);
+    }, 200);
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
@@ -61,6 +57,7 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
       className="group flex items-center gap-2 rounded-xl pr-4 pl-8 py-2.5 transition hover:bg-[var(--surface-soft)] cursor-pointer"
       onClick={() => onCardClick(card)}
       onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <span className="flex h-7 min-w-[1.75rem] items-center justify-center rounded-lg bg-[var(--accent)]/10 px-1.5 text-sm font-bold text-[var(--accent)] tabular-nums">
@@ -105,24 +102,24 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
         </svg>
       </button>
 
-      {showTooltip && image && (
+      {showTooltip && (
         <div
-          className="fixed z-[60] pointer-events-none animate-in fade-in zoom-in-95 duration-200"
+          className="fixed z-[100] pointer-events-none animate-in fade-in zoom-in-95 duration-200"
           style={{
-            left: `${tooltipPos.x}px`,
-            top: tooltipPos.below ? `${tooltipPos.y}px` : undefined,
-            bottom: tooltipPos.below ? undefined : `${window.innerHeight - tooltipPos.y}px`,
+            left: mousePos.x + 20,
+            top: mousePos.y - 200,
           }}
         >
-          <div className="rounded-2xl overflow-hidden shadow-2xl border border-[var(--stroke)] bg-[var(--surface)]">
-            <Image
-              src={image}
+          <div className="relative">
+            <img
+              src={image ?? ""}
               alt={card.name || "Carta"}
-              width={200}
-              height={280}
-              className="block rounded-xl"
-              unoptimized
+              className="h-[450px] aspect-[2/3] rounded-xl shadow-2xl block object-contain"
+              style={{ height: '450px', width: '300px' }}
             />
+            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--surface)] px-2 py-1 text-xs font-medium text-[var(--ink)] shadow-lg border border-[var(--stroke)]">
+              {card.name}
+            </div>
           </div>
         </div>
       )}

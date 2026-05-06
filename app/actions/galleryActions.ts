@@ -75,6 +75,13 @@ export async function fetchCardsBySetAction(code: string): Promise<LorcanaCard[]
   return result;
 }
 
+export interface CardSearchFilters {
+  ink?: string;
+  type?: string;
+  rarity?: string;
+  setCode?: string;
+}
+
 export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
   const q = query.trim();
   if (!q) {
@@ -94,6 +101,105 @@ export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
   const result = parseResults(data, LorcanaCardSchema);
   setCache(cacheKey, result, 2 * 60 * 1000);
   return result;
+}
+
+export async function searchCardsWithFiltersAction(
+  query: string,
+  filters: CardSearchFilters = {}
+): Promise<LorcanaCard[]> {
+  const q = query.trim();
+  const hasAnyFilter = filters.ink || filters.type || filters.rarity || filters.setCode;
+  
+  // Caso 1: Solo filtro de set sin query - usar endpoint directo
+  const onlySetFilter = filters.setCode && !q && !filters.ink && !filters.type && !filters.rarity;
+  if (onlySetFilter && filters.setCode) {
+    try {
+      return await fetchCardsBySetAction(filters.setCode);
+    } catch {
+      return [];
+    }
+  }
+  
+  // Caso 2: Query vacía + filtros -> buscar todas las cartas (del set si hay) y filtrar localmente
+  if (!q && hasAnyFilter) {
+    let baseResults: LorcanaCard[];
+    try {
+      if (filters.setCode) {
+        baseResults = await fetchCardsBySetAction(filters.setCode);
+      } else {
+        baseResults = await fetchAllCardsAction();
+      }
+    } catch {
+      baseResults = [];
+    }
+    
+    // Si no hay resultados, devolver vacío
+    if (!baseResults.length) {
+      return [];
+    }
+    
+    // Filtrar localmente
+    return filterCardsLocally(baseResults, filters);
+  }
+  
+  // Caso 3: Query con o sin filtros adicionales
+  let results: LorcanaCard[];
+  try {
+    const cacheKey = `lorcast:search:${q.toLowerCase()}`;
+    const cached = getCached<LorcanaCard[]>(cacheKey);
+    if (cached) {
+      results = cached;
+    } else {
+      const endpoint = `${API_BASE}/cards/search?q=${encodeURIComponent(q)}`;
+      const data = await fetchJson<unknown>(endpoint, {
+        errorMessage: "No se pudo realizar la búsqueda",
+      });
+      results = parseResults(data, LorcanaCardSchema);
+      setCache(cacheKey, results, 2 * 60 * 1000);
+    }
+  } catch {
+    return [];
+  }
+  
+  // Si no hay filtros, devolver resultados directos
+  if (!hasAnyFilter) {
+    return results;
+  }
+  
+  // Filtrar localmente
+  return filterCardsLocally(results, filters);
+}
+
+function filterCardsLocally(cards: LorcanaCard[], filters: CardSearchFilters): LorcanaCard[] {
+  const normalizeInk = (value: string | undefined | null): string => {
+    if (!value) return "";
+    return value.toLowerCase().replace(/\s+/g, "_").replace(/_+/g, "_");
+  };
+
+  const getTypes = (card: LorcanaCard): string[] => {
+    if (!card.type) return [];
+    return Array.isArray(card.type) ? card.type : [card.type];
+  };
+
+  return cards.filter((card) => {
+    if (filters.ink && normalizeInk(card.ink) !== filters.ink) {
+      return false;
+    }
+    if (filters.type && !getTypes(card).includes(filters.type)) {
+      return false;
+    }
+    if (filters.rarity && card.rarity !== filters.rarity) {
+      return false;
+    }
+    if (filters.setCode) {
+      const cardSet = card.set?.name || "";
+      const setCode = filters.setCode.toLowerCase();
+      if (!cardSet.toLowerCase().includes(setCode)) {
+        return false;
+      }
+    }
+    return true;
+  });
 }
 
 export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {

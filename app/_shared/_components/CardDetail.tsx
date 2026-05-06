@@ -54,7 +54,7 @@ export function CardDetail({
             alt={card.name || "Carta"}
             loading="lazy"
             wrapperClassName="w-full max-w-[400px] aspect-[2/3] rounded-[16px] bg-[var(--surface-soft)] p-4"
-            imageClassName="h-auto w-full rounded-[12px] object-contain"
+            imageClassName="h-full w-full rounded-[12px] object-contain"
           />
           {user && (
             <div className="absolute bottom-4 right-4 hidden gap-1 max-[899px]:flex max-[899px]:bottom-2 max-[899px]:right-2">

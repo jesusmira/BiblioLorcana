@@ -24,3 +24,26 @@ export const INK_COLORS: Record<string, string> = {
   sapphire: "#3B82F6",
   steel: "#6B7280",
 };
+
+export const INK_LABELS: Record<string, string> = {
+  amber: "Ambar",
+  amethyst: "Amatista",
+  emerald: "Esmeralda",
+  ruby: "Rubí",
+  sapphire: "Zafiro",
+  steel: "Acero",
+};
+
+export const CARD_TYPES = [
+  "Action",
+  "Character",
+  "Item",
+  "Location",
+] as const;
+
+export const RARITY_LABELS: Record<string, string> = {
+  common: "Común",
+  uncommon: "Poco común",
+  rare: "Rara",
+  super_rare: "Súper rara",
+};

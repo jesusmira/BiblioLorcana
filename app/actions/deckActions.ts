@@ -2,7 +2,8 @@
 
 import axios from "axios";
 import { API } from "../lib/constants";
-import type { LorcanaCard, Deck, DeckCard } from "../types";
+import type { LorcanaCard, Deck, DeckCard, DeckCardEntry } from "../types";
+import { searchCardsWithFiltersAction } from "./galleryActions";
 
 const DECK_TEMPLATES = [
   {
@@ -24,8 +25,8 @@ const DECK_TEMPLATES = [
 
 function getCardImage(card: LorcanaCard): string | null {
   return (
-    card.image_uris?.digital?.small ||
     card.image_uris?.digital?.normal ||
+    card.image_uris?.digital?.small ||
     null
   );
 }
@@ -141,3 +142,6 @@ export async function generateSampleDeck(): Promise<Deck> {
     totalCards,
   };
 }
+
+// Moved to dbDeckActions.ts
+

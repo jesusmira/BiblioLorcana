@@ -259,7 +259,7 @@ export default function GalleryCardModal({
               image={getImage(selected)}
               alt={cardName}
               wrapperClassName="grid aspect-[2/3] w-full max-w-[360px] place-items-center rounded-[16px] bg-[var(--surface-soft)] p-3 max-[900px]:mx-auto max-[900px]:mt-2"
-              imageClassName="h-auto w-full rounded-[12px] object-contain"
+              imageClassName="h-full w-full rounded-[12px] object-contain"
             />
             <div className="flex h-full flex-col max-[900px]:text-center">
               <div className="mb-3 mt-3 flex flex-col gap-3.5">
