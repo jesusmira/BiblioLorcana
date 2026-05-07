@@ -50,7 +50,11 @@ export function HeaderMobileNav({ isOpen, onClose }: HeaderMobileNavProps) {
 
       {!isLoading && user && (
         <div className="mt-2 flex flex-col gap-2 border-t border-[var(--stroke)] pt-2">
-          <UserMenuContent user={user} onItemClick={handleLogout} />
+          <UserMenuContent 
+            user={user} 
+            onItemClick={handleLinkClick} 
+            onLogout={handleLogout}
+          />
         </div>
       )}
     </nav>

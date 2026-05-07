@@ -22,6 +22,7 @@ export interface UserMenuContentProps {
     email?: string;
   };
   onItemClick?: () => void;
+  onLogout?: () => void;
   showHeader?: boolean;
 }
 
@@ -29,7 +30,7 @@ const baseLinkClass = "flex items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[v
 const logoutClass = "flex w-full items-center gap-3 px-4 py-2.5 text-[0.9rem] text-[var(--alert-ink)] transition hover:bg-[var(--surface-strong)]";
 const avatarClass = "flex h-6 w-6 items-center justify-center rounded-full bg-[var(--accent)] text-[0.65rem] font-bold text-white";
 
-export function UserMenuContent({ user, onItemClick, showHeader = false }: UserMenuContentProps) {
+export function UserMenuContent({ user, onItemClick, onLogout, showHeader = false }: UserMenuContentProps) {
   const userLinks: UserMenuItem[] = [
     {
       href: "/perfil",
@@ -73,10 +74,13 @@ export function UserMenuContent({ user, onItemClick, showHeader = false }: UserM
         <button
           type="button"
           className={logoutClass}
-          onClick={onItemClick}
+          onClick={() => {
+            onLogout?.();
+            onItemClick?.();
+          }}
         >
           <ArrowRightStartOnRectangleIcon className="h-4 w-4" />
-          Cerrar sesion
+          Cerrar sesión
         </button>
       </div>
     </>

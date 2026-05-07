@@ -60,6 +60,7 @@ export default function UserMenu() {
           <UserMenuContent
             user={user}
             onItemClick={() => setIsOpen(false)}
+            onLogout={handleLogout}
             showHeader
           />
         </div>
