@@ -139,15 +139,15 @@ export default function PerfilPage() {
         <div className="flex flex-col items-center gap-6">
           {/* Avatar */}
           <div className="relative">
-            {perfilData?.avatarUrl ? (
+            {perfilData?.avatarUrl || user.image ? (
               <img
-                src={perfilData.avatarUrl}
-                alt={perfilData.name}
-                className="h-24 w-24 rounded-full object-cover"
+                src={perfilData?.avatarUrl || user.image}
+                alt={perfilData?.name || user.name}
+                className="h-24 w-24 rounded-full object-cover ring-2 ring-[var(--stroke)]"
               />
             ) : (
               <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[var(--accent)] text-[2rem] font-bold text-white">
-                {perfilData?.name?.charAt(0).toUpperCase() || "U"}
+                {(perfilData?.name || user.name).charAt(0).toUpperCase()}
               </div>
             )}
           </div>
@@ -253,7 +253,7 @@ export default function PerfilPage() {
         initialData={{
           name: perfilData?.name || user.name,
           bio: perfilData?.bio || null,
-          avatarUrl: perfilData?.avatarUrl || null,
+          avatarUrl: perfilData?.avatarUrl || user.image || null,
         }}
         onSuccess={handleEditSuccess}
       />

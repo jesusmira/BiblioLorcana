@@ -20,6 +20,7 @@ export interface UserMenuContentProps {
   user: {
     name: string;
     email?: string;
+    image?: string;
   };
   onItemClick?: () => void;
   onLogout?: () => void;
@@ -51,12 +52,25 @@ export function UserMenuContent({ user, onItemClick, onLogout, showHeader = fals
 
   return (
     <>
-      {showHeader && (
         <div className="border-b border-[var(--stroke)] px-4 pb-3 pt-2">
-          <p className="text-[0.9rem] font-medium text-[var(--ink)]">{user.name}</p>
-          {user.email && <p className="text-[0.8rem] text-[var(--muted)]">{user.email}</p>}
+          <div className="flex items-center gap-3">
+            {user.image ? (
+              <img
+                src={user.image}
+                alt={user.name}
+                className="h-10 w-10 rounded-full object-cover ring-1 ring-[var(--stroke)]"
+              />
+            ) : (
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent)] text-sm font-bold text-white">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="flex-1 overflow-hidden">
+              <p className="truncate text-[0.9rem] font-medium text-[var(--ink)]">{user.name}</p>
+              {user.email && <p className="truncate text-[0.8rem] text-[var(--muted)]">{user.email}</p>}
+            </div>
+          </div>
         </div>
-      )}
       <div className="py-1">
         {userLinks.map((link) => (
           <Link

@@ -10,7 +10,7 @@ export default function RegistroPage() {
   const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useRegistro();
 
   const inputClass =
-    "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";
+    "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
   const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
@@ -18,7 +18,7 @@ export default function RegistroPage() {
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)] text-shadow-gold">Registro</h1>
+          <h1 className="text-3xl font-bold tracking-wide text-[var(--accent)] sm:text-4xl" style={{ fontFamily: "var(--font-title)" }}>Registro</h1>
           <p className="mt-2 text-[var(--muted)]">Crea tu cuenta para acceder a la galeria</p>
         </div>
 

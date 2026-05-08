@@ -2,12 +2,14 @@
 
 import { useState, createContext, useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { createClient } from "./supabase-client";
 
 interface User {
   id: string;
   name: string;
   email: string;
   role: "USER" | "ADMIN";
+  image?: string;
 }
 
 interface AuthContextType {
@@ -15,6 +17,7 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   register: (name: string, email: string, password: string) => Promise<void>;
+  loginWithProvider: (provider: "google" | "github") => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -24,44 +27,53 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
-    checkSession();
-  }, []);
-
-  const checkSession = async () => {
-    try {
-      const res = await fetch("/api/auth/me", { credentials: "include" });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.user) {
-          setUser(data.user);
-        }
+    const fetchUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          name: session.user.user_metadata.full_name || session.user.email?.split('@')[0] || "Usuario",
+          email: session.user.email!,
+          role: session.user.user_metadata.role || "USER",
+          image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
+        });
       }
-    } catch {
-      // Session not valid
-    } finally {
       setIsLoading(false);
-    }
-  };
+    };
+
+    fetchUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          name: session.user.user_metadata.full_name || session.user.email?.split('@')[0] || "Usuario",
+          email: session.user.email!,
+          role: session.user.user_metadata.role || "USER",
+          image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
+        });
+      } else {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase]);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
-      const data = await res.json();
+      if (error) throw error;
 
-      if (!res.ok) {
-        throw new Error(data.error || "Error al iniciar sesión");
-      }
-
-      setUser(data.user);
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -74,22 +86,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const register = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
-      const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-        credentials: "include",
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+            role: "USER",
+          },
+        },
       });
 
-      const data = await res.json();
+      if (error) throw error;
 
-      if (!res.ok) {
-        throw new Error(data.error || "Error al registrar usuario");
-      }
-
-      setUser(data.user);
-      router.push("/");
-      router.refresh();
+      // Supabase usually requires email verification, but we can configure it otherwise.
+      // For now, assume it works or user is informed.
+      router.push("/login?message=Verifica tu email para continuar");
     } catch (error) {
       throw error;
     } finally {
@@ -97,14 +109,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const loginWithProvider = async (provider: "google" | "github") => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/api/auth/callback`,
+        },
+      });
+      if (error) throw error;
+    } catch (error) {
+      console.error(`Error with ${provider} login:`, error);
+      throw error;
+    }
+  };
+
   const logout = async () => {
     try {
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-    } catch {
-      // Ignore logout errors
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.error("Logout error:", error);
     }
     setUser(null);
     router.push("/");
@@ -112,7 +136,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, login, register, loginWithProvider, logout }}>
       {children}
     </AuthContext.Provider>
   );

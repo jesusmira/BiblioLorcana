@@ -44,9 +44,17 @@ export default function UserMenu() {
         aria-label="Menu de usuario"
         aria-expanded={isOpen}
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-[0.75rem] font-bold text-white">
-          {initials}
-        </span>
+        {user.image ? (
+          <img
+            src={user.image}
+            alt={user.name}
+            className="h-8 w-8 rounded-full object-cover ring-1 ring-[var(--stroke)]"
+          />
+        ) : (
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--accent)] text-[0.75rem] font-bold text-white">
+            {initials}
+          </span>
+        )}
         <span className="text-[0.9rem] text-[var(--ink)] max-[900px]:hidden">
           {user.name}
         </span>

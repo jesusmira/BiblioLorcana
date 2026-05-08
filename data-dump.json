@@ -1,0 +1,309 @@
+{
+  "users": [
+    {
+      "id": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "name": "Usuario Demo",
+      "email": "userDemo@test.com",
+      "password": "$2b$10$mE7yy/oMPWRb7MMSc1k07eAoqtWJFvFt8bHMbPVFJit0v62T92Pe.",
+      "role": "USER",
+      "resetToken": null,
+      "resetTokenExpiry": null,
+      "createdAt": "2026-03-18T09:50:09.341Z",
+      "updatedAt": "2026-03-18T09:50:09.341Z",
+      "avatarUrl": null,
+      "bio": null
+    },
+    {
+      "id": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "name": "Test Lorcana",
+      "email": "test@lorcana.es",
+      "password": "$2b$10$WNCk1DR5IyjsTNXU9f/TT.kqj4eVFnXU0DO.uGGJ370jqXTy0gtRW",
+      "role": "USER",
+      "resetToken": null,
+      "resetTokenExpiry": null,
+      "createdAt": "2026-04-01T07:07:12.230Z",
+      "updatedAt": "2026-04-01T07:07:12.230Z",
+      "avatarUrl": null,
+      "bio": null
+    }
+  ],
+  "userCards": [
+    {
+      "id": "78223f02-cee1-4d81-b61f-c063a47eee0b",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_ec7df19190b24fe1a70ac895f40b5853",
+      "quantity": 1,
+      "createdAt": "2026-03-30T09:19:39.367Z"
+    },
+    {
+      "id": "faa7cfb3-562e-4456-baf0-695af935f2c4",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_d3bfcff390e54c9bbd1027b57320d621",
+      "quantity": 1,
+      "createdAt": "2026-03-30T23:10:06.219Z"
+    },
+    {
+      "id": "e78bcd37-a7d7-4a26-8c27-666b01b63217",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_cd96e3f148dd46de80ac08abe51a48e4",
+      "quantity": 1,
+      "createdAt": "2026-04-01T07:20:01.812Z"
+    },
+    {
+      "id": "89e2f31f-74b9-44d4-a78b-066d4b9b456b",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_4c9f441611314185a25b1fca893f6643",
+      "quantity": 1,
+      "createdAt": "2026-04-01T07:20:01.815Z"
+    },
+    {
+      "id": "bcad85e5-ce4a-43c8-bd34-52b74d68f993",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_86981ec7570145568aecd428c2b88101",
+      "quantity": 1,
+      "createdAt": "2026-04-01T07:20:01.817Z"
+    },
+    {
+      "id": "020e26d9-f6fc-4739-9dce-7355b5597d5e",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_ffec4fba40d948dc8cd4f54b5f9897a9",
+      "quantity": 2,
+      "createdAt": "2026-04-01T07:20:01.821Z"
+    },
+    {
+      "id": "466699a5-c9b1-4362-a740-5a7d76317012",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_fa380ef9482e4e808e11365588c7178e",
+      "quantity": 5,
+      "createdAt": "2026-04-01T07:20:01.805Z"
+    },
+    {
+      "id": "745ec01d-7b05-4f95-b357-ca0255c89eb7",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_81b8d1f9be6542e0902b77e4ab51fae0",
+      "quantity": 1,
+      "createdAt": "2026-04-01T08:00:42.145Z"
+    },
+    {
+      "id": "106ab40b-67be-4a22-93a2-0b6722a3bbbb",
+      "userId": "6637e6cc-78e4-4f06-9ae6-a887fc12ded4",
+      "cardId": "crd_db6db54405ff449ba819ed521fae7df0",
+      "quantity": 1,
+      "createdAt": "2026-04-02T23:54:06.786Z"
+    },
+    {
+      "id": "86ecf684-9cab-4115-882e-395f51829209",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "1-6",
+      "quantity": 1,
+      "createdAt": "2026-04-07T16:37:58.153Z"
+    },
+    {
+      "id": "9cb97320-20d2-48c8-919e-23c5bd426696",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_ff15d454e2f84f89a64bf17216e0b5f4",
+      "quantity": 1,
+      "createdAt": "2026-04-09T08:39:22.204Z"
+    },
+    {
+      "id": "1e254591-e3fb-4eb8-aaa2-91a1e3b0c379",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_6e2faccbf9a240219279b1c4acff7bd5",
+      "quantity": 3,
+      "createdAt": "2026-03-30T09:19:25.343Z"
+    },
+    {
+      "id": "4ddec940-f26f-412b-be3c-0ea98d5c2f08",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_480463cc9e3f4f7b9cb1c96a83d69544",
+      "quantity": 2,
+      "createdAt": "2026-03-30T08:58:29.731Z"
+    },
+    {
+      "id": "bee99b32-b20b-4439-8038-1b70f02be023",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_d41a4c80d657424e855e6e3f06caccb8",
+      "quantity": 1,
+      "createdAt": "2026-03-30T09:18:46.705Z"
+    },
+    {
+      "id": "208bd7da-a159-40ab-bd73-f1a894ab909a",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_a5f4037f0c50462380ba6db7a516cd7a",
+      "quantity": 1,
+      "createdAt": "2026-03-30T16:27:49.126Z"
+    },
+    {
+      "id": "d2ee9d9c-5864-4799-927a-6406fa1eb9c0",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "cardId": "crd_7295a54624614f55a8d469d9d6b2e502",
+      "quantity": 1,
+      "createdAt": "2026-03-30T17:48:23.856Z"
+    }
+  ],
+  "starterDecks": [],
+  "starterDeckCards": [],
+  "decks": [
+    {
+      "id": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "userId": "f522b6db-c373-4832-b78e-2823048e3f26",
+      "name": "mazo1",
+      "description": "",
+      "format": null,
+      "strategy": null,
+      "tier": null,
+      "inkColors": [],
+      "createdAt": "2026-05-06T09:42:16.654Z",
+      "updatedAt": "2026-05-06T09:42:16.654Z"
+    }
+  ],
+  "deckCards": [
+    {
+      "id": "3d12652b-e6f4-4b7f-8a9f-6e056e25e6ba",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_25eee8741de44224946fe827a0debb09",
+      "name": "The Prince",
+      "quantity": 4
+    },
+    {
+      "id": "2c54baec-7ab7-4522-b7dc-6ca1c6bd711e",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_a9a5823df9c842cc91a3cc8ea1d9b4dd",
+      "name": "Grumpy",
+      "quantity": 1
+    },
+    {
+      "id": "485cbd98-f46a-47cf-8965-a73b093ffdaf",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_1755646d14394fc69c64fcae17bf5f44",
+      "name": "Gosalyn Mallard",
+      "quantity": 3
+    },
+    {
+      "id": "ffb4fd73-b940-4ecc-bfb0-fa0f82839ace",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_9b3e23958e8c439db9998f14adeba943",
+      "name": "Alan-a-Dale",
+      "quantity": 3
+    },
+    {
+      "id": "a33207c2-9c38-4f70-ba19-564bf5f81ee1",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_44d3ef4753ac4e039c91e30ecfe1dcaf",
+      "name": "Hamm",
+      "quantity": 3
+    },
+    {
+      "id": "add53f76-8e44-4037-8ef4-df55b99f7c2a",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_01acad281686403cabf7d98f5026bc7a",
+      "name": "Dolores Madrigal",
+      "quantity": 2
+    },
+    {
+      "id": "9d425088-d96d-45c5-b54c-3a973555e17b",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_fec8fc6f1b9745078b63c897c32c95c5",
+      "name": "Prince Eric",
+      "quantity": 2
+    },
+    {
+      "id": "db37fa58-eb44-49b0-9b3a-a3142f39776f",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_e63fe9e08c924f4b973fa0f6d4f9a00b",
+      "name": "Bo Peep",
+      "quantity": 3
+    },
+    {
+      "id": "8406a67a-1f78-4ba9-a0d3-6aa961afe9e8",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_49511c0b9e594c4ca7a0e38fa31ede19",
+      "name": "Pluto",
+      "quantity": 3
+    },
+    {
+      "id": "5ac11ce9-9448-444c-921e-04744e3c96c1",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_27629d2527714727a23db4e81da1a520",
+      "name": "You've Got a Friend in Me",
+      "quantity": 3
+    },
+    {
+      "id": "69193b9e-d714-40aa-a347-fe5e8b145e8f",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_4405683c633a4d20843d6dc55a9a04d9",
+      "name": "Safety Rope",
+      "quantity": 3
+    },
+    {
+      "id": "a01cf419-98c7-4436-baab-0aa569b45c87",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_ce7d516d02e247edb80360f39baa9dcb",
+      "name": "Andy's Room",
+      "quantity": 4
+    },
+    {
+      "id": "6bad4395-105c-461b-81bc-9cde0e5463ca",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_4d61ccc401a942719bfcafde3a132578",
+      "name": "Will o' the Wisp",
+      "quantity": 4
+    },
+    {
+      "id": "1d4e1886-882b-489a-a3bd-c3c8ee0f4da9",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_176292aded014342b14e66e92f47427b",
+      "name": "Frozone",
+      "quantity": 4
+    },
+    {
+      "id": "19277c4a-3fa3-4cf8-9587-348b2b710ddd",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_157e8d9b9f8745f2addc02e485dd2050",
+      "name": "Sneezy",
+      "quantity": 4
+    },
+    {
+      "id": "e276e42a-007a-4b36-bafa-bd8f3b7ccdc6",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_66a5c1d3ac3e4e2c894c5a8604c10cc2",
+      "name": "Dale",
+      "quantity": 2
+    },
+    {
+      "id": "53248844-ecef-4bb1-89d2-ee979044ea26",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_752b3ac3ef5a4ce6833d0dbe46f1f671",
+      "name": "Woody",
+      "quantity": 2
+    },
+    {
+      "id": "ccb097d7-3066-4409-a6e5-314d05cf6bdc",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_39de8b639e424da9b739e523f4a661d2",
+      "name": "Rex",
+      "quantity": 3
+    },
+    {
+      "id": "9c6044c6-b5be-48bd-8a89-6b273e5b08bc",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_f97b251adbeb4697b06c2cdaa80bc6e5",
+      "name": "Hamish, Hubert & Harris",
+      "quantity": 2
+    },
+    {
+      "id": "df606eae-dc53-42df-ab97-ce31528474a4",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_a7974610679d43d190ee370d23d6e0b3",
+      "name": "Mrs. Incredible",
+      "quantity": 2
+    },
+    {
+      "id": "bae8e8dd-dc97-4319-8fca-60fd7061e3d9",
+      "deckId": "cacd088d-f104-4abd-b5f8-f92da07493c9",
+      "cardId": "crd_20da43997f8642f6b33d1fa04865209d",
+      "name": "Violet Parr",
+      "quantity": 3
+    }
+  ]
+}

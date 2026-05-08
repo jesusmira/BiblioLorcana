@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { prisma } from "./prisma";
+import { createClient } from "./supabase-server";
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "biblioLor-secret-key-change-in-production"
@@ -49,9 +50,32 @@ export async function verifyToken(
 
 export async function getSession(): Promise<TokenPayload | null> {
   const cookieStore = await cookies();
+  
+  // 1. Intentar con el token de sesión tradicional (JWT en cookie auth_token)
   const token = cookieStore.get("auth_token")?.value;
-  if (!token) return null;
-  return verifyToken(token);
+  if (token) {
+    const payload = await verifyToken(token);
+    if (payload) return payload;
+  }
+
+  // 2. Intentar con la sesión de Supabase (especialmente para login con Google/GitHub)
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error } = await supabase.auth.getUser();
+
+    if (user && !error) {
+      return {
+        userId: user.id,
+        email: user.email || "",
+        name: user.user_metadata.full_name || user.email?.split("@")[0] || "Usuario",
+        role: (user.user_metadata.role as "USER" | "ADMIN") || "USER",
+      };
+    }
+  } catch (error) {
+    console.error("Error al obtener la sesión de Supabase en getSession:", error);
+  }
+
+  return null;
 }
 
 export async function setSession(payload: TokenPayload): Promise<void> {

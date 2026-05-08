@@ -31,7 +31,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
   } = usePasswordReset(token);
 
   const inputClass =
-    "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-3 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:ring-offset-2 focus:ring-offset-[var(--surface-strong)]";
+    "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
   const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
@@ -54,7 +54,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
               <ExclamationTriangleIcon className="h-8 w-8 text-red-600" />
             </div>
-            <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)] text-shadow-gold">Enlace expirado</h1>
+            <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>Enlace expirado</h1>
             <p className="mt-2 text-[var(--muted)]">Este enlace ya no es válido o ha expirado.</p>
           </div>
           <Link
@@ -82,7 +82,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
               <CheckCircleIcon className="h-8 w-8 text-green-600" />
             </div>
-            <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)] text-shadow-gold">¡Contraseña actualizada!</h1>
+            <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>¡Contraseña actualizada!</h1>
             <p className="mt-2 text-[var(--muted)]">Tu contraseña ha sido restablecida correctamente.</p>
           </div>
           <Link
@@ -100,7 +100,7 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="lorcana-title text-[clamp(1.8rem,3vw,2.4rem)] text-shadow-gold">Nueva contraseña</h1>
+          <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>Nueva contraseña</h1>
           <p className="mt-2 text-[var(--muted)]">Ingresa tu nueva contraseña</p>
         </div>
 

@@ -7,21 +7,19 @@ datasource db {
 }
 
 model User {
-  id               String      @id @default(uuid())
+  id               String     @id @default(uuid())
   name             String
-  email            String      @unique
+  email            String     @unique
   password         String
-  role             Role        @default(USER)
+  role             Role       @default(USER)
   resetToken       String?
   resetTokenExpiry DateTime?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
-  userCards        UserCard[]
-  decks            Deck[]
-
-  // Perfil
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
   avatarUrl        String?
   bio              String?
+  decks            Deck[]
+  userCards        UserCard[]
 
   @@map("users")
 }
@@ -32,16 +30,10 @@ model UserCard {
   cardId    String   @map("card_id")
   quantity  Int      @default(1)
   createdAt DateTime @default(now())
-
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, cardId])
   @@map("user_cards")
-}
-
-enum Role {
-  USER
-  ADMIN
 }
 
 model StarterDeck {
@@ -57,52 +49,53 @@ model StarterDeck {
 }
 
 model StarterDeckCard {
-  id           String      @id @default(cuid())
-  deckId       String      @map("deck_id")
-  cardId       String      @map("card_id")
-  name         String
-  quantity     Int
-  ink          String
-  type         String
-  cost         Int
-  rarity       String
-  subtypes     String?
-  abilities    String?
-  imageUrl     String?
-
-  deck         StarterDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  id        String      @id @default(cuid())
+  deckId    String      @map("deck_id")
+  cardId    String      @map("card_id")
+  name      String
+  quantity  Int
+  ink       String
+  type      String
+  cost      Int
+  rarity    String
+  subtypes  String?
+  abilities String?
+  imageUrl  String?
+  deck      StarterDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
 
   @@map("starter_deck_cards")
 }
 
 model Deck {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
+  id          String     @id @default(uuid())
+  userId      String     @map("user_id")
   name        String
   description String?
   format      String?
   strategy    String?
   tier        String?
-  inkColors   String[] @map("ink_colors")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  inkColors   String[]   @map("ink_colors")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
   cards       DeckCard[]
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("decks")
 }
 
 model DeckCard {
-  id        String   @id @default(uuid())
-  deckId    String   @map("deck_id")
-  cardId    String   @map("card_id")
-  name      String
-  quantity  Int      @default(1)
-
-  deck      Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  id       String @id @default(uuid())
+  deckId   String @map("deck_id")
+  cardId   String @map("card_id")
+  name     String
+  quantity Int    @default(1)
+  deck     Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
 
   @@unique([deckId, cardId])
   @@map("deck_cards")
 }
 
+enum Role {
+  USER
+  ADMIN
+}
