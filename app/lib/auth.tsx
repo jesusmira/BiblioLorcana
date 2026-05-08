@@ -40,14 +40,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role: session.user.user_metadata.role || "USER",
           image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
         });
+      } else {
+        // Intentar con sesión legacy
+        try {
+          const res = await fetch("/api/auth/me");
+          if (res.ok) {
+            const data = await res.json();
+            if (data.user) {
+              setUser(data.user);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching legacy session:", error);
+        }
       }
       setIsLoading(false);
     };
 
     fetchUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
+        if (session.user.email) {
+          localStorage.setItem('last_login_email', session.user.email);
+        }
         setUser({
           id: session.user.id,
           name: session.user.user_metadata.full_name || session.user.email?.split('@')[0] || "Usuario",
@@ -55,8 +71,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role: session.user.user_metadata.role || "USER",
           image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
         });
-      } else {
+      } else if (_event === 'SIGNED_OUT') {
         setUser(null);
+      } else if (_event === 'INITIAL_SESSION' && !session) {
+        // No hacer nada, fetchUser se encarga de la sesión legacy
       }
       setIsLoading(false);
     });
@@ -67,13 +85,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
+      // 1. Intentar con Supabase (email real)
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
-      if (error) throw error;
+      if (!error) {
+        router.push("/");
+        router.refresh();
+        return;
+      }
 
+      // 2. Si falla o no es email, intentar con API legacy
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Credenciales inválidas");
+      }
+
+      const data = await res.json();
+      setUser(data.user);
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -111,12 +148,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithProvider = async (provider: "google" | "github") => {
     try {
+      const lastEmail = typeof window !== 'undefined' ? localStorage.getItem('last_login_email') : null;
+      
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/api/auth/callback`,
+          queryParams: (provider === 'google' && lastEmail) ? {
+            login_hint: lastEmail,
+          } : undefined
         },
       });
+      
       if (error) throw error;
     } catch (error) {
       console.error(`Error with ${provider} login:`, error);
@@ -127,6 +170,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     try {
       await supabase.auth.signOut();
+      await fetch("/api/auth/logout", { method: "POST" });
     } catch (error) {
       console.error("Logout error:", error);
     }

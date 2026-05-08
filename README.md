@@ -223,10 +223,13 @@ Validación de formularios con Zod en `app/lib/schemas.ts`:
 - Caching de API con memoria
 - Arquitectura limpia: hooks específicos por página, componentes compartidos
 
-## Usuario de Prueba
+## Usuarios de Prueba
 
 - **Email:** test@lorcana.es
 - **Contraseña:** Test1234!
+
+- **Email:** userDemo@test.com (puedes usar solo "userDemo")
+- **Contraseña:** admin123
 
 ## Licencia
 

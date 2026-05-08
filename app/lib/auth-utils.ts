@@ -137,17 +137,31 @@ export async function registerUser(input: RegisterInput) {
 }
 
 export async function loginUser(input: LoginInput) {
-  const user = await prisma.user.findUnique({
-    where: { email: input.email },
+  const email = input.email.trim();
+  const password = input.password.trim();
+  
+  console.log(`Intentando login para: "${email}" (longitud pass: ${password.length})`);
+  
+  const user = await prisma.user.findFirst({
+    where: {
+      OR: [
+        { email: { equals: email, mode: 'insensitive' } },
+        { name: { equals: email, mode: 'insensitive' } },
+        { email: { startsWith: `${email.toLowerCase()}@`, mode: 'insensitive' } }
+      ]
+    },
   });
 
-  if (!user) {
+  if (!user || !user.password) {
+    console.log(`DEBUG: Usuario "${email}" no encontrado en la DB.`);
     throw new Error("Credenciales inválidas");
   }
 
-  const isValid = await verifyPassword(input.password, user.password);
+  console.log(`DEBUG: Usuario encontrado: ${user.email}. Verificando password...`);
+  const isValid = await verifyPassword(password, user.password);
 
   if (!isValid) {
+    console.log(`DEBUG: Password incorrecto para ${user.email}.`);
     throw new Error("Credenciales inválidas");
   }
 

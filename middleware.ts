@@ -33,10 +33,27 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Verificar sesión legacy
+  const authToken = request.cookies.get('auth_token')?.value;
+  let hasLegacyUser = false;
+  if (authToken) {
+    try {
+      const JWT_SECRET = new TextEncoder().encode(
+        process.env.JWT_SECRET || "biblioLor-secret-key-change-in-production"
+      );
+      const { jwtVerify } = await import('jose');
+      await jwtVerify(authToken, JWT_SECRET);
+      hasLegacyUser = true;
+    } catch (e) {
+      // Token inválido o expirado
+    }
+  }
+
   // Redirigir si ya está autenticado e intenta acceder a páginas de auth
-  const isAuthPage = request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/registro';
+  const authPages = ['/login', '/registro', '/olvide-contrasena', '/restablecer-contrasena'];
+  const isAuthPage = authPages.some(page => request.nextUrl.pathname.startsWith(page));
   
-  if (user && isAuthPage) {
+  if ((user || hasLegacyUser) && isAuthPage) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
