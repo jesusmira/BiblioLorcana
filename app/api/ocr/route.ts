@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { OCR_PROMPTS } from "../../lib/prompts";
+import { OCR_PROMPTS } from "@/lib/prompts";
 
 const MAX_RETRIES = 2;
 

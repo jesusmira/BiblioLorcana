@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { loginUser, setSession } from "../../../lib/auth-utils";
-import { loginSchema, validateRequest } from "../../../lib/schemas";
-import { rateLimit } from "../../../lib/rateLimit";
+import { loginUser, setSession } from "@/lib/auth-utils";
+import { loginSchema, validateRequest } from "@/lib/schemas";
+import { rateLimit } from "@/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
   const rateLimitResponse = await rateLimit(request);
