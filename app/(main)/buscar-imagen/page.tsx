@@ -53,8 +53,8 @@ export default function ImageSearchPage() {
           </div>
         )}
         {error && (
-          <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--alert)]/30 bg-[var(--alert)]/10 p-6 text-center">
-            <p className="text-[var(--alert)]">{error}</p>
+          <div className="flex flex-col items-center gap-4 rounded-[16px] border border-[var(--alert-ink)]/30 bg-[var(--alert-surface)] p-6 text-center">
+            <p className="text-[var(--alert-ink)]">{error}</p>
             <Link href="/" className="inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]">
               <ArrowLeftIcon className="h-5 w-5" />
               Volver a la galería

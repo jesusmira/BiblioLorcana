@@ -94,7 +94,7 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
           e.stopPropagation();
           onRemoveClick(card);
         }}
-        className="flex h-6 w-6 items-center justify-center rounded-full text-[var(--muted)] opacity-0 transition group-hover:opacity-100 hover:bg-[var(--alert)]/10 hover:text-[var(--alert)]"
+        className="flex h-6 w-6 items-center justify-center rounded-full text-[var(--muted)] opacity-0 transition group-hover:opacity-100 hover:bg-[var(--alert-surface)] hover:text-[var(--alert-ink)]"
         aria-label="Eliminar carta"
       >
         <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

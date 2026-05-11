@@ -207,13 +207,13 @@ export default function PerfilPage() {
             <div className="flex justify-center">
               <button
                 onClick={() => setIsDeleting(true)}
-                className="rounded-full border border-[var(--alert)] px-6 py-2 text-sm font-medium text-[var(--alert)] transition hover:bg-[var(--alert)] hover:text-white"
+                className="rounded-full border border-[var(--alert-ink)] px-6 py-2 text-sm font-medium text-[var(--alert-ink)] transition hover:bg-[var(--alert-ink)] hover:text-white"
               >
                 Eliminar mi cuenta
               </button>
             </div>
             {deleteError && (
-              <p className="text-center text-sm text-[var(--alert)] mt-2">{deleteError}</p>
+              <p className="text-center text-sm text-[var(--alert-ink)] mt-2">{deleteError}</p>
             )}
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function PerfilPage() {
               </button>
               <button
                 onClick={handleDeleteAccount}
-                className="rounded-full bg-[var(--alert)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                className="rounded-full bg-[var(--alert-ink)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90"
               >
                 Eliminar cuenta
               </button>

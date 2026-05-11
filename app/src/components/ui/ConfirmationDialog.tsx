@@ -53,7 +53,7 @@ export default function ConfirmationDialog({
         className="relative z-[101] w-full max-w-md overflow-hidden rounded-[24px] bg-[var(--surface)] p-8 shadow-2xl animate-in fade-in zoom-in duration-200"
       >
         <div className="flex flex-col items-center text-center">
-          <div className={`mb-6 rounded-full p-4 ${isDestructive ? "bg-[var(--alert)]/10 text-[var(--alert)]" : "bg-[var(--accent)]/10 text-[var(--accent)]"}`}>
+          <div className={`mb-6 rounded-full p-4 ${isDestructive ? "bg-[var(--alert-surface)] text-[var(--alert-ink)]" : "bg-[var(--accent)]/10 text-[var(--accent)]"}`}>
             <ExclamationTriangleIcon className="h-8 w-8" />
           </div>
           
@@ -75,7 +75,7 @@ export default function ConfirmationDialog({
               onClick={onConfirm}
               className={`flex-1 rounded-full px-6 py-3 font-bold text-white transition active:scale-95 shadow-lg ${
                 isDestructive 
-                  ? "bg-[var(--alert)] shadow-[var(--alert)]/20 hover:opacity-90" 
+                  ? "bg-[var(--alert-ink)] shadow-[var(--alert-ink)]/20 hover:opacity-90" 
                   : "bg-[var(--accent)] shadow-[var(--accent)]/20 hover:opacity-90"
               }`}
             >

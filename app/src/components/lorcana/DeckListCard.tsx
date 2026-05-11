@@ -90,7 +90,7 @@ export function DeckListCard({
           </button>
           <button
             onClick={(e) => { e.stopPropagation(); onDelete(deck.id); }}
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--alert)] hover:text-[var(--alert)]"
+            className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--alert-ink)] hover:text-[var(--alert-ink)]"
             title="Eliminar mazo"
           >
             <TrashIcon className="h-4 w-4" />

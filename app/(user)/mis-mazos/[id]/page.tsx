@@ -543,12 +543,12 @@ Total: ${totalCards} cartas`;
 
 
             {validation.warnings.length > 0 && (
-              <div className="mb-4 rounded-lg bg-[var(--alert)]/10 p-3">
-                <div className="flex items-center gap-2 text-sm font-medium text-[var(--alert)]">
+              <div className="mb-4 rounded-lg bg-[var(--alert-surface)] p-3">
+                <div className="flex items-center gap-2 text-sm font-medium text-[var(--alert-ink)]">
                   <ExclamationTriangleIcon className="h-4 w-4" />
                   Validación del mazo
                 </div>
-                <ul className="mt-2 text-xs text-[var(--alert)]">
+                <ul className="mt-2 text-xs text-[var(--alert-ink)]">
                   {validation.warnings.map((w, i) => (
                     <li key={i}>• {w}</li>
                   ))}

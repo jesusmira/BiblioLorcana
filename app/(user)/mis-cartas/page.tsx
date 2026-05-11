@@ -64,7 +64,7 @@ export default function MisCartasPage() {
   if (error) {
     return (
       <main className="mx-auto flex min-h-screen flex-col items-center px-4 pb-12 pt-24 max-w-2xl text-center">
-        <p className="text-[var(--alert)] bg-[var(--alert)]/10 px-4 py-2 rounded-lg">{error}</p>
+        <p className="text-[var(--alert-ink)] bg-[var(--alert-surface)] px-4 py-2 rounded-lg">{error}</p>
         <Link
           href="/"
           className="mt-6 inline-flex items-center gap-2 text-[var(--muted)] transition hover:text-[var(--ink)]"

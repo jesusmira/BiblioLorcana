@@ -26,67 +26,69 @@ export function DeckSearchFilters({
   const hasActiveFilters = filters.ink || filters.type || filters.rarity || filters.setCode;
 
   return (
-    <div className="flex flex-wrap gap-2">
-      <select
-        value={filters.ink}
-        onChange={(e) => onFilterChange("ink", e.target.value)}
-        className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none"
-      >
-        <option value="">Todas las tintas</option>
-        {Object.entries(INK_LABELS).map(([key, label]) => (
-          <option key={key} value={key}>
-            {label}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filters.type}
-        onChange={(e) => onFilterChange("type", e.target.value)}
-        className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none"
-      >
-        <option value="">Todos los tipos</option>
-        {CARD_TYPES.map((type) => (
-          <option key={type} value={type}>
-            {type}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filters.rarity}
-        onChange={(e) => onFilterChange("rarity", e.target.value)}
-        className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none"
-      >
-        <option value="">Todas las rarezas</option>
-        {Object.entries(RARITY_LABELS).map(([key, label]) => (
-          <option key={key} value={key}>
-            {label}
-          </option>
-        ))}
-      </select>
-
-      <select
-        value={filters.setCode}
-        onChange={(e) => onFilterChange("setCode", e.target.value)}
-        className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none"
-      >
-        <option value="">Todas las expansiones</option>
-        {sets.map((set) => (
-          <option key={set.code} value={set.code}>
-            {set.name}
-          </option>
-        ))}
-      </select>
-
-      {hasActiveFilters && (
-        <button
-          onClick={onClearFilters}
-          className="rounded-lg border border-[var(--stroke)] px-3 py-2 text-sm text-[var(--muted)] transition hover:border-[var(--alert)] hover:text-[var(--alert)]"
+    <div className="space-y-3">
+      <div className="flex flex-wrap gap-2">
+        <select
+          value={filters.ink}
+          onChange={(e) => onFilterChange("ink", e.target.value)}
+          className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none min-w-[140px]"
         >
-          Limpiar
-        </button>
-      )}
+          <option value="">Tinta</option>
+          {Object.entries(INK_LABELS).map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.type}
+          onChange={(e) => onFilterChange("type", e.target.value)}
+          className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none min-w-[140px]"
+        >
+          <option value="">Tipo</option>
+          {CARD_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.rarity}
+          onChange={(e) => onFilterChange("rarity", e.target.value)}
+          className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none min-w-[140px]"
+        >
+          <option value="">Rareza</option>
+          {Object.entries(RARITY_LABELS).map(([key, label]) => (
+            <option key={key} value={key}>
+              {label}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={filters.setCode}
+          onChange={(e) => onFilterChange("setCode", e.target.value)}
+          className="rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] px-3 py-2 text-sm text-[var(--ink)] focus:border-[var(--accent)] focus:outline-none min-w-[160px]"
+        >
+          <option value="">Todas las expansiones</option>
+          {sets.map((set) => (
+            <option key={set.code} value={set.code}>
+              {set.name}
+            </option>
+          ))}
+        </select>
+
+        {hasActiveFilters && (
+          <button
+            onClick={onClearFilters}
+            className="rounded-lg border border-[var(--stroke)] px-3 py-2 text-sm text-[var(--muted)] transition hover:border-[var(--alert-ink)] hover:text-[var(--alert-ink)]"
+          >
+            Limpiar
+          </button>
+        )}
+      </div>
     </div>
   );
 }

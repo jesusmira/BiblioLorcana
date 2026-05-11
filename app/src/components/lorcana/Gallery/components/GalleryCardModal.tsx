@@ -319,7 +319,7 @@ export default function GalleryCardModal({
                         {hideActions && (
                           <button
                             onClick={() => setIsConfirmingDelete(true)}
-                            className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] hover:bg-[var(--alert)] hover:text-white transition-colors"
+                            className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--alert-surface)] text-[var(--alert-ink)] hover:bg-[var(--alert-ink)] hover:text-white transition-colors"
                             aria-label="Eliminar de mi colección"
                           >
                             <TrashIcon className="h-4 w-4" />
@@ -334,10 +334,10 @@ export default function GalleryCardModal({
                   {translatedText !== null ? <CardText text={translatedText} /> : <CardText text={selected.text ?? ""} />}
                 </p>
                 {translateError && (
-                  <p className="text-[var(--alert)] text-sm">{translateError}</p>
+                  <p className="text-[var(--alert-ink)] text-sm">{translateError}</p>
                 )}
                 {saveError && (
-                  <p className="text-[var(--alert)] text-sm">{saveError}</p>
+                  <p className="text-[var(--alert-ink)] text-sm">{saveError}</p>
                 )}
                 {selected.flavor_text ? (
                   <>

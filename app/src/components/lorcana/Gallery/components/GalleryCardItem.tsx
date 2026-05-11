@@ -136,7 +136,7 @@ export default function GalleryCardItem({
               <button
                 onClick={handleRemoveClick}
                 disabled={isRemoving}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-md transition-all hover:bg-[var(--alert)] disabled:opacity-50"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-md backdrop-blur-md transition-all hover:bg-[var(--alert-ink)] disabled:opacity-50"
                 aria-label="Eliminar de mi colección"
               >
                 {isRemoving ? (

@@ -141,33 +141,57 @@ export async function searchCardsWithFiltersAction(
     // Filtrar localmente
     return filterCardsLocally(baseResults, filters);
   }
+
+  // Caso 2b: Query con filtro de set (sin otros filtros) -> buscar en el set específico
+  const queryWithSetOnly = q && filters.setCode && !filters.ink && !filters.type && !filters.rarity;
+  if (queryWithSetOnly && filters.setCode) {
+    let baseResults: LorcanaCard[];
+    try {
+      baseResults = await fetchCardsBySetAction(filters.setCode);
+    } catch {
+      baseResults = [];
+    }
+    
+    if (!baseResults.length) {
+      return [];
+    }
+    
+    // Filtrar por query en el nombre
+    const qLower = q.toLowerCase();
+    return baseResults.filter((card) => 
+      card.name?.toLowerCase().includes(qLower)
+    ).slice(0, 50);
+  }
   
-  // Caso 3: Query con o sin filtros adicionales
-  let results: LorcanaCard[];
+  // Caso 3: Query con o sin filtros adicionales - cargar todas las cartas y filtrar localmente
+  let baseResults: LorcanaCard[];
   try {
-    const cacheKey = `lorcast:search:${q.toLowerCase()}`;
-    const cached = getCached<LorcanaCard[]>(cacheKey);
-    if (cached) {
-      results = cached;
+    if (filters.setCode) {
+      baseResults = await fetchCardsBySetAction(filters.setCode);
     } else {
-      const endpoint = `${API_BASE}/cards/search?q=${encodeURIComponent(q)}`;
-      const data = await fetchJson<unknown>(endpoint, {
-        errorMessage: "No se pudo realizar la búsqueda",
-      });
-      results = parseResults(data, LorcanaCardSchema);
-      setCache(cacheKey, results, 2 * 60 * 1000);
+      baseResults = await fetchAllCardsAction();
     }
   } catch {
+    baseResults = [];
+  }
+
+  if (!baseResults.length) {
     return [];
   }
-  
-  // Si no hay filtros, devolver resultados directos
-  if (!hasAnyFilter) {
-    return results;
+
+  // Filtrar por nombre
+  const qLower = q.toLowerCase();
+  let filteredByName = baseResults.filter((card) =>
+    card.name?.toLowerCase().includes(qLower)
+  );
+
+  // Si no hay filtros adicionales, devolver los primeros 50
+  if (!filters.ink && !filters.type && !filters.rarity) {
+    return filteredByName.slice(0, 50);
   }
-  
-  // Filtrar localmente
-  return filterCardsLocally(results, filters);
+
+  // Aplicar filtros adicionales
+  return filterCardsLocally(filteredByName, filters);
 }
 
 function filterCardsLocally(cards: LorcanaCard[], filters: CardSearchFilters): LorcanaCard[] {
@@ -190,13 +214,6 @@ function filterCardsLocally(cards: LorcanaCard[], filters: CardSearchFilters): L
     }
     if (filters.rarity && card.rarity !== filters.rarity) {
       return false;
-    }
-    if (filters.setCode) {
-      const cardSet = card.set?.name || "";
-      const setCode = filters.setCode.toLowerCase();
-      if (!cardSet.toLowerCase().includes(setCode)) {
-        return false;
-      }
     }
     return true;
   });

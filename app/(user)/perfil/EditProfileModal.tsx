@@ -159,7 +159,7 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
           </div>
 
           {error && (
-            <p className="text-sm text-[var(--alert)]">{error}</p>
+            <p className="text-sm text-[var(--alert-ink)]">{error}</p>
           )}
         </div>
 

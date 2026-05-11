@@ -130,7 +130,7 @@ export default function CambiarContrasenaPage() {
           </div>
 
           {error && (
-            <p className="text-sm text-[var(--alert)]">{error}</p>
+            <p className="text-sm text-[var(--alert-ink)]">{error}</p>
           )}
 
           <button
