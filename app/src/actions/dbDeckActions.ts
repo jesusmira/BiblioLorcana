@@ -140,37 +140,72 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
   const fullCards: LorcanaCard[] = [];
   
   try {
-    const { fetchAllCardsAction } = await import("./galleryActions");
-    const allCardsPool = await fetchAllCardsAction();
+    // 1. Obtener todos los IDs de las cartas para una consulta eficiente
+    const cardIds = cards.map(c => c.cardId).filter(Boolean);
+    
+    // 2. Buscar detalles en la base de datos
+    const dbCards = await prisma.card.findMany({
+      where: {
+        id: { in: cardIds }
+      }
+    });
+
+    // Crear un mapa para acceso rápido
+    const cardMap = new Map(dbCards.map(c => [c.id, c]));
 
     const enrichedCards = cards.map((entry) => {
-      const q = entry.name.trim().toLowerCase();
-      const card = allCardsPool.find(c => c.name?.toLowerCase() === q) || 
-                   allCardsPool.find(c => c.name?.toLowerCase().includes(q)) ||
-                   allCardsPool[0];
+      const card = cardMap.get(entry.cardId);
       
       if (card) {
-        const cardIdStr = String(card.id);
-        if (!fullCards.find(f => String(f.id) === cardIdStr)) {
-          fullCards.push(card);
+        // Mapear de base de datos a formato LorcanaCard (API style)
+        // Nota: El tipo LorcanaCard espera el formato de la API de Lorcast
+        const lorcanaCard: LorcanaCard = {
+          id: card.id,
+          name: card.name,
+          cost: card.cost,
+          ink: card.ink,
+          type: card.type ? [card.type] : [],
+          rarity: card.rarity,
+          image_uris: card.imageUrl ? {
+            digital: {
+              large: card.imageUrl,
+              normal: card.imageUrl,
+              small: card.imageUrl
+            }
+          } : undefined,
+          set: {
+            name: card.set // El tipo solo requiere name
+          },
+          collector_number: card.number,
+          text: card.abilities || "",
+          flavor_text: card.flavorText || "",
+          flavorText: card.flavorText || "",
+          strength: card.strength ?? undefined,
+          willpower: card.willpower ?? undefined,
+          lore: card.lore ?? undefined
+        };
+
+        if (!fullCards.find(f => f.id === card.id)) {
+          fullCards.push(lorcanaCard);
         }
 
         return {
-          cardId: cardIdStr,
-          name: card.name || entry.name,
+          cardId: card.id,
+          name: card.name,
           quantity: entry.quantity,
-          cost: card.cost ?? null,
-          ink: card.ink ?? null,
-          type: Array.isArray(card.type) ? card.type[0] : (card.type || null),
-          rarity: card.rarity ?? null,
-          image: card.image_uris?.digital?.large || card.image_uris?.digital?.normal || card.image_uris?.digital?.small || null,
-          details: card,
+          cost: card.cost,
+          ink: card.ink,
+          type: card.type,
+          rarity: card.rarity,
+          image: card.imageUrl,
+          details: lorcanaCard,
         };
       }
 
+      // Fallback si no está en DB (usar nombre si existe)
       return {
-        cardId: entry.cardId || `fallback-${entry.name}`,
-        name: entry.name,
+        cardId: entry.cardId || `fallback-${entry.name || 'unknown'}`,
+        name: entry.name || "Carta desconocida",
         quantity: entry.quantity,
         cost: null,
         ink: null,
@@ -183,7 +218,7 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
     const sortedEnriched = enrichedCards.sort((a, b) => {
       const costDiff = (a.cost ?? 99) - (b.cost ?? 99);
       if (costDiff !== 0) return costDiff;
-      return a.name.localeCompare(b.name);
+      return (a.name || "").localeCompare(b.name || "");
     });
 
     return { enrichedCards: sortedEnriched, fullCards };
@@ -191,8 +226,8 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
     console.error("Error in enrichDeckCardsAction:", error);
     return { 
       enrichedCards: cards.map(c => ({
-        cardId: c.cardId || `fallback-${c.name}`,
-        name: c.name,
+        cardId: c.cardId || `fallback-${c.name || 'unknown'}`,
+        name: c.name || "Carta desconocida",
         quantity: c.quantity,
         cost: null,
         ink: null,

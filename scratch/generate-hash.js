@@ -1,9 +1,12 @@
 const bcrypt = require('bcryptjs');
 
-async function generateHash(password) {
-  const salt = await bcrypt.genSalt(10);
-  const hash = await bcrypt.hash(password, salt);
-  console.log(hash);
-}
+const password = 'Lorcana2025!';
+const saltRounds = 10;
 
-generateHash('admin123');
+bcrypt.hash(password, saltRounds, function(err, hash) {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(hash);
+});

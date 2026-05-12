@@ -94,7 +94,7 @@ app/
 ## Usuarios de Prueba
 
 - **Email:** `test@lorcana.es` / **Password:** `Test1234!`
-- **User:** `userDemo` / **Password:** `Lorcana2024!`
+- **User:** `userDemo@test.com` / **Password:** `Lorcana2025!`
 
 ## Licencia
 

@@ -75,42 +75,6 @@ const inks = [
   },
 ];
 
-const starterDecks = [
-  {
-    set: "The First Chapter",
-    year: "2023",
-    decks: [
-      { inks: ["Ámbar", "Amatista"], card: "crd_7295a54624614f55a8d469d9d6b2e502", name: "Mickey Mouse" },
-      { inks: ["Esmeralda", "Rubí"], card: "crd_e910a64a2c12444e9eb34bab151b0428", name: "Genie" },
-      { inks: ["Acero", "Zafiro"], card: "crd_8d5ff9b706fd4f59b44e0ca52638a257", name: "Donald Duck" },
-    ],
-  },
-  {
-    set: "Rise of the Floodborn",
-    year: "2023",
-    decks: [
-      { inks: ["Ámbar", "Zafiro"], card: "crd_297bfc741b2c4c01b430258d55aef604", name: "Alice" },
-      { inks: ["Amatista", "Acero"], card: "crd_cd7996cdfb3146438a6c0564f5a5fb3b", name: "Robin Hood" },
-    ],
-  },
-  {
-    set: "Into the Inklands",
-    year: "2024",
-    decks: [
-      { inks: ["Rubí", "Zafiro"], card: "crd_cded72e2cdf242d490be6e3e32c3e17b", name: "Captain Hook" },
-      { inks: ["Ámbar", "Esmeralda"], card: "crd_58705a75ce1c4f19aabe741129079750", name: "Chernabog" },
-    ],
-  },
-  {
-    set: "Ursula's Return",
-    year: "2024",
-    decks: [
-      { inks: ["Amatista", "Esmeralda"], card: "crd_140b4894a53d4884a4ec1e15dab9319a", name: "Bruno Madrigal" },
-      { inks: ["Ámbar", "Acero"], card: "crd_8f1fc76631484555b4722899212d5625", name: "Stitch" },
-    ],
-  },
-];
-
 const tips = [
   "Juega varias partidas con tu mazo inicial antes de cambiarlo. Así entiendes bien su estilo.",
   "Identifica qué cartas brillan más y busca copias extra en sobres o intercambios.",
@@ -205,41 +169,53 @@ export function GuideContent() {
           </div>
 
           <div className="space-y-12">
-            {starterDecks.map((set) => (
-              <div key={set.set} className="rounded-2xl border border-[var(--stroke-strong)] bg-[var(--panel)]/40 p-6 backdrop-blur-sm">
+            {Object.entries(
+              decks.reduce((acc, deck) => {
+                if (!acc[deck.set]) acc[deck.set] = [];
+                acc[deck.set].push(deck);
+                return acc;
+              }, {} as Record<string, StarterDeck[]>)
+            ).map(([setName, setDecks]) => (
+              <div key={setName} className="rounded-2xl border border-[var(--stroke-strong)] bg-[var(--panel)]/40 p-6 backdrop-blur-sm">
                 <div className="flex items-center justify-between mb-6">
                   <h3 className="text-xl font-semibold text-[var(--ink)]" style={{ fontFamily: "var(--font-title)" }}>
-                    {set.set}
+                    {setName}
                   </h3>
-                  <span className="text-sm text-[var(--muted)]">{set.year}</span>
                 </div>
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {set.decks.map((deck, idx) => (
-                    <div key={idx} className="group relative rounded-xl border border-[var(--stroke-strong)] bg-[var(--panel)]/60 p-4 transition-all hover:border-[var(--accent)]">
-                      <div className="flex items-center gap-4">
-                        <div className="relative w-44 shrink-0">
-                          <div className="aspect-[3/4] overflow-hidden rounded-lg border-2 border-[var(--stroke-strong)] shadow-xl">
-                            <Image
-                              src={`https://cards.lorcast.io/card/digital/large/${deck.card}.avif?1709690747`}
-                              alt={deck.name}
-                              fill
-                              className="object-cover"
-                              unoptimized
-                            />
+                  {setDecks.map((deck) => (
+                    <Link key={deck.id} href={`/guias-mazos/${deck.id}`}>
+                      <div className="group relative rounded-xl border border-[var(--stroke-strong)] bg-[var(--panel)]/60 p-4 transition-all hover:border-[var(--accent)] cursor-pointer">
+                        <div className="flex items-center gap-4">
+                          <div className="relative w-32 shrink-0">
+                            <div className="aspect-[3/4] overflow-hidden rounded-lg border-2 border-[var(--stroke-strong)] shadow-xl transition-transform group-hover:scale-105">
+                              <Image
+                                src={deck.cards[0]?.imageUrl || "/placeholder-card.png"}
+                                alt={deck.name}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                              />
+                            </div>
                           </div>
-                        </div>
-                        <div className="flex flex-col gap-2">
-                          <div className="flex gap-2">
-                            {deck.inks.map((ink) => (
-                              <span key={ink} className="rounded-full px-3 py-1 text-xs font-medium bg-[var(--stroke)] text-[var(--ink)]">
-                                {ink}
-                              </span>
-                            ))}
+                          <div className="flex flex-col gap-2">
+                            <div className="flex flex-wrap gap-1">
+                              {deck.inks.map((ink) => (
+                                <span key={ink} className="rounded-full px-2 py-0.5 text-[10px] font-medium bg-[var(--stroke)] text-[var(--ink)]">
+                                  {getInkSpanish(ink)}
+                                </span>
+                              ))}
+                            </div>
+                            <span className="text-sm font-semibold text-[var(--ink)] group-hover:text-[var(--accent)] transition-colors line-clamp-2">
+                              {deck.name}
+                            </span>
+                            <span className="text-xs text-[var(--muted)]">
+                              {deck.profile}
+                            </span>
                           </div>
-                          <span className="text-sm text-[var(--muted)]">{deck.name}</span>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               </div>

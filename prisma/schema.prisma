@@ -10,7 +10,7 @@ model User {
   id               String     @id @default(uuid())
   name             String
   email            String     @unique
-  password         String
+  password         String?
   role             Role       @default(USER)
   resetToken       String?
   resetTokenExpiry DateTime?
@@ -24,15 +24,46 @@ model User {
   @@map("users")
 }
 
+model Card {
+  id          String   @id // Lorcast ID (e.g., "1-1")
+  set         String
+  number      String
+  name        String
+  ink         String
+  cost        Int
+  type        String
+  rarity      String
+  subtypes    String?
+  abilities   String?
+  imageUrl    String?
+  strength    Int?
+  willpower   Int?
+  lore        Int?
+  flavorText  String?
+  
+  @@unique([set, number])
+  
+  // Relations
+  deckCards        DeckCard[]
+  userCards        UserCard[]
+  starterDeckCards StarterDeckCard[]
+
+  @@map("cards")
+}
+
 model UserCard {
-  id        String   @id @default(uuid())
+  id        String   @id @default(cuid())
   userId    String   @map("user_id")
   cardId    String   @map("card_id")
   quantity  Int      @default(1)
+  isFoiling Boolean  @default(false)
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  card      Card     @relation(fields: [cardId], references: [id])
 
-  @@unique([userId, cardId])
+  @@unique([userId, cardId, isFoiling])
   @@map("user_cards")
 }
 
@@ -52,16 +83,10 @@ model StarterDeckCard {
   id        String      @id @default(cuid())
   deckId    String      @map("deck_id")
   cardId    String      @map("card_id")
-  name      String
   quantity  Int
-  ink       String
-  type      String
-  cost      Int
-  rarity    String
-  subtypes  String?
-  abilities String?
-  imageUrl  String?
+  
   deck      StarterDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  card      Card        @relation(fields: [cardId], references: [id])
 
   @@map("starter_deck_cards")
 }
@@ -84,14 +109,16 @@ model Deck {
 }
 
 model DeckCard {
-  id       String @id @default(uuid())
-  deckId   String @map("deck_id")
-  cardId   String @map("card_id")
-  name     String
-  quantity Int    @default(1)
+  id        String  @id @default(uuid())
+  deckId    String  @map("deck_id")
+  cardId    String  @map("card_id")
+  quantity  Int     @default(1)
+  isFoiling Boolean @default(false)
+  
   deck     Deck   @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  card     Card   @relation(fields: [cardId], references: [id])
 
-  @@unique([deckId, cardId])
+  @@unique([deckId, cardId, isFoiling])
   @@map("deck_cards")
 }
 

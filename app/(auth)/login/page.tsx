@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { EyeSlashIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { useAuth } from "@/lib/auth";
 import { useLogin } from "./_hooks/useLogin";
 import { inputError } from "@/lib/styles";
@@ -9,6 +10,7 @@ import { inputError } from "@/lib/styles";
 export default function LoginPage() {
   const { isLoading: authLoading, loginWithProvider } = useAuth();
   const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useLogin();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleProviderLogin = async (provider: "google" | "github") => {
     try {
@@ -104,14 +106,24 @@ export default function LoginPage() {
             <label htmlFor="password" className={labelClass}>
               Contraseña
             </label>
-            <input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) => handleChange("password", e.target.value)}
-              className={inputError(inputClass, !!errors.password)}
-              placeholder="Tu contraseña"
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={(e) => handleChange("password", e.target.value)}
+                className={inputError(inputClass, !!errors.password)}
+                placeholder="Tu contraseña"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--ink)] transition-colors"
+                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+              >
+                {showPassword ? <EyeSlashIcon className="h-[18px] w-[18px]" /> : <EyeIcon className="h-[18px] w-[18px]" />}
+              </button>
+            </div>
             {errors.password && errors.password.map((msg, i) => (
               <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
             ))}
