@@ -5,7 +5,7 @@ import type { UserDeck, DeckCardEntry } from "../types";
 interface DecksState {
   decks: UserDeck[];
   isLoading: boolean;
-  addDeck: (deck: Omit<UserDeck, "id" | "createdAt" | "updatedAt">) => UserDeck;
+  addDeck: (deck: Omit<UserDeck, "id" | "userId" | "createdAt" | "updatedAt">) => UserDeck;
   updateDeck: (id: string, updates: Partial<Omit<UserDeck, "id" | "createdAt" | "updatedAt">>) => void;
   deleteDeck: (id: string) => void;
   duplicateDeck: (id: string) => UserDeck | null;
@@ -36,6 +36,7 @@ export const useDecksStore = create<DecksState>()(
         const newDeck: UserDeck = {
           ...deckData,
           id: generateId(),
+          userId: "local",
           createdAt: getCurrentDate(),
           updatedAt: getCurrentDate(),
         };
@@ -99,6 +100,7 @@ export const useDecksStore = create<DecksState>()(
 
         const newDeck: UserDeck = {
           id: generateId(),
+          userId: "local",
           name: deckName,
           description: "Mazo importado desde texto",
           cards,

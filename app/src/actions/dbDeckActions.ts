@@ -19,6 +19,7 @@ export async function getUserDecksAction(): Promise<UserDeck[]> {
 
   return decks.map((d: any) => ({
     id: d.id,
+    userId: d.userId,
     name: d.name,
     description: d.description || "",
     format: d.format || "",
@@ -94,6 +95,7 @@ export async function saveDeckAction(deck: UserDeck): Promise<UserDeck> {
 
   return {
     id: savedDeck.id,
+    userId: savedDeck.userId,
     name: savedDeck.name,
     description: savedDeck.description || "",
     format: savedDeck.format || "",

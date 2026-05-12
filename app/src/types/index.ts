@@ -131,6 +131,7 @@ export interface DeckCard {
   type: string | null;
   rarity: string | null;
   image: string | null;
+  details?: LorcanaCard;
 }
 
 export interface Deck {
@@ -151,6 +152,7 @@ export interface DeckCardEntry {
 
 export interface UserDeck {
   id: string;
+  userId: string;
   name: string;
   description: string;
   format?: string;
@@ -159,6 +161,7 @@ export interface UserDeck {
   tags?: string[];
   inkColors?: string[];
   cards: DeckCardEntry[];
+  totalCards?: number;
   createdAt: string;
   updatedAt: string;
 }

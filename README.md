@@ -1,29 +1,26 @@
 # Archivo del Reino de Lorcana
 
-Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, recuperación de contraseña y modo claro/oscuro.
+Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, gestión de mazos y colección personal.
 
 ## Tech Stack
 
 - **Next.js 14** (App Router)
+- **Supabase Auth** (Google, GitHub, Email/Password)
 - **TypeScript**
-- **React 18**
+- **Prisma** (ORM + PostgreSQL en Supabase)
 - **Tailwind CSS**
-- **Zustand** (estado global)
-- **Prisma** (ORM + PostgreSQL)
-- **Anthropic Claude Vision** (OCR)
-- **Resend** (emails transaccionales)
-- **Axios** (HTTP client)
-- **Upstash Redis** (rate limiting en producción)
-- **clsx** + **tailwind-merge** (utilidades de clases)
-- **Heroicons** (iconos)
+- **Zustand** (Estado global persistente)
+- **Anthropic Claude Vision** (OCR para búsqueda por imagen)
+- **Resend** (Emails transaccionales)
+- **Upstash Redis** (Rate limiting)
+- **Heroicons** + **Headless UI**
 
 ## Requisitos
 
 - Node.js 18+
-- PostgreSQL (Docker o local)
-- npm
-- API key de Anthropic (opcional, para OCR)
-- API key de Resend (para recuperación de contraseña)
+- Proyecto en **Supabase** (Base de datos + Auth)
+- npm o pnpm
+- API keys para servicios externos (opcionales para dev local)
 
 ## Instalación
 
@@ -41,195 +38,63 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, recuperaci�
 3. **Configurar variables de entorno**
    ```bash
    cp .env.example .env
-   
-   # OCR (opcional)
-   # NEXT_PUBLIC_ANTHROPIC_API_KEY=tu_api_key
-   
-   # Email (para recuperación de contraseña)
-   # RESEND_API_KEY=re_xxx
-   # APP_URL=http://localhost:3000
+   # Configura las variables de Supabase, Prisma y APIs externas
    ```
 
-4. **Iniciar la base de datos**
+4. **Sincronizar Base de Datos**
    ```bash
-   docker-compose up -d
+   npx prisma db push
+   npx prisma generate
    ```
 
-5. **Ejecutar migraciones de Prisma**
-   ```bash
-   npx prisma migrate dev --name init
-   ```
-
-6. **Iniciar el servidor de desarrollo**
+5. **Iniciar el servidor de desarrollo**
    ```bash
    npm run dev
    ```
 
-La app estará disponible en: `http://localhost:3000`
+## Estructura del Proyecto (Refactoreado)
 
-## Variables de Entorno
-
-| Variable | Descripción | Valor por defecto |
-|----------|-------------|-------------------|
-| `LORCAST_API_BASE` | URL de la API de Lorcast | `https://api.lorcast.com/v0` |
-| `NEXT_PUBLIC_PAGE_SIZE` | Cartas por página en la galería | `16` |
-| `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://user:pass@localhost:5432/db` |
-| `JWT_SECRET` | Clave secreta para JWT | - |
-| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | API key para Claude Vision (opcional) | - |
-| `RESEND_API_KEY` | API key para emails (Recuperar contraseña) | - |
-| `APP_URL` | URL de la app (para enlaces de email) | `http://localhost:3000` |
-| `UPSTASH_REDIS_REST_URL` | URL de Upstash Redis (producción) | - |
-| `UPSTASH_REDIS_REST_TOKEN` | Token de Upstash Redis (producción) | - |
-
-## Comandos
-
-| Comando | Descripción |
-|---------|-------------|
-| `npm run dev` | Servidor de desarrollo |
-| `npm run build` | Build de producción + typecheck |
-| `npm run start` | Servidor de producción |
-| `npm run lint` | Linting con ESLint |
-| `npx prisma studio` | UI de Prisma para la DB |
-| `npx prisma migrate dev` | Crear migración |
-| `npx prisma db push` | Sincronizar schema con DB |
-| `npx prisma generate` | Regenerar cliente Prisma |
-
-## Páginas
-
-- `/` - Galería principal de cartas (por defecto Winterspell)
-- `/buscar-imagen` - Búsqueda de cartas por imagen (OCR)
-- `/mis-cartas` - Colección personal del usuario
-- `/mis-mazos` - Gestión de mazos
-- `/login` - Inicio de sesión
-- `/registro` - Registro de usuarios
-- `/olvide-contrasena` - Recuperar contraseña
-- `/restablecer-contrasena/[token]` - Nueva contraseña
-- `/como-jugar` - Manual del juego
-
-## Estructura del Proyecto
+El proyecto sigue una arquitectura modular con la lógica centralizada en `app/src`:
 
 ```
 app/
-├── _shared/                 # Componentes reutilizados entre páginas
-│   ├── _components/        # CardRow, InkDot, ManaCurve, etc.
-├── actions/                 # Server Actions
-├── api/                    # API Routes
-│   ├── auth/              # Autenticación
-│   ├── lorcast/           # Proxy a API de Lorcast
-│   └── ocr/               # OCR con Claude Vision
-├── buscar-imagen/          # Página de búsqueda por imagen
-│   └── _hooks/            # Hook específico de la página
-├── como-jugar/             # Página cómo jugar
-│   └── components/         # Componentes de sección
-├── components/              # Componentes React globales
-│   ├── Gallery/           # Subcarpeta de componentes de galería
-│   │   ├── components/    # GalleryCards, GalleryCardItem, GalleryCardModal
-│   │   ├── header/        # GalleryHeader, GallerySectionHeader
-│   │   └── styles.ts      # Estilos compartidos
-│   ├── SiteHeader/        # Header con navegación
-│   │   ├── HeaderLogo.tsx
-│   │   ├── HeaderNav.tsx
-│   │   ├── HeaderActions.tsx
-│   │   ├── HeaderMobileNav.tsx
-│   │   ├── UserMenuContent.tsx
-│   │   └── useHeaderScroll.ts
-│   └── CookieBanner/      # Banner de cookies
-├── hooks/                  # Custom Hooks globales
-├── lib/                    # Utilidades, constantes, auth, email
-│   ├── styles.ts          # Estilos compartidos (clsx utilities)
-│   ├── cn.ts              # Función classNames
-│   └── constants.ts        # Constantes del proyecto
-├── login/                  # Página de login
-│   └── _hooks/            # Hook específico
-├── mis-cartas/             # Página de colección personal
-│   └── _hooks/            # Hook específico
-├── mis-mazos/             # Página de gestión de mazos
-│   └── _hooks/            # Hook específico
-├── olvide-contrasena/     # Página de recuperación
-│   └── _hooks/            # Hook específico
-├── registro/               # Página de registro
-│   └── _hooks/            # Hook específico
-├── restablecer-contrasena/[token]/ # Nueva contraseña
-│   └── _hooks/            # Hook específico
-├── services/              # Servicios (lorcastService)
-├── store/                 # Zustand stores
-│   ├── cookieConsentStore.ts
-│   ├── favoritesStore.ts
-│   ├── galleryStore.ts
-│   ├── themeStore.ts
-│   └── userCardsStore.ts
-└── types/                 # Tipos TypeScript
+├── (auth)/                  # Rutas de autenticación (login, registro)
+├── (main)/                  # Galería principal y buscador OCR
+├── (user)/                  # Mis Mazos, Mis Cartas, Perfil
+├── src/                     # Núcleo de la aplicación
+│   ├── actions/            # Server Actions unificados
+│   ├── components/         # Componentes UI y Lógica Lorcana (Barrels)
+│   ├── hooks/              # Custom Hooks compartidos
+│   ├── lib/                # Configuración (Supabase, Prisma, Estilos)
+│   ├── store/              # Stores de Zustand
+│   └── types/              # Definiciones de TypeScript
+└── layout.tsx               # Root Layout con Providers
 ```
-
-## Principios y Buenas Prácticas
-
-El proyecto sigue principios de Clean Code y SOLID:
-
-- **SRP**: Cada componente tiene responsabilidad única
-- **OCP**: Componentes extensibles sin modificar existentes
-- **DIP**: Dependencias a través de abstracciones (props/hooks)
-- **ISP**: Interfaces pequeñas y específicas
-- **DRY**: Código重复ido minimizado con hooks y componentes compartidos
-
-### Estructura de Componentes
-
-Los componentes complejos están organizados en carpetas con:
-- `index.ts` - Barrel exports
-- Componentes hijos en subcarpetas
-- Tipos en `types.ts`
-- Estilos en `styles.ts`
-- Hooks personalizados cuando corresponde
-
-## Constantes
-
-Todas las constantes del proyecto están centralizadas en `app/lib/constants.ts`:
-
-- `APP` - DEFAULT_SET_CODE, PAGE_SIZE
-- `STORAGE_KEYS` - OCR_IMAGE, THEME
-- `API` - LORCAST_BASE
-- `THEME` - DEFAULT
-
-Los colores de inks están en `app/lib/styles.ts`:
-- `INK_COLORS` - Mapa de colores por tinta
-
-## Validación
-
-Validación de formularios con Zod en `app/lib/schemas.ts`:
-- Login: email y password requeridos
-- Registro: contraseña robusta (8+ caracteres, mayúscula, minúscula, número, especial)
-- Recuperación de contraseña: misma validación robusta
 
 ## Características
 
-- Galería de cartas con paginación infinita
-- Set por defecto: **Winterspell**
-- Filtros por tinta, tipo, rareza y búsqueda
-- Selector de set de cartas
-- Modal con detalles de carta
-- Traducción de texto de cartas (inglés a español)
-- Botón scroll-to-top
-- Tema claro/oscuro con persistencia
-- Menú responsive
-- Banner de cookies con gestión de consentimiento
-- Registro y login de usuarios
-- Recuperación de contraseña por email (Resend)
-- Validación robusta de contraseñas con Zod
-- Diseño con tipografía Cinzel + Work Sans
-- Favoritos guardados en localStorage
-- Colección personal guardada en BD
-- Gestión de mazos con plantillas
-- Contador en tiempo real de cartas en colección
-- Rate limiting con Upstash Redis (producción)
-- Caching de API con memoria
-- Arquitectura limpia: hooks específicos por página, componentes compartidos
+- **Galería Pro**: Paginación optimizada, filtros avanzados por tinta, tipo y rareza.
+- **Constructor de Mazos**: Modular y potente, con validación de reglas de Lorcana (máx. 2 colores).
+- **Búsqueda OCR**: Identificación de cartas mediante fotos usando Claude Vision.
+- **Colección Personal**: Sincronización en tiempo real con Supabase.
+- **Autenticación Social**: Integración con Google y GitHub.
+- **Diseño Premium**: Dark mode nativo, tipografía cuidada (Cinzel) y animaciones fluidas.
+- **SEO & Perf**: Metadata dinámica, optimización de imágenes y carga diferida.
+
+## Variables de Entorno Clave
+
+| Variable | Descripción |
+|----------|-------------|
+| `DATABASE_URL` | URL de conexión directa a PostgreSQL (Supabase) |
+| `DIRECT_URL` | URL para migraciones Prisma |
+| `NEXT_PUBLIC_SUPABASE_URL` | Endpoint de tu proyecto Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Key pública de Supabase |
+| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | Para el servicio de OCR |
 
 ## Usuarios de Prueba
 
-- **Email:** test@lorcana.es
-- **Contraseña:** Test1234!
-
-- **Email:** userDemo@test.com (puedes usar solo "userDemo")
-- **Contraseña:** admin123
+- **Email:** `test@lorcana.es` / **Password:** `Test1234!`
+- **User:** `userDemo` / **Password:** `Lorcana2024!`
 
 ## Licencia
 
