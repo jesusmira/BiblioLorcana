@@ -4,6 +4,7 @@ import Link from "next/link";
 import { clsx } from "clsx";
 import { useAuth } from "@/lib/auth";
 import { HEADER_STYLES, HEADER_NAV_LINKS, UserMenuContent } from "./index";
+import ThemeToggle from "../ThemeToggle";
 
 interface HeaderMobileNavProps {
   isOpen: boolean;
@@ -36,6 +37,10 @@ export function HeaderMobileNav({ isOpen, onClose }: HeaderMobileNavProps) {
           {link.label}
         </Link>
       ))}
+
+      <div className="my-2 flex justify-center border-t border-[var(--stroke)] pt-2">
+        <ThemeToggle />
+      </div>
 
       {!isLoading && !user && (
         <div className="mt-2 flex flex-col gap-2 border-t border-[var(--stroke)] pt-2">

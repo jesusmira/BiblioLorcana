@@ -293,9 +293,9 @@ async function main() {
     const cardId = await getCardIdByCollector(collectorNumbers[i]);
     if (cardId) {
       await prisma.userCard.upsert({
-        where: { userId_cardId: { userId: user.id, cardId } },
+        where: { userId_cardId_isFoiling: { userId: user.id, cardId, isFoiling: false } },
         update: {},
-        create: { userId: user.id, cardId, quantity: 1 },
+        create: { userId: user.id, cardId, quantity: 1, isFoiling: false },
       });
       console.log(`Added card ${i + 1}: ${names[i]} (${cardId})`);
     } else {

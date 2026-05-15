@@ -48,9 +48,10 @@ export async function removeCardFromUser(cardId: string): Promise<SaveCardRespon
   try {
     await prisma.userCard.delete({
       where: {
-        userId_cardId: {
+        userId_cardId_isFoiling: {
           userId: session.userId,
           cardId: String(cardId),
+          isFoiling: false,
         },
       },
     });
@@ -72,9 +73,10 @@ export async function updateCardQuantity(cardId: string, quantity: number): Prom
   try {
     await prisma.userCard.update({
       where: {
-        userId_cardId: {
+        userId_cardId_isFoiling: {
           userId: session.userId,
           cardId: String(cardId),
+          isFoiling: false,
         },
       },
       data: { quantity },
@@ -138,9 +140,10 @@ export async function isCardSavedByUser(cardId: string): Promise<boolean> {
 
   const userCard = await prisma.userCard.findUnique({
     where: {
-      userId_cardId: {
+      userId_cardId_isFoiling: {
         userId: session.userId,
         cardId: String(cardId),
+        isFoiling: false,
       },
     },
   });

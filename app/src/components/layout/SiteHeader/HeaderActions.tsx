@@ -30,7 +30,9 @@ export function HeaderActions({ isLoading, user }: HeaderActionsProps) {
           </Link>
         </div>
       )}
-      <ThemeToggle />
+      <div className="hidden min-[721px]:block">
+        <ThemeToggle />
+      </div>
     </div>
   );
 }

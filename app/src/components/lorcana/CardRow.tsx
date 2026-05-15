@@ -22,32 +22,55 @@ interface CardRowProps {
 
 export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
   const [showTooltip, setShowTooltip] = useState(false);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isVisible, setIsVisible] = useState(false);
   const rowRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const image = getCardImage(card);
 
+  const calculatePosition = useCallback((clientX: number, clientY: number) => {
+    const padding = 20;
+    const tooltipWidth = 320;
+    const tooltipHeight = 480;
+
+    let x = clientX + padding;
+    let y = clientY - tooltipHeight / 2;
+
+    if (x + tooltipWidth > window.innerWidth) {
+      x = clientX - tooltipWidth - padding;
+    }
+    if (x < padding) {
+      x = padding;
+    }
+    if (y < padding) {
+      y = padding;
+    }
+    if (y + tooltipHeight > window.innerHeight - padding) {
+      y = window.innerHeight - tooltipHeight - padding;
+    }
+
+    setPosition({ x, y });
+  }, []);
+
   const handleMouseEnter = useCallback(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setShowTooltip(true);
-    }, 200);
+    setShowTooltip(true);
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
-  }, []);
+    calculatePosition(e.clientX, e.clientY);
+  }, [calculatePosition]);
 
   const handleMouseLeave = useCallback(() => {
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    setShowTooltip(false);
+    setIsVisible(false);
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 150);
   }, []);
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, []);
+    if (showTooltip) {
+      setIsVisible(true);
+    }
+  }, [showTooltip]);
 
   const cardType = Array.isArray(card.type) && card.type.length > 0 ? card.type[0] : null;
 
@@ -102,22 +125,21 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
         </svg>
       </button>
 
-      {showTooltip && (
+      {showTooltip && isVisible && image && (
         <div
-          className="fixed z-[100] pointer-events-none"
+          className="fixed z-[100] pointer-events-none transition-opacity duration-150"
           style={{
-            left: mousePos.x + 20,
-            top: mousePos.y - 200,
+            left: position.x,
+            top: position.y,
           }}
         >
           <div className="relative">
             <img
-              src={image ?? ""}
+              src={image}
               alt={card.name || "Carta"}
-              className="h-[450px] aspect-[2/3] rounded-xl shadow-2xl block object-contain"
-              style={{ height: '450px', width: '300px' }}
+              className="w-[320px] max-h-[80vh] rounded-xl shadow-2xl object-contain"
             />
-            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--surface)] px-2 py-1 text-xs font-medium text-[var(--ink)] shadow-lg border border-[var(--stroke)]">
+            <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--surface)] px-2 py-1 text-xs font-medium text-[var(--ink)] shadow-lg border border-[var(--stroke)]">
               {card.name}
             </div>
           </div>

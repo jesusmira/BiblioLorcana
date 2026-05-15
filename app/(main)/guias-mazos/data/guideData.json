@@ -1,0 +1,56 @@
+{
+  "inks": [
+    {
+      "icon": "SparklesIcon",
+      "name": "Ámbar",
+      "color": "bg-amber-500",
+      "description": "Trabajo en equipo y personajes de apoyo. Excelente para partidas colaborativas."
+    },
+    {
+      "icon": "SparklesIcon",
+      "name": "Amatista",
+      "color": "bg-purple-600",
+      "description": "Magia y control de mesa. Ideal para jugadores estratégicos."
+    },
+    {
+      "icon": "BoltIcon",
+      "name": "Esmeralda",
+      "color": "bg-emerald-500",
+      "description": "Velocidad y jugadas arriesgadas. Para quienes buscan combos rápidos."
+    },
+    {
+      "icon": "FireIcon",
+      "name": "Rubí",
+      "color": "bg-red-500",
+      "description": "Agresividad y personajes ofensivos. Ataque sin parar."
+    },
+    {
+      "icon": "CurrencyDollarIcon",
+      "name": "Zafiro",
+      "color": "bg-blue-500",
+      "description": "Recursos y desarrollo a largo plazo. Controla el ritmo de la partida."
+    },
+    {
+      "icon": "ShieldCheckIcon",
+      "name": "Acero",
+      "color": "bg-slate-400",
+      "description": "Fuerza bruta y defensa sólida. Resiste hasta el final."
+    }
+  ],
+  "tips": [
+    "Juega varias partidas con tu mazo inicial antes de cambiarlo. Así entiendes bien su estilo.",
+    "Identifica qué cartas brillan más y busca copias extra en sobres o intercambios.",
+    "Combina dos mazos iniciales es un truco barato para mejorar tu mazo.",
+    "Usa fundas protectoras desde el principio. Las cartas exclusivas se revalorizan.",
+    "No te obsesiones con ganar siempre: la idea es aprender mecánicas y divertirte."
+  ],
+  "inkNamesEs": {
+    "Amber": "Ámbar",
+    "Amethyst": "Amatista",
+    "Emerald": "Esmeralda",
+    "Ruby": "Rubí",
+    "Sapphire": "Zafiro",
+    "Steel": "Acero"
+  },
+  "fallbackCardImage": "https://cards.lorcast.io/card/digital/large/crd_7295a54624614f55a8d469d9d6b2e502.avif?1716052430"
+}
