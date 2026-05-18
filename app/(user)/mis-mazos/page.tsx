@@ -27,6 +27,7 @@ import {
   PlusIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { CardsIcon } from "@/components";
 import { spinner } from "@/lib/styles";
 import { deleteDeckAction } from "@/actions/dbDeckActions";
 import type { DeckCard } from "@/types";
@@ -48,22 +49,24 @@ export default function MisMazosPage() {
   const { decks, deleteDeck, duplicateDeck } = useDecksStore();
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [exportDeck, setExportDeck] = useState<any | null>(null);
-  
-  const { 
-    previewDeck, 
-    enrichedDeck, 
-    isEnriching, 
+
+  const {
+    previewDeck,
+    enrichedDeck,
+    isEnriching,
     selectedCard: previewSelectedCard,
-    selectDeck, 
+    selectDeck,
     handleCardClick: handlePreviewCardClick,
     closeModal: closePreviewModal,
-    clearPreview 
+    clearPreview,
   } = usePreviewDeck();
 
   useSyncDecks();
   const activeSelectedCard = previewSelectedCard || sampleSelectedCard;
   const activeCloseModal = previewDeck ? closePreviewModal : closeSampleModal;
-  const activeCardClick = previewDeck ? handlePreviewCardClick : handleSampleCardClick;
+  const activeCardClick = previewDeck
+    ? handlePreviewCardClick
+    : handleSampleCardClick;
 
   const displayDeck = enrichedDeck ?? sampleDeck;
   const hasDisplayDeck = displayDeck !== null && displayDeck.cards.length > 0;
@@ -80,7 +83,7 @@ export default function MisMazosPage() {
         <PageHeader
           title="Mis Mazos"
           description="Crea, gestiona y comparte tus mazos de Lorcana"
-          icon={<SparklesIcon className="h-8 w-8" />}
+          icon={<CardsIcon className="h-8 w-8" />}
           actions={
             <button
               onClick={() => router.push("/mis-mazos/crear")}
@@ -115,7 +118,9 @@ export default function MisMazosPage() {
         <div>
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-[var(--font-title)] text-2xl text-[var(--ink)] flex items-center gap-3">
-              {previewDeck ? `Vista previa: ${previewDeck.name}` : "Mazo de prueba"}
+              {previewDeck
+                ? `Vista previa: ${previewDeck.name}`
+                : "Mazo de prueba"}
               {isEnriching && (
                 <ArrowPathIcon className="h-5 w-5 animate-spin text-[var(--accent)]" />
               )}
@@ -158,9 +163,7 @@ export default function MisMazosPage() {
                         className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:opacity-50"
                         aria-label="Generar nuevo mazo"
                       >
-                        <ArrowPathIcon
-                          className={spinner(isRegenerating)}
-                        />
+                        <ArrowPathIcon className={spinner(isRegenerating)} />
                       </button>
                     )}
                   </div>
@@ -171,8 +174,12 @@ export default function MisMazosPage() {
                     <span className="min-w-[1.75rem] text-center">QTY</span>
                     <span className="w-3" />
                     <span className="flex-1">Nombre</span>
-                    <span className="hidden sm:inline w-16 text-left">Tipo</span>
-                    <span className="hidden md:inline w-12 text-left">Rareza</span>
+                    <span className="hidden sm:inline w-16 text-left">
+                      Tipo
+                    </span>
+                    <span className="hidden md:inline w-12 text-left">
+                      Rareza
+                    </span>
                     <span className="w-6 text-center">⬡</span>
                   </div>
 
@@ -210,32 +217,41 @@ export default function MisMazosPage() {
                       <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                         {displayDeck.totalCards}
                       </span>
-                      <span className="text-[0.7rem] text-[var(--muted)]">Total</span>
+                      <span className="text-[0.7rem] text-[var(--muted)]">
+                        Total
+                      </span>
                     </div>
                     <div className="flex flex-col items-center rounded-xl bg-[var(--surface-soft)] p-3">
                       <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                         {displayDeck.cards.length}
                       </span>
-                      <span className="text-[0.7rem] text-[var(--muted)]">Únicas</span>
+                      <span className="text-[0.7rem] text-[var(--muted)]">
+                        Únicas
+                      </span>
                     </div>
                     <div className="flex flex-col items-center rounded-xl bg-[var(--surface-soft)] p-3">
                       <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                         {displayDeck.cards.length > 0
                           ? (
                               displayDeck.cards.reduce(
-                                (acc: number, c: DeckCard) => acc + (c.cost ?? 0) * c.quantity,
-                                0
+                                (acc: number, c: DeckCard) =>
+                                  acc + (c.cost ?? 0) * c.quantity,
+                                0,
                               ) / displayDeck.totalCards
                             ).toFixed(1)
                           : "0"}
                       </span>
-                      <span className="text-[0.7rem] text-[var(--muted)]">Coste Medio</span>
+                      <span className="text-[0.7rem] text-[var(--muted)]">
+                        Coste Medio
+                      </span>
                     </div>
                     <div className="flex flex-col items-center rounded-xl bg-[var(--surface-soft)] p-3">
                       <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                         {displayDeck.inkColors.length}
                       </span>
-                      <span className="text-[0.7rem] text-[var(--muted)]">Tintas</span>
+                      <span className="text-[0.7rem] text-[var(--muted)]">
+                        Tintas
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -258,7 +274,10 @@ export default function MisMazosPage() {
           )}
         </div>
 
-        <GalleryCardModal selected={activeSelectedCard} onClose={activeCloseModal} />
+        <GalleryCardModal
+          selected={activeSelectedCard}
+          onClose={activeCloseModal}
+        />
 
         <ConfirmationDialog
           isOpen={!!deleteConfirm}

@@ -18,12 +18,18 @@ interface SearchResult {
   error?: string;
 }
 
-export async function searchCard(params: SearchCardParams): Promise<SearchResult> {
+export async function searchCard(
+  params: SearchCardParams,
+): Promise<SearchResult> {
   const { name, subtitle, number, isPromo } = {
     ...params,
     name: LORCAST_NORMALIZATIONS.vaianaToMoana(params.name),
-    subtitle: params.subtitle ? LORCAST_NORMALIZATIONS.vaianaToMoana(params.subtitle) : undefined,
-    number: params.number ? LORCAST_NORMALIZATIONS.vaianaToMoana(params.number) : undefined,
+    subtitle: params.subtitle
+      ? LORCAST_NORMALIZATIONS.vaianaToMoana(params.subtitle)
+      : undefined,
+    number: params.number
+      ? LORCAST_NORMALIZATIONS.vaianaToMoana(params.number)
+      : undefined,
   };
 
   const nameParts = [name, subtitle].filter(Boolean).join(" ");
@@ -50,7 +56,7 @@ export async function searchCard(params: SearchCardParams): Promise<SearchResult
     try {
       const cards = await fetchJson<LorcanaCard[]>(
         `${API.LORCAST_BASE}/cards/search?q=${encodeURIComponent(q)}`,
-        { errorMessage: "Error en búsqueda" }
+        { errorMessage: "Error en búsqueda" },
       );
 
       if (!cards?.length) continue;

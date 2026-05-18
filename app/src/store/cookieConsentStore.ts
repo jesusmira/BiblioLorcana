@@ -62,8 +62,8 @@ export const useCookieConsentStore = create<CookieConsentState>()(
     }),
     {
       name: "cookie_consent",
-    }
-  )
+    },
+  ),
 );
 
 export function useCookieConsent() {

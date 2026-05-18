@@ -3,13 +3,22 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePasswordReset } from "./_hooks/usePasswordReset";
-import { ArrowLeftIcon, KeyIcon, CheckCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  KeyIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/react/24/outline";
 import { inputError } from "@/lib/styles";
 import { clsx } from "clsx";
 
-export default function RestablecerContrasenaPage({ params }: { params: Promise<{ token: string }> }) {
+export default function RestablecerContrasenaPage({
+  params,
+}: {
+  params: Promise<{ token: string }>;
+}) {
   const [token, setToken] = useState("");
-  
+
   useEffect(() => {
     const loadParams = async () => {
       const resolved = await params;
@@ -33,7 +42,8 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
-  const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
+  const labelClass =
+    "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
   if (loading) {
     return (
@@ -54,8 +64,15 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
               <ExclamationTriangleIcon className="h-8 w-8 text-red-600" />
             </div>
-            <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>Enlace expirado</h1>
-            <p className="mt-2 text-[var(--muted)]">Este enlace ya no es válido o ha expirado.</p>
+            <h1
+              className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl"
+              style={{ fontFamily: "var(--font-title)" }}
+            >
+              Enlace expirado
+            </h1>
+            <p className="mt-2 text-[var(--muted)]">
+              Este enlace ya no es válido o ha expirado.
+            </p>
           </div>
           <Link
             href="/olvide-contrasena"
@@ -64,7 +81,10 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
             Solicitar nuevo enlace
           </Link>
           <p className="mt-6 text-center text-[0.9rem] text-[var(--muted)]">
-            <Link href="/login" className="text-[var(--accent)] hover:underline flex items-center justify-center gap-2">
+            <Link
+              href="/login"
+              className="text-[var(--accent)] hover:underline flex items-center justify-center gap-2"
+            >
               <ArrowLeftIcon className="h-4 w-4" />
               Volver al login
             </Link>
@@ -82,8 +102,15 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
             <div className="mx-auto mb-4 w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
               <CheckCircleIcon className="h-8 w-8 text-green-600" />
             </div>
-            <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>¡Contraseña actualizada!</h1>
-            <p className="mt-2 text-[var(--muted)]">Tu contraseña ha sido restablecida correctamente.</p>
+            <h1
+              className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl"
+              style={{ fontFamily: "var(--font-title)" }}
+            >
+              ¡Contraseña actualizada!
+            </h1>
+            <p className="mt-2 text-[var(--muted)]">
+              Tu contraseña ha sido restablecida correctamente.
+            </p>
           </div>
           <Link
             href="/login"
@@ -100,8 +127,15 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>Nueva contraseña</h1>
-          <p className="mt-2 text-[var(--muted)]">Ingresa tu nueva contraseña</p>
+          <h1
+            className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            Nueva contraseña
+          </h1>
+          <p className="mt-2 text-[var(--muted)]">
+            Ingresa tu nueva contraseña
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -122,13 +156,23 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleChange("password", e.target.value)}
-                className={clsx(inputClass, "pl-12", errors.password && "border-[var(--alert-ink)]")}
+                className={clsx(
+                  inputClass,
+                  "pl-12",
+                  errors.password && "border-[var(--alert-ink)]",
+                )}
                 placeholder="Mínimo 8 caracteres"
               />
             </div>
-            {errors.password && errors.password.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.password &&
+              errors.password.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div>
@@ -143,9 +187,15 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
               className={inputError(inputClass, !!errors.confirmPassword)}
               placeholder="Repite tu contraseña"
             />
-            {errors.confirmPassword && errors.confirmPassword.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.confirmPassword &&
+              errors.confirmPassword.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <button
@@ -158,7 +208,10 @@ export default function RestablecerContrasenaPage({ params }: { params: Promise<
         </form>
 
         <p className="mt-6 text-center text-[0.9rem] text-[var(--muted)]">
-          <Link href="/login" className="text-[var(--accent)] hover:underline flex items-center justify-center gap-2">
+          <Link
+            href="/login"
+            className="text-[var(--accent)] hover:underline flex items-center justify-center gap-2"
+          >
             <ArrowLeftIcon className="h-4 w-4" />
             Volver al login
           </Link>

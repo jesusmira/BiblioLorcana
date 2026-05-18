@@ -20,11 +20,13 @@ export function usePreviewDeck() {
     const enrich = async () => {
       setIsEnriching(true);
       try {
-        const { enrichedCards, fullCards } = await enrichDeckCardsAction(selectedDeck.cards);
-        
+        const { enrichedCards, fullCards } = await enrichDeckCardsAction(
+          selectedDeck.cards,
+        );
+
         // Calculate ink colors from enriched cards
         const inkSet = new Set<string>();
-        enrichedCards.forEach(c => {
+        enrichedCards.forEach((c) => {
           if (c.ink) inkSet.add(c.ink);
         });
 
@@ -42,15 +44,15 @@ export function usePreviewDeck() {
       } catch (error) {
         console.error("Error enriching preview deck:", error);
         // Fallback: conversión simple sin datos extras si falla la API
-        const fallbackCards: DeckCard[] = selectedDeck.cards.map(c => ({
+        const fallbackCards: DeckCard[] = selectedDeck.cards.map((c) => ({
           ...c,
           cost: null,
           ink: null,
           type: null,
           rarity: null,
-          image: null
+          image: null,
         }));
-        
+
         setEnrichedDeck({
           id: selectedDeck.id,
           name: selectedDeck.name,
@@ -70,7 +72,9 @@ export function usePreviewDeck() {
 
   const handleCardClick = (cardId: string) => {
     if (!enrichedDeck) return;
-    const fullCard = enrichedDeck.fullCards.find((c) => String(c.id) === cardId);
+    const fullCard = enrichedDeck.fullCards.find(
+      (c) => String(c.id) === cardId,
+    );
     if (fullCard) setSelectedCard(fullCard);
   };
 

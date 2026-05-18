@@ -29,13 +29,23 @@ export function SectionProporcion({ data }: SectionProporcionProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[var(--surface)] p-8 rounded-[32px] border border-[var(--accent)]/20 shadow-xl">
         {data.items.map((item) => (
-          <RatioItem key={item.label} label={item.label} value={item.value} color={item.color} desc={item.desc} />
+          <RatioItem
+            key={item.label}
+            label={item.label}
+            value={item.value}
+            color={item.color}
+            desc={item.desc}
+          />
         ))}
         <div className="md:col-span-3 mt-4 p-4 bg-[var(--surface-strong)] rounded-2xl text-center border border-[var(--stroke)]">
           <ReactMarkdown
             components={{
               p: ({ children }) => <p className="text-lg">{children}</p>,
-              strong: ({ children }) => <span className="font-bold text-[var(--accent)]">{children}</span>,
+              strong: ({ children }) => (
+                <span className="font-bold text-[var(--accent)]">
+                  {children}
+                </span>
+              ),
             }}
           >
             {data.tip}

@@ -29,21 +29,23 @@ interface UseMisCartasReturn {
 
 export function useMisCartas(): UseMisCartasReturn {
   const { user, isLoading: authLoading } = useAuth();
-  const { setSavedCardIds, removeSavedCardId, cardQuantities } = useUserCardsStore();
+  const { setSavedCardIds, removeSavedCardId, cardQuantities } =
+    useUserCardsStore();
   const [cards, setCards] = useState<LorcanaCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCard, setSelectedCard] = useState<LorcanaCard | null>(null);
-  const [confirmingCardState, setConfirmingCardState] = useState<LorcanaCard | null>(null);
+  const [confirmingCardState, setConfirmingCardState] =
+    useState<LorcanaCard | null>(null);
 
   useEffect(() => {
     const fetchCards = async () => {
       try {
         const data = await getUserCards();
         setCards(data);
-        setSavedCardIds(data.map(c => String(c.id)));
+        setSavedCardIds(data.map((c) => String(c.id)));
         const quantities: Record<string, number> = {};
-        data.forEach(c => {
+        data.forEach((c) => {
           quantities[String(c.id)] = c.quantity ?? 1;
         });
         useUserCardsStore.setState({ cardQuantities: quantities });
@@ -64,7 +66,7 @@ export function useMisCartas(): UseMisCartasReturn {
   useEffect(() => {
     const quantities = useUserCardsStore.getState().cardQuantities;
     if (Object.keys(quantities).length > 0) {
-      const updatedCards = cards.map(c => ({
+      const updatedCards = cards.map((c) => ({
         ...c,
         quantity: quantities[String(c.id)] ?? c.quantity ?? 1,
       }));
@@ -87,12 +89,12 @@ export function useMisCartas(): UseMisCartasReturn {
   const handleConfirmDelete = useCallback(async () => {
     if (!confirmingCardState) return;
     const cardIdToRemove = String(confirmingCardState.id);
-    
+
     const result = await removeCardFromUser(cardIdToRemove);
     if (result.success) {
       const updatedCards = cards.filter((c) => String(c.id) !== cardIdToRemove);
       setCards(updatedCards);
-      setSavedCardIds(updatedCards.map(c => String(c.id)));
+      setSavedCardIds(updatedCards.map((c) => String(c.id)));
       removeSavedCardId(cardIdToRemove);
       setConfirmingCardState(null);
     }
@@ -101,7 +103,7 @@ export function useMisCartas(): UseMisCartasReturn {
   const closeModal = useCallback(() => {
     setSelectedCard(null);
     const quantities: Record<string, number> = {};
-    cards.forEach(c => {
+    cards.forEach((c) => {
       quantities[String(c.id)] = c.quantity ?? 1;
     });
     useUserCardsStore.setState({ cardQuantities: quantities });

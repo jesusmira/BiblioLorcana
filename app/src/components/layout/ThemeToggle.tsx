@@ -48,9 +48,7 @@ export default function ThemeToggle() {
 
   const isDark = theme === "dark";
   const label = isDark ? "Modo oscuro" : "Modo claro";
-  const actionLabel = isDark
-    ? "Cambiar a modo claro"
-    : "Cambiar a modo oscuro";
+  const actionLabel = isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro";
 
   return (
     <button
@@ -64,7 +62,9 @@ export default function ThemeToggle() {
       <span className="sr-only">{label}</span>
       <span
         className={`relative h-9 w-[93px] overflow-hidden rounded-full border border-[var(--stroke)] bg-[var(--surface-strong)] transition duration-200 ${
-          isDark ? "shadow-[0_10px_20px_rgba(0,0,0,0.35)]" : "shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
+          isDark
+            ? "shadow-[0_10px_20px_rgba(0,0,0,0.35)]"
+            : "shadow-[0_10px_20px_rgba(0,0,0,0.15)]"
         }`}
         aria-hidden="true"
       >

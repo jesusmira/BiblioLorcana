@@ -2,7 +2,11 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { useDecksStore } from "@/store";
+import {
+  useDecksStore,
+  useDeckDraftStore,
+  useNavigationGuardStore,
+} from "@/store";
 import { useAuth } from "@/lib/auth";
 import { searchCardsWithFiltersAction, fetchSetsAction } from "@/actions";
 import { enrichDeckCardsAction, saveDeckAction } from "@/actions/dbDeckActions";
@@ -38,6 +42,9 @@ export function useDeckBuilder(deckId: string) {
   const isNewDeck = deckId === "crear";
   const { user } = useAuth();
   const { getDeck, addDeck, updateDeck } = useDecksStore();
+  const { saveDraft, loadDraft, clearDraft } = useDeckDraftStore();
+  const { setDirty } = useNavigationGuardStore();
+  const isDirty = useNavigationGuardStore((state) => state.isDirty);
 
   const [deckName, setDeckName] = useState("");
   const [deckDescription, setDeckDescription] = useState("");
@@ -61,10 +68,46 @@ export function useDeckBuilder(deckId: string) {
   });
 
   const hasEnriched = useRef(false);
+  const draftLoaded = useRef(false);
 
-  // Initialize deck
   useEffect(() => {
-    if (!isNewDeck && !hasEnriched.current) {
+    if (draftLoaded.current) return;
+    draftLoaded.current = true;
+
+    if (!isNewDeck && hasEnriched.current) return;
+
+    const existingDraft = loadDraft(deckId);
+    if (existingDraft) {
+      setDeckName(existingDraft.name);
+      setDeckDescription(existingDraft.description);
+      setDeckFormat(existingDraft.format);
+      setDeckStrategy(existingDraft.strategy);
+      setDeckTier(existingDraft.tier);
+
+      const initialCards = existingDraft.cards.map((c) => ({
+        cardId: c.cardId,
+        name: c.name,
+        quantity: c.quantity,
+        details: undefined,
+      }));
+      setCards(initialCards);
+
+      (async () => {
+        try {
+          const { enrichedCards } = await enrichDeckCardsAction(
+            existingDraft.cards,
+          );
+          setCards(enrichedCards as DeckCardWithDetails[]);
+        } catch (err) {
+          console.error("Error enrichment:", err);
+        }
+      })();
+
+      setDirty(true);
+      return;
+    }
+
+    if (!isNewDeck) {
       const existingDeck = getDeck(deckId);
       if (existingDeck) {
         hasEnriched.current = true;
@@ -73,13 +116,18 @@ export function useDeckBuilder(deckId: string) {
         setDeckFormat(existingDeck.format || "");
         setDeckStrategy(existingDeck.strategy || "");
         setDeckTier(existingDeck.tier || "");
-        
-        const initialCards = existingDeck.cards.map((c) => ({ ...c, details: undefined }));
+
+        const initialCards = existingDeck.cards.map((c) => ({
+          ...c,
+          details: undefined,
+        }));
         setCards(initialCards);
 
         (async () => {
           try {
-            const { enrichedCards } = await enrichDeckCardsAction(existingDeck.cards);
+            const { enrichedCards } = await enrichDeckCardsAction(
+              existingDeck.cards,
+            );
             setCards(enrichedCards as DeckCardWithDetails[]);
           } catch (err) {
             console.error("Error enrichment:", err);
@@ -90,7 +138,6 @@ export function useDeckBuilder(deckId: string) {
     }
   }, [deckId, isNewDeck, getDeck]);
 
-  // Fetch sets
   useEffect(() => {
     (async () => {
       try {
@@ -102,9 +149,26 @@ export function useDeckBuilder(deckId: string) {
     })();
   }, []);
 
-  // Search logic
+  useEffect(() => {
+    if (!isDirty) return;
+
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [isDirty]);
+
   const handleSearch = useCallback(async () => {
-    if (searchQuery.trim().length < 2 && !filters.ink && !filters.type && !filters.rarity && !filters.setCode) {
+    if (
+      searchQuery.trim().length < 2 &&
+      !filters.ink &&
+      !filters.type &&
+      !filters.rarity &&
+      !filters.setCode
+    ) {
       setSearchResults([]);
       return;
     }
@@ -140,61 +204,146 @@ export function useDeckBuilder(deckId: string) {
     setFilters({ ink: "", type: "", rarity: "", setCode: "" });
   }, []);
 
-  // Card management
-  const addCardToDeck = useCallback((card: LorcanaCard) => {
-    setCards((prev) => {
-      const existing = prev.find((c) => c.cardId === String(card.id));
-      if (existing) {
-        if (existing.quantity >= 4) return prev;
-        return prev.map((c) =>
-          c.cardId === String(card.id)
-            ? { ...c, quantity: c.quantity + 1 }
-            : c
-        );
-      }
+  const addCardToDeck = useCallback(
+    (card: LorcanaCard) => {
+      setCards((prev) => {
+        const existing = prev.find((c) => c.cardId === String(card.id));
+        let newCards: DeckCardWithDetails[];
 
-      const currentInks = new Set<string>();
-      prev.forEach(c => {
-        if (c.details?.ink) currentInks.add(c.details.ink.toLowerCase());
-      });
+        if (existing) {
+          if (existing.quantity >= 4) return prev;
+          newCards = prev.map((c) =>
+            c.cardId === String(card.id)
+              ? { ...c, quantity: c.quantity + 1 }
+              : c,
+          );
+        } else {
+          const currentInks = new Set<string>();
+          prev.forEach((c) => {
+            if (c.details?.ink) currentInks.add(c.details.ink.toLowerCase());
+          });
 
-      if (card.ink) {
-        const newInk = card.ink.toLowerCase();
-        if (!currentInks.has(newInk) && currentInks.size >= 2) {
-          setShowInkWarning(true);
-          return prev;
+          if (card.ink) {
+            const newInk = card.ink.toLowerCase();
+            if (!currentInks.has(newInk) && currentInks.size >= 2) {
+              setShowInkWarning(true);
+              return prev;
+            }
+          }
+
+          newCards = [
+            ...prev,
+            {
+              cardId: String(card.id),
+              name: card.name || "Unknown",
+              quantity: 1,
+              details: card,
+            },
+          ];
         }
-      }
 
-      return [
-        ...prev,
-        {
-          cardId: String(card.id),
-          name: card.name || "Unknown",
-          quantity: 1,
-          details: card,
-        },
-      ];
-    });
-  }, []);
+        setDirty(true);
+        saveDraft(deckId, {
+          name: deckName,
+          description: deckDescription,
+          format: deckFormat,
+          strategy: deckStrategy,
+          tier: deckTier,
+          cards: newCards.map((c) => ({
+            cardId: c.cardId,
+            name: c.name,
+            quantity: c.quantity,
+          })),
+        });
 
-  const removeCardFromDeck = useCallback((cardId: string) => {
-    setCards((prev) => {
-      const existing = prev.find((c) => c.cardId === cardId);
-      if (existing && existing.quantity > 1) {
-        return prev.map((c) =>
-          c.cardId === cardId ? { ...c, quantity: c.quantity - 1 } : c
-        );
-      }
-      return prev.filter((c) => c.cardId !== cardId);
-    });
-  }, []);
+        return newCards;
+      });
+    },
+    [
+      deckId,
+      deckName,
+      deckDescription,
+      deckFormat,
+      deckStrategy,
+      deckTier,
+      saveDraft,
+    ],
+  );
 
-  const removeAllFromDeck = useCallback((cardId: string) => {
-    setCards((prev) => prev.filter((c) => c.cardId !== cardId));
-  }, []);
+  const removeCardFromDeck = useCallback(
+    (cardId: string) => {
+      setCards((prev) => {
+        const existing = prev.find((c) => c.cardId === cardId);
+        let newCards: DeckCardWithDetails[];
+        if (existing && existing.quantity > 1) {
+          newCards = prev.map((c) =>
+            c.cardId === cardId ? { ...c, quantity: c.quantity - 1 } : c,
+          );
+        } else {
+          newCards = prev.filter((c) => c.cardId !== cardId);
+        }
 
-  // Stats
+        setDirty(true);
+        saveDraft(deckId, {
+          name: deckName,
+          description: deckDescription,
+          format: deckFormat,
+          strategy: deckStrategy,
+          tier: deckTier,
+          cards: newCards.map((c) => ({
+            cardId: c.cardId,
+            name: c.name,
+            quantity: c.quantity,
+          })),
+        });
+
+        return newCards;
+      });
+    },
+    [
+      deckId,
+      deckName,
+      deckDescription,
+      deckFormat,
+      deckStrategy,
+      deckTier,
+      saveDraft,
+    ],
+  );
+
+  const removeAllFromDeck = useCallback(
+    (cardId: string) => {
+      setCards((prev) => {
+        const newCards = prev.filter((c) => c.cardId !== cardId);
+
+        setDirty(true);
+        saveDraft(deckId, {
+          name: deckName,
+          description: deckDescription,
+          format: deckFormat,
+          strategy: deckStrategy,
+          tier: deckTier,
+          cards: newCards.map((c) => ({
+            cardId: c.cardId,
+            name: c.name,
+            quantity: c.quantity,
+          })),
+        });
+
+        return newCards;
+      });
+    },
+    [
+      deckId,
+      deckName,
+      deckDescription,
+      deckFormat,
+      deckStrategy,
+      deckTier,
+      saveDraft,
+    ],
+  );
+
   const stats = useMemo<DeckStats>(() => {
     const s: DeckStats = {
       totalCards: 0,
@@ -220,19 +369,28 @@ export function useDeckBuilder(deckId: string) {
         const cost = c.details.cost || 0;
         totalCost += cost * c.quantity;
 
-        const cardType = Array.isArray(c.details.type) ? c.details.type.join(" ") : (c.details.type || "");
+        const cardType = Array.isArray(c.details.type)
+          ? c.details.type.join(" ")
+          : c.details.type || "";
         const type = cardType.toLowerCase();
-        if (type.includes("personaje") || type.includes("character")) s.characters += c.quantity;
-        else if (type.includes("acción") || type.includes("action")) s.actions += c.quantity;
-        else if (type.includes("objeto") || type.includes("item")) s.items += c.quantity;
-        else if (type.includes("lugar") || type.includes("location")) s.locations += c.quantity;
+        if (type.includes("personaje") || type.includes("character"))
+          s.characters += c.quantity;
+        else if (type.includes("acción") || type.includes("action"))
+          s.actions += c.quantity;
+        else if (type.includes("objeto") || type.includes("item"))
+          s.items += c.quantity;
+        else if (type.includes("lugar") || type.includes("location"))
+          s.locations += c.quantity;
 
         const ink = (c.details.ink || "").toLowerCase();
         if (ink === "amber" || ink === "ámbar") s.inkAmber += c.quantity;
-        else if (ink === "amethyst" || ink === "amatista") s.inkAmethyst += c.quantity;
-        else if (ink === "emerald" || ink === "esmeralda") s.inkEmerald += c.quantity;
+        else if (ink === "amethyst" || ink === "amatista")
+          s.inkAmethyst += c.quantity;
+        else if (ink === "emerald" || ink === "esmeralda")
+          s.inkEmerald += c.quantity;
         else if (ink === "ruby" || ink === "rubí") s.inkRuby += c.quantity;
-        else if (ink === "sapphire" || ink === "zafiro") s.inkSapphire += c.quantity;
+        else if (ink === "sapphire" || ink === "zafiro")
+          s.inkSapphire += c.quantity;
         else if (ink === "steel" || ink === "acero") s.inkSteel += c.quantity;
       }
     });
@@ -241,11 +399,11 @@ export function useDeckBuilder(deckId: string) {
     return s;
   }, [cards]);
 
-  // Validation
   const validation = useMemo<DeckValidation>(() => {
     const warnings: string[] = [];
-    if (stats.totalCards < 60) warnings.push("El mazo debe tener al menos 60 cartas.");
-    
+    if (stats.totalCards < 60)
+      warnings.push("El mazo debe tener al menos 60 cartas.");
+
     const inks = [
       stats.inkAmber > 0,
       stats.inkAmethyst > 0,
@@ -254,17 +412,18 @@ export function useDeckBuilder(deckId: string) {
       stats.inkSapphire > 0,
       stats.inkSteel > 0,
     ].filter(Boolean).length;
-    
-    if (inks > 2) warnings.push("El mazo no puede tener más de 2 colores de tinta.");
+
+    if (inks > 2)
+      warnings.push("El mazo no puede tener más de 2 colores de tinta.");
 
     return {
-      isValid: stats.totalCards >= 60 && inks <= 2 && deckName.trim().length > 0,
+      isValid:
+        stats.totalCards >= 60 && inks <= 2 && deckName.trim().length > 0,
       warnings,
     };
   }, [stats, deckName]);
 
-  // Save logic
-  const handleSaveDeck = async () => {
+  const handleSaveDeck = useCallback(async () => {
     if (!deckName.trim()) {
       setError("El nombre del mazo es obligatorio.");
       return;
@@ -329,13 +488,30 @@ export function useDeckBuilder(deckId: string) {
         if (isNewDeck) addDeck(mockDeck);
         else updateDeck(deckId, mockDeck);
       }
+      clearDraft(deckId);
+      setDirty(false);
       router.push("/mis-mazos");
     } catch (err: any) {
       setError(err.message || "Error al guardar el mazo");
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [
+    user,
+    isNewDeck,
+    deckId,
+    deckName,
+    deckDescription,
+    deckFormat,
+    deckStrategy,
+    deckTier,
+    cards,
+    stats,
+    addDeck,
+    updateDeck,
+    clearDraft,
+    router,
+  ]);
 
   return {
     deckName,
@@ -368,5 +544,7 @@ export function useDeckBuilder(deckId: string) {
     handleSaveDeck,
     error,
     isNewDeck,
+    isDirty,
+    clearDraft: () => clearDraft(deckId),
   };
 }

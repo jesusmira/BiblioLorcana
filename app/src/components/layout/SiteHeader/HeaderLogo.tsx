@@ -18,14 +18,28 @@ export function HeaderLogo({ onMenuToggle }: HeaderLogoProps) {
         aria-label="Abrir menu"
         onClick={onMenuToggle}
       >
-        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 6h16M4 12h16M4 18h16"
+          />
         </svg>
       </button>
       <div className={HEADER_STYLES.logoContainer}>
         <Link href="/" className="flex items-center gap-3 min-[721px]:gap-2">
           <LogoMark size={32} />
-          <span className={clsx(HEADER_STYLES.title, "min-[721px]:text-[1rem]")}>Archivo del Reino</span>
+          <span
+            className={clsx(HEADER_STYLES.title, "min-[721px]:text-[1rem]")}
+          >
+            Archivo del Reino
+          </span>
         </Link>
       </div>
     </div>
@@ -48,7 +62,9 @@ export function HeaderNav({ links, pathname }: HeaderNavProps) {
             href={link.href}
             className={clsx(
               HEADER_STYLES.navLinkBase,
-              isActive ? HEADER_STYLES.navLinkActive : HEADER_STYLES.navLinkInactive
+              isActive
+                ? HEADER_STYLES.navLinkActive
+                : HEADER_STYLES.navLinkInactive,
             )}
           >
             {link.label}

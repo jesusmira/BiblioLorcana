@@ -20,8 +20,8 @@ export function CookieBannerInitial({
           Preferencias de cookies
         </h2>
         <p className="text-sm leading-relaxed text-[var(--muted)]">
-          Esta web utiliza cookies para mejorar tu experiencia. Puedes
-          aceptar todas, rechazar las no esenciales o gestionar cada categoría.
+          Esta web utiliza cookies para mejorar tu experiencia. Puedes aceptar
+          todas, rechazar las no esenciales o gestionar cada categoría.
         </p>
       </div>
       <div className="cookie-banner-actions">

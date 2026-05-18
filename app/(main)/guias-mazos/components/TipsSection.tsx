@@ -15,11 +15,15 @@ export function TipsSection() {
             Consejos para <span className="text-[var(--accent)]">Mejorar</span>
           </h2>
           <p className="mt-4 leading-relaxed text-[var(--muted)]">
-            Sácale el máximo partido a tu mazo de inicio con estos consejos básicos.
+            Sácale el máximo partido a tu mazo de inicio con estos consejos
+            básicos.
           </p>
           <ul className="mt-8 space-y-4">
             {TIPS.map((tip) => (
-              <li key={tip} className="flex items-start gap-4 text-[var(--muted)]">
+              <li
+                key={tip}
+                className="flex items-start gap-4 text-[var(--muted)]"
+              >
                 <span className="mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--stroke)]">
                   <span className="h-1.5 w-1.5 rounded-full bg-[var(--ink)]" />
                 </span>

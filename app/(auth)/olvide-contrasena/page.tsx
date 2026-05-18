@@ -4,23 +4,34 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePasswordResetRequest } from "./_hooks/usePasswordResetRequest";
-import { ArrowLeftIcon, EnvelopeIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowLeftIcon,
+  EnvelopeIcon,
+  CheckCircleIcon,
+} from "@heroicons/react/24/outline";
 import { inputError } from "@/lib/styles";
 import { clsx } from "clsx";
 
 export default function OlvideContrasenaPage() {
-  const { email, isSubmitting, isSuccess, error, setEmail, handleSubmit } = usePasswordResetRequest();
+  const { email, isSubmitting, isSuccess, error, setEmail, handleSubmit } =
+    usePasswordResetRequest();
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
-  const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
+  const labelClass =
+    "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
   return (
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl" style={{ fontFamily: "var(--font-title)" }}>¿Olvidaste tu contraseña?</h1>
+          <h1
+            className="text-2xl font-bold tracking-wide text-[var(--accent)] sm:text-3xl"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            ¿Olvidaste tu contraseña?
+          </h1>
           <p className="mt-2 text-[var(--muted)]">
             {isSuccess
               ? "Te hemos enviado un email con instrucciones"
@@ -36,7 +47,10 @@ export default function OlvideContrasenaPage() {
               </div>
             </div>
             <div className="rounded-lg bg-[var(--surface-soft)] p-4 text-[var(--muted)]">
-              <p>Si existe una cuenta con ese email, recibirás un enlace para restablecer tu contraseña.</p>
+              <p>
+                Si existe una cuenta con ese email, recibirás un enlace para
+                restablecer tu contraseña.
+              </p>
               <p className="mt-2 text-sm">El enlace caduca en 1 hora.</p>
             </div>
             <Link
@@ -65,7 +79,11 @@ export default function OlvideContrasenaPage() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className={clsx(inputClass, "pl-12", error && "border-[var(--alert-ink)]")}
+                  className={clsx(
+                    inputClass,
+                    "pl-12",
+                    error && "border-[var(--alert-ink)]",
+                  )}
                   placeholder="tu@email.com"
                 />
               </div>

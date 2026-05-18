@@ -9,21 +9,36 @@ import { inputError } from "@/lib/styles";
 
 export default function RegistroPage() {
   const { isLoading: authLoading } = useAuth();
-  const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useRegistro();
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    apiError,
+    handleChange,
+    handleSubmit,
+  } = useRegistro();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
-  const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
+  const labelClass =
+    "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
   return (
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-wide text-[var(--accent)] sm:text-4xl" style={{ fontFamily: "var(--font-title)" }}>Registro</h1>
-          <p className="mt-2 text-[var(--muted)]">Crea tu cuenta para acceder a la galeria</p>
+          <h1
+            className="text-3xl font-bold tracking-wide text-[var(--accent)] sm:text-4xl"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            Registro
+          </h1>
+          <p className="mt-2 text-[var(--muted)]">
+            Crea tu cuenta para acceder a la galeria
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -44,9 +59,15 @@ export default function RegistroPage() {
               className={inputError(inputClass, !!errors.name)}
               placeholder="Tu nombre"
             />
-            {errors.name && errors.name.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.name &&
+              errors.name.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div>
@@ -61,9 +82,15 @@ export default function RegistroPage() {
               className={inputError(inputClass, !!errors.email)}
               placeholder="tu@email.com"
             />
-            {errors.email && errors.email.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.email &&
+              errors.email.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div>
@@ -83,14 +110,26 @@ export default function RegistroPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--ink)] transition-colors"
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
               >
-                {showPassword ? <EyeSlashIcon className="h-[18px] w-[18px]" /> : <EyeIcon className="h-[18px] w-[18px]" />}
+                {showPassword ? (
+                  <EyeSlashIcon className="h-[18px] w-[18px]" />
+                ) : (
+                  <EyeIcon className="h-[18px] w-[18px]" />
+                )}
               </button>
             </div>
-            {errors.password && errors.password.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.password &&
+              errors.password.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div>
@@ -102,7 +141,9 @@ export default function RegistroPage() {
                 id="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 value={formData.confirmPassword}
-                onChange={(e) => handleChange("confirmPassword", e.target.value)}
+                onChange={(e) =>
+                  handleChange("confirmPassword", e.target.value)
+                }
                 className={inputError(inputClass, !!errors.confirmPassword)}
                 placeholder="Repite tu contraseña"
               />
@@ -110,14 +151,28 @@ export default function RegistroPage() {
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--ink)] transition-colors"
-                aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={
+                  showConfirmPassword
+                    ? "Ocultar contraseña"
+                    : "Mostrar contraseña"
+                }
               >
-                {showConfirmPassword ? <EyeSlashIcon className="h-[18px] w-[18px]" /> : <EyeIcon className="h-[18px] w-[18px]" />}
+                {showConfirmPassword ? (
+                  <EyeSlashIcon className="h-[18px] w-[18px]" />
+                ) : (
+                  <EyeIcon className="h-[18px] w-[18px]" />
+                )}
               </button>
             </div>
-            {errors.confirmPassword && errors.confirmPassword.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.confirmPassword &&
+              errors.confirmPassword.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <button

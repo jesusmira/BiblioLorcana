@@ -16,15 +16,23 @@ const resourceImages: Record<ResourceType, string> = {
   ink: "/images/Ink_B&W.png",
 };
 
-function ResourceIconImage({ type, className = "", size = 18 }: { type: ResourceType; className?: string; size?: number }) {
+function ResourceIconImage({
+  type,
+  className = "",
+  size = 18,
+}: {
+  type: ResourceType;
+  className?: string;
+  size?: number;
+}) {
   const src = resourceImages[type];
 
   return (
-    <span 
-      className={clsx("inline-block", className)} 
-      style={{ 
-        width: size, 
-        height: size, 
+    <span
+      className={clsx("inline-block", className)}
+      style={{
+        width: size,
+        height: size,
         backgroundColor: "currentColor",
         WebkitMaskImage: `url(${src})`,
         WebkitMaskRepeat: "no-repeat",
@@ -33,8 +41,8 @@ function ResourceIconImage({ type, className = "", size = 18 }: { type: Resource
         maskImage: `url(${src})`,
         maskRepeat: "no-repeat",
         maskPosition: "center",
-        maskSize: "contain"
-      }} 
+        maskSize: "contain",
+      }}
     />
   );
 }
@@ -63,7 +71,11 @@ export function parseCardText(text: string): React.ReactNode {
 
     if (resourceType) {
       parts.push(
-        <ResourceIconImage key={key++} type={resourceType} className="inline-block align-middle mx-0.5" />
+        <ResourceIconImage
+          key={key++}
+          type={resourceType}
+          className="inline-block align-middle mx-0.5"
+        />,
       );
     } else {
       parts.push(code);
@@ -81,11 +93,7 @@ export function parseCardText(text: string): React.ReactNode {
 }
 
 export function CardText({ text, className }: ParsedTextProps) {
-  return (
-    <span className={className}>
-      {parseCardText(text)}
-    </span>
-  );
+  return <span className={className}>{parseCardText(text)}</span>;
 }
 
 export default CardText;

@@ -15,12 +15,12 @@ interface GalleryState {
   cardsBySet: Record<string, SetCache>;
   allCards: LorcanaCard[];
   allCardsUpdatedAt: number | null;
-  
+
   setSets: (sets: LorcanaSet[]) => void;
   setCards: (setCode: string, cards: LorcanaCard[]) => void;
   setAllCards: (cards: LorcanaCard[]) => void;
   clearCache: () => void;
-  
+
   // Helpers
   isSetsValid: () => boolean;
   isCardsValid: (setCode: string) => boolean;
@@ -38,21 +38,27 @@ export const useGalleryStore = create<GalleryState>()(
       allCards: [],
       allCardsUpdatedAt: null,
 
-      setSets: (sets: LorcanaSet[]) => 
-        set({ sets, setsUpdatedAt: Date.now() }),
+      setSets: (sets: LorcanaSet[]) => set({ sets, setsUpdatedAt: Date.now() }),
 
-      setCards: (setCode: string, cards: LorcanaCard[]) => 
+      setCards: (setCode: string, cards: LorcanaCard[]) =>
         set((state) => ({
           cardsBySet: {
             ...state.cardsBySet,
-            [setCode]: { data: cards, updatedAt: Date.now() }
-          }
+            [setCode]: { data: cards, updatedAt: Date.now() },
+          },
         })),
 
       setAllCards: (cards: LorcanaCard[]) =>
         set({ allCards: cards, allCardsUpdatedAt: Date.now() }),
 
-      clearCache: () => set({ sets: [], setsUpdatedAt: null, cardsBySet: {}, allCards: [], allCardsUpdatedAt: null }),
+      clearCache: () =>
+        set({
+          sets: [],
+          setsUpdatedAt: null,
+          cardsBySet: {},
+          allCards: [],
+          allCardsUpdatedAt: null,
+        }),
 
       isSetsValid: () => {
         const { sets, setsUpdatedAt } = get();
@@ -79,6 +85,6 @@ export const useGalleryStore = create<GalleryState>()(
         sets: state.sets,
         setsUpdatedAt: state.setsUpdatedAt,
       }),
-    }
-  )
+    },
+  ),
 );

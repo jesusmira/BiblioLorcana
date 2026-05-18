@@ -83,7 +83,12 @@ export function useImageSearch(): UseImageSearchReturn {
 
       if (name) {
         setIsSearching(true);
-        const searchResult = await searchCard({ name, subtitle, number, isPromo });
+        const searchResult = await searchCard({
+          name,
+          subtitle,
+          number,
+          isPromo,
+        });
         setIsSearching(false);
 
         if (searchResult.card) {
@@ -134,8 +139,10 @@ export function useImageSearch(): UseImageSearchReturn {
     const results = await Promise.all(textsToTranslate);
     const textResult = results[0];
     const flavorResult = results[1];
-    if (textResult?.translatedText) setTranslatedText(textResult.translatedText);
-    if (flavorResult?.translatedText) setTranslatedFlavor(flavorResult.translatedText);
+    if (textResult?.translatedText)
+      setTranslatedText(textResult.translatedText);
+    if (flavorResult?.translatedText)
+      setTranslatedFlavor(flavorResult.translatedText);
     setIsTranslating(false);
   }, [foundCard, translatedText, translatedFlavor]);
 

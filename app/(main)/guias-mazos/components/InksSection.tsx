@@ -14,7 +14,8 @@ export function InksSection() {
           Las <span className="text-[var(--accent)]">6 Tintas</span> de Lorcana
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-[var(--muted)]">
-          Cada tinta representa un estilo de juego único. Los mazos de inicio siempre combinan dos tintas.
+          Cada tinta representa un estilo de juego único. Los mazos de inicio
+          siempre combinan dos tintas.
         </p>
       </div>
 

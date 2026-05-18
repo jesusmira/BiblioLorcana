@@ -31,14 +31,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (session?.user) {
         setUser({
           id: session.user.id,
-          name: session.user.user_metadata.full_name || session.user.email?.split('@')[0] || "Usuario",
+          name:
+            session.user.user_metadata.full_name ||
+            session.user.email?.split("@")[0] ||
+            "Usuario",
           email: session.user.email!,
           role: session.user.user_metadata.role || "USER",
-          image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
+          image:
+            session.user.user_metadata.avatar_url ||
+            session.user.user_metadata.picture,
         });
       } else {
         // Intentar con sesión legacy
@@ -59,21 +66,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     fetchUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         if (session.user.email) {
-          localStorage.setItem('last_login_email', session.user.email);
+          localStorage.setItem("last_login_email", session.user.email);
         }
         setUser({
           id: session.user.id,
-          name: session.user.user_metadata.full_name || session.user.email?.split('@')[0] || "Usuario",
+          name:
+            session.user.user_metadata.full_name ||
+            session.user.email?.split("@")[0] ||
+            "Usuario",
           email: session.user.email!,
           role: session.user.user_metadata.role || "USER",
-          image: session.user.user_metadata.avatar_url || session.user.user_metadata.picture,
+          image:
+            session.user.user_metadata.avatar_url ||
+            session.user.user_metadata.picture,
         });
-      } else if (_event === 'SIGNED_OUT') {
+      } else if (_event === "SIGNED_OUT") {
         setUser(null);
-      } else if (_event === 'INITIAL_SESSION' && !session) {
+      } else if (_event === "INITIAL_SESSION" && !session) {
         // No hacer nada, fetchUser se encarga de la sesión legacy
       }
       setIsLoading(false);
@@ -148,18 +162,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loginWithProvider = async (provider: "google" | "github") => {
     try {
-      const lastEmail = typeof window !== 'undefined' ? localStorage.getItem('last_login_email') : null;
-      
+      const lastEmail =
+        typeof window !== "undefined"
+          ? localStorage.getItem("last_login_email")
+          : null;
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
           redirectTo: `${window.location.origin}/api/auth/callback`,
-          queryParams: (provider === 'google' && lastEmail) ? {
-            login_hint: lastEmail,
-          } : undefined
+          queryParams: {
+            ...(provider === "google" && lastEmail
+              ? { login_hint: lastEmail }
+              : {}),
+            prompt: "select_account",
+          },
         },
       });
-      
+
       if (error) throw error;
     } catch (error) {
       console.error(`Error with ${provider} login:`, error);
@@ -180,7 +200,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, register, loginWithProvider, logout }}>
+    <AuthContext.Provider
+      value={{ user, isLoading, login, register, loginWithProvider, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     if (!validation.success) {
       return NextResponse.json(
         { error: validation.errors.join(", ") },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -40,7 +40,8 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "Error en el servidor";
+    const message =
+      error instanceof Error ? error.message : "Error en el servidor";
     return NextResponse.json({ error: message }, { status: 400 });
   }
 }

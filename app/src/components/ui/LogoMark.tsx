@@ -35,9 +35,24 @@ export default function LogoMark({
           </radialGradient>
         </defs>
 
-        <rect x="6" y="6" width="108" height="108" rx="18" fill="url(#logoFrame)" />
+        <rect
+          x="6"
+          y="6"
+          width="108"
+          height="108"
+          rx="18"
+          fill="url(#logoFrame)"
+        />
         <rect x="14" y="14" width="92" height="92" rx="14" fill="#2a1f16" />
-        <rect x="18" y="18" width="84" height="84" rx="12" fill="url(#logoGlow)" opacity="0.9" />
+        <rect
+          x="18"
+          y="18"
+          width="84"
+          height="84"
+          rx="12"
+          fill="url(#logoGlow)"
+          opacity="0.9"
+        />
 
         <path
           d="M60 28c8 6 12 14 12 24 0 9-4 16-11 21 8 0 15-3 21-9-1 12-9 22-22 28-14-6-22-16-22-28 6 6 13 9 21 9-7-5-11-12-11-21 0-10 4-18 12-24z"

@@ -8,15 +8,15 @@ export async function GET() {
       include: {
         cards: {
           include: {
-            card: true
-          }
-        }
-      }
+            card: true,
+          },
+        },
+      },
     });
 
     // Mapear al formato que espera la UI
     // Usamos casting a any temporalmente si los tipos de Prisma no se han actualizado en el IDE
-    const formattedDecks = (decks as any[]).map(deck => ({
+    const formattedDecks = (decks as any[]).map((deck) => ({
       ...deck,
       cards: (deck.cards || [])
         .filter((sc: any) => sc.card)
@@ -36,7 +36,7 @@ export async function GET() {
           willpower: sc.card.willpower,
           lore: sc.card.lore,
           flavorText: sc.card.flavorText,
-        }))
+        })),
     }));
 
     return NextResponse.json(formattedDecks);
@@ -44,7 +44,7 @@ export async function GET() {
     console.error("Error fetching starter decks from DB:", error);
     return NextResponse.json(
       { error: "Error fetching starter decks" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -52,6 +52,6 @@ export async function GET() {
 export async function POST() {
   return NextResponse.json(
     { message: "Endpoint configured. Use database to save starter decks." },
-    { status: 200 }
+    { status: 200 },
   );
 }

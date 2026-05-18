@@ -1,14 +1,14 @@
-import axios from 'axios';
-import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import pg from 'pg';
-import 'dotenv/config';
+import axios from "axios";
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
+import "dotenv/config";
 
 // Reutilizamos la lógica de instanciación de Prisma con el adaptador de pg para Prisma 7
 function createPrismaClient() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error('DATABASE_URL is not defined in .env');
+    throw new Error("DATABASE_URL is not defined in .env");
   }
   const pool = new pg.Pool({ connectionString });
   const adapter = new PrismaPg(pool);
@@ -18,28 +18,32 @@ function createPrismaClient() {
 const prisma = createPrismaClient();
 
 async function syncCards() {
-  console.log('🚀 Iniciando sincronización de cartas con Lorcast...');
+  console.log("🚀 Iniciando sincronización de cartas con Lorcast...");
 
   try {
     // 1. Obtener todos los sets
-    console.log('📡 Obteniendo lista de sets...');
-    const setsResponse = await axios.get('https://api.lorcast.com/v0/sets');
+    console.log("📡 Obteniendo lista de sets...");
+    const setsResponse = await axios.get("https://api.lorcast.com/v0/sets");
     const sets = setsResponse.data.results;
 
     if (!Array.isArray(sets)) {
-      console.error('❌ Error: No se pudo obtener la lista de sets.');
+      console.error("❌ Error: No se pudo obtener la lista de sets.");
       return;
     }
 
-    console.log(`📚 Se han encontrado ${sets.length} sets. Sincronizando cartas...`);
+    console.log(
+      `📚 Se han encontrado ${sets.length} sets. Sincronizando cartas...`,
+    );
 
     let totalCardsSynced = 0;
 
     for (const set of sets) {
       console.log(`🔍 Sincronizando set: ${set.name} (${set.code})...`);
-      
+
       try {
-        const cardsResponse = await axios.get(`https://api.lorcast.com/v0/sets/${set.code}/cards`);
+        const cardsResponse = await axios.get(
+          `https://api.lorcast.com/v0/sets/${set.code}/cards`,
+        );
         const cards = cardsResponse.data;
 
         if (!Array.isArray(cards)) {
@@ -49,20 +53,27 @@ async function syncCards() {
 
         for (const cardData of cards) {
           const cardId = cardData.id;
-          
+
           await prisma.card.upsert({
             where: { id: cardId },
             update: {
               set: set.code,
-              number: cardData.collector_number || '0',
-              name: cardData.name || 'Sin nombre',
-              ink: cardData.ink || 'Neutral',
+              number: cardData.collector_number || "0",
+              name: cardData.name || "Sin nombre",
+              ink: cardData.ink || "Neutral",
               cost: cardData.cost ?? 0,
-              type: Array.isArray(cardData.type) ? cardData.type[0] : (cardData.type || 'Character'),
-              rarity: cardData.rarity || 'Common',
-              subtypes: Array.isArray(cardData.classifications) ? cardData.classifications.join(', ') : null,
+              type: Array.isArray(cardData.type)
+                ? cardData.type[0]
+                : cardData.type || "Character",
+              rarity: cardData.rarity || "Common",
+              subtypes: Array.isArray(cardData.classifications)
+                ? cardData.classifications.join(", ")
+                : null,
               abilities: cardData.text || null,
-              imageUrl: cardData.image_uris?.digital?.large || cardData.image_uris?.digital?.normal || null,
+              imageUrl:
+                cardData.image_uris?.digital?.large ||
+                cardData.image_uris?.digital?.normal ||
+                null,
               strength: cardData.strength ?? null,
               willpower: cardData.willpower ?? null,
               lore: cardData.lore ?? null,
@@ -71,15 +82,22 @@ async function syncCards() {
             create: {
               id: cardId,
               set: set.code,
-              number: cardData.collector_number || '0',
-              name: cardData.name || 'Sin nombre',
-              ink: cardData.ink || 'Neutral',
+              number: cardData.collector_number || "0",
+              name: cardData.name || "Sin nombre",
+              ink: cardData.ink || "Neutral",
               cost: cardData.cost ?? 0,
-              type: Array.isArray(cardData.type) ? cardData.type[0] : (cardData.type || 'Character'),
-              rarity: cardData.rarity || 'Common',
-              subtypes: Array.isArray(cardData.classifications) ? cardData.classifications.join(', ') : null,
+              type: Array.isArray(cardData.type)
+                ? cardData.type[0]
+                : cardData.type || "Character",
+              rarity: cardData.rarity || "Common",
+              subtypes: Array.isArray(cardData.classifications)
+                ? cardData.classifications.join(", ")
+                : null,
               abilities: cardData.text || null,
-              imageUrl: cardData.image_uris?.digital?.large || cardData.image_uris?.digital?.normal || null,
+              imageUrl:
+                cardData.image_uris?.digital?.large ||
+                cardData.image_uris?.digital?.normal ||
+                null,
               strength: cardData.strength ?? null,
               willpower: cardData.willpower ?? null,
               lore: cardData.lore ?? null,
@@ -88,15 +106,19 @@ async function syncCards() {
           });
           totalCardsSynced++;
         }
-        console.log(`✅ Set ${set.code} sincronizado (${cards.length} cartas).`);
+        console.log(
+          `✅ Set ${set.code} sincronizado (${cards.length} cartas).`,
+        );
       } catch (error) {
         console.error(`❌ Error sincronizando el set ${set.code}:`, error);
       }
     }
 
-    console.log(`🎉 Sincronización completada. Total de cartas en BD: ${totalCardsSynced}`);
+    console.log(
+      `🎉 Sincronización completada. Total de cartas en BD: ${totalCardsSynced}`,
+    );
   } catch (error) {
-    console.error('❌ Error general durante la sincronización:', error);
+    console.error("❌ Error general durante la sincronización:", error);
   } finally {
     await prisma.$disconnect();
   }

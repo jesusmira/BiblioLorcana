@@ -1,12 +1,8 @@
 import { z } from "zod";
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, "El email o usuario es requerido"),
-  password: z
-    .string()
-    .min(1, "La contraseña es requerida"),
+  email: z.string().min(1, "El email o usuario es requerido"),
+  password: z.string().min(1, "La contraseña es requerida"),
 });
 
 export const registerSchema = z
@@ -16,10 +12,7 @@ export const registerSchema = z
       .min(1, "El nombre es requerido")
       .min(2, "Mínimo 2 caracteres")
       .max(100, "Máximo 100 caracteres"),
-    email: z
-      .string()
-      .min(1, "El email es requerido")
-      .email("Email inválido"),
+    email: z.string().min(1, "El email es requerido").email("Email inválido"),
     password: z
       .string()
       .min(1, "La contraseña es requerida")
@@ -38,7 +31,10 @@ export const registerSchema = z
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 
-export function validateRequest<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; errors: string[] } {
+export function validateRequest<T>(
+  schema: z.ZodSchema<T>,
+  data: unknown,
+): { success: true; data: T } | { success: false; errors: string[] } {
   const result = schema.safeParse(data);
   if (!result.success) {
     return {

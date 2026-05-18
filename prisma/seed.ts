@@ -4,7 +4,9 @@ import pg from "pg";
 import bcrypt from "bcryptjs";
 import axios from "axios";
 
-const connectionString = process.env.DATABASE_URL || "postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor?schema=public";
+const connectionString =
+  process.env.DATABASE_URL ||
+  "postgresql://biblioLor_user:biblioLor_pass@localhost:5432/biblioLor?schema=public";
 const pool = new pg.Pool({ connectionString });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
@@ -17,7 +19,8 @@ const STARTER_DECKS_DATA = [
     name: "Ámbar + Amatista",
     set: "The First Chapter",
     inks: ["Amber", "Amethyst"],
-    description: "El mazo perfecto para principiantes. Cartas reconocibles como Mickey Mouse y Elsa que te ayudan a entender las mecánicas básicas del juego.",
+    description:
+      "El mazo perfecto para principiantes. Cartas reconocibles como Mickey Mouse y Elsa que te ayudan a entender las mecánicas básicas del juego.",
     profile: "Principiante",
     cards: [
       { quantity: 2, cardId: "1-1" },
@@ -56,7 +59,8 @@ const STARTER_DECKS_DATA = [
     name: "Esmeralda + Rubí",
     set: "The First Chapter",
     inks: ["Emerald", "Ruby"],
-    description: "Para quienes les gusta atacar sin parar. Jugadas rápidas y finishes agresivos que toman desprevenido al rival.",
+    description:
+      "Para quienes les gusta atacar sin parar. Jugadas rápidas y finishes agresivos que toman desprevenido al rival.",
     profile: "Agresivo",
     cards: [
       { quantity: 2, cardId: "1-69" },
@@ -94,7 +98,8 @@ const STARTER_DECKS_DATA = [
     name: "Zafiro + Acero",
     set: "The First Chapter",
     inks: ["Sapphire", "Steel"],
-    description: "Defensa sólida y control de recursos. Resiste las embestidas del enemigo y gana a largo plazo.",
+    description:
+      "Defensa sólida y control de recursos. Resiste las embestidas del enemigo y gana a largo plazo.",
     profile: "Control",
     cards: [
       { quantity: 3, cardId: "1-138" },
@@ -133,7 +138,8 @@ const STARTER_DECKS_DATA = [
     name: "Amatista + Acero",
     set: "Rise of the Floodborn",
     inks: ["Amethyst", "Steel"],
-    description: "Estrategias de bounce con Merlin y Madam Mim. Un mazo divertido con muchas cartas de bajo coste.",
+    description:
+      "Estrategias de bounce con Merlin y Madam Mim. Un mazo divertido con muchas cartas de bajo coste.",
     profile: "Combo",
     cards: [
       { quantity: 3, cardId: "2-37" },
@@ -169,9 +175,13 @@ const STARTER_DECKS_DATA = [
   },
 ];
 
-async function getCardIdByCollector(collectorNumber: string): Promise<string | null> {
+async function getCardIdByCollector(
+  collectorNumber: string,
+): Promise<string | null> {
   try {
-    const response = await fetch(`${API_BASE}/sets/1/cards?collector_number=${collectorNumber}`);
+    const response = await fetch(
+      `${API_BASE}/sets/1/cards?collector_number=${collectorNumber}`,
+    );
     if (!response.ok) return null;
     const data = await response.json();
     return data.results?.[0]?.id || null;
@@ -221,7 +231,10 @@ async function seedStarterDecks() {
           rarity: cardData.rarity || "Common",
           subtypes: cardData.type?.slice(1).join(", ") || null,
           abilities: cardData.abilities || cardData.text || null,
-          imageUrl: cardData.image_uris?.digital?.large || cardData.image_uris?.digital?.normal || null,
+          imageUrl:
+            cardData.image_uris?.digital?.large ||
+            cardData.image_uris?.digital?.normal ||
+            null,
         });
       } else {
         cardsData.push({
@@ -253,7 +266,9 @@ async function seedStarterDecks() {
       },
     });
 
-    console.log(`Created starter deck: ${deckData.id} - ${deckData.name} (${cardsData.length} unique cards)`);
+    console.log(
+      `Created starter deck: ${deckData.id} - ${deckData.name} (${cardsData.length} unique cards)`,
+    );
   }
 
   console.log("Starter decks seeded successfully!");
@@ -275,7 +290,18 @@ async function main() {
   });
   console.log("Created user:", user.email);
 
-  const collectorNumbers = ["51", "84", "195", "146", "61", "164", "2", "137", "202", "173"];
+  const collectorNumbers = [
+    "51",
+    "84",
+    "195",
+    "146",
+    "61",
+    "164",
+    "2",
+    "137",
+    "202",
+    "173",
+  ];
   const names = [
     "Mickey Mouse - Wayward Sorcerer",
     "Elsa - Snow Queen",
@@ -293,7 +319,13 @@ async function main() {
     const cardId = await getCardIdByCollector(collectorNumbers[i]);
     if (cardId) {
       await prisma.userCard.upsert({
-        where: { userId_cardId_isFoiling: { userId: user.id, cardId, isFoiling: false } },
+        where: {
+          userId_cardId_isFoiling: {
+            userId: user.id,
+            cardId,
+            isFoiling: false,
+          },
+        },
         update: {},
         create: { userId: user.id, cardId, quantity: 1, isFoiling: false },
       });
@@ -308,5 +340,4 @@ async function main() {
   console.log("Seed completed!");
 }
 
-main()
-  .finally(() => prisma.$disconnect());
+main().finally(() => prisma.$disconnect());

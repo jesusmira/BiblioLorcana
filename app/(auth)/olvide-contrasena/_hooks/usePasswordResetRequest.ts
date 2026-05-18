@@ -18,33 +18,36 @@ export function usePasswordResetRequest(): UsePasswordResetRequestReturn {
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setIsSubmitting(true);
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setError("");
+      setIsSubmitting(true);
 
-    if (!email.trim()) {
-      setError("El email es requerido");
+      if (!email.trim()) {
+        setError("El email es requerido");
+        setIsSubmitting(false);
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setError("Email inválido");
+        setIsSubmitting(false);
+        return;
+      }
+
+      const result = await requestPasswordReset(email);
+
+      if (result.success) {
+        setIsSuccess(true);
+      } else {
+        setError(result.error || "Error al solicitar el restablecimiento");
+      }
+
       setIsSubmitting(false);
-      return;
-    }
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Email inválido");
-      setIsSubmitting(false);
-      return;
-    }
-
-    const result = await requestPasswordReset(email);
-
-    if (result.success) {
-      setIsSuccess(true);
-    } else {
-      setError(result.error || "Error al solicitar el restablecimiento");
-    }
-
-    setIsSubmitting(false);
-  }, [email]);
+    },
+    [email],
+  );
 
   return {
     email,

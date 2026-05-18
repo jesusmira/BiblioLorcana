@@ -12,10 +12,19 @@ interface EditProfileModalProps {
     bio: string | null;
     avatarUrl: string | null;
   };
-  onSuccess: (data: { name: string; bio: string | null; avatarUrl: string | null }) => void;
+  onSuccess: (data: {
+    name: string;
+    bio: string | null;
+    avatarUrl: string | null;
+  }) => void;
 }
 
-export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: EditProfileModalProps) {
+export function EditProfileModal({
+  isOpen,
+  onClose,
+  initialData,
+  onSuccess,
+}: EditProfileModalProps) {
   const [name, setName] = useState(initialData.name);
   const [bio, setBio] = useState(initialData.bio || "");
   const [avatarUrl, setAvatarUrl] = useState(initialData.avatarUrl || "");
@@ -92,7 +101,9 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="mx-4 w-full max-w-md rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)]">
-        <h2 className="mb-6 text-xl font-semibold text-[var(--ink)]">Editar perfil</h2>
+        <h2 className="mb-6 text-xl font-semibold text-[var(--ink)]">
+          Editar perfil
+        </h2>
 
         <div className="space-y-4">
           {/* Avatar */}
@@ -103,7 +114,11 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
                 className="flex h-24 w-24 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-[var(--surface-strong)] ring-2 ring-[var(--stroke)] hover:ring-[var(--accent)]"
               >
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt="Avatar" className="h-full w-full object-cover" />
+                  <img
+                    src={avatarUrl}
+                    alt="Avatar"
+                    className="h-full w-full object-cover"
+                  />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center bg-[var(--accent)] text-[2rem] font-bold text-white">
                     {name.charAt(0).toUpperCase()}
@@ -129,7 +144,10 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
           </div>
 
           <div>
-            <label htmlFor="name" className="mb-2 block text-sm text-[var(--muted)]">
+            <label
+              htmlFor="name"
+              className="mb-2 block text-sm text-[var(--muted)]"
+            >
               Nombre
             </label>
             <input
@@ -143,7 +161,10 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
           </div>
 
           <div>
-            <label htmlFor="bio" className="mb-2 block text-sm text-[var(--muted)]">
+            <label
+              htmlFor="bio"
+              className="mb-2 block text-sm text-[var(--muted)]"
+            >
               Biografía
             </label>
             <textarea
@@ -158,9 +179,7 @@ export function EditProfileModal({ isOpen, onClose, initialData, onSuccess }: Ed
             <p className="mt-1 text-xs text-[var(--muted)]">{bio.length}/500</p>
           </div>
 
-          {error && (
-            <p className="text-sm text-[var(--alert-ink)]">{error}</p>
-          )}
+          {error && <p className="text-sm text-[var(--alert-ink)]">{error}</p>}
         </div>
 
         <div className="mt-6 flex gap-3 justify-end">

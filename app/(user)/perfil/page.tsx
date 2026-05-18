@@ -62,8 +62,16 @@ export default function PerfilPage() {
     fetchPerfil();
   }, [user]);
 
-  const handleEditSuccess = (data: { name: string; bio: string | null; avatarUrl: string | null }) => {
-    setPerfilData((prev) => prev ? { ...prev, name: data.name, bio: data.bio, avatarUrl: data.avatarUrl } : null);
+  const handleEditSuccess = (data: {
+    name: string;
+    bio: string | null;
+    avatarUrl: string | null;
+  }) => {
+    setPerfilData((prev) =>
+      prev
+        ? { ...prev, name: data.name, bio: data.bio, avatarUrl: data.avatarUrl }
+        : null,
+    );
   };
 
   const handleDeleteAccount = async () => {
@@ -81,7 +89,9 @@ export default function PerfilPage() {
     }
   };
 
-  const createdAt = perfilData?.createdAt ? new Date(perfilData.createdAt) : new Date();
+  const createdAt = perfilData?.createdAt
+    ? new Date(perfilData.createdAt)
+    : new Date();
 
   return (
     <AuthGuard
@@ -110,7 +120,9 @@ export default function PerfilPage() {
                 />
               ) : (
                 <div className="flex h-24 w-24 items-center justify-center rounded-full bg-[var(--accent)] text-[2rem] font-bold text-white">
-                  {(perfilData?.name || user?.name || "U").charAt(0).toUpperCase()}
+                  {(perfilData?.name || user?.name || "U")
+                    .charAt(0)
+                    .toUpperCase()}
                 </div>
               )}
             </div>
@@ -120,7 +132,9 @@ export default function PerfilPage() {
               <h2 className="text-xl font-semibold text-[var(--ink)]">
                 {perfilData?.name || user?.name}
               </h2>
-              <p className="text-[var(--muted)]">{perfilData?.email || user?.email}</p>
+              <p className="text-[var(--muted)]">
+                {perfilData?.email || user?.email}
+              </p>
             </div>
 
             {/* Bio */}
@@ -174,7 +188,9 @@ export default function PerfilPage() {
                 Eliminar mi cuenta
               </button>
               {deleteError && (
-                <p className="text-sm text-[var(--alert-ink)] mt-2">{deleteError}</p>
+                <p className="text-sm text-[var(--alert-ink)] mt-2">
+                  {deleteError}
+                </p>
               )}
             </div>
           </div>

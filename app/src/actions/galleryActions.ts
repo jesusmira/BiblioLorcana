@@ -3,7 +3,11 @@
 import { z } from "zod";
 import { fetchJson } from "@/lib/fetcher";
 import { getCached, setCache } from "@/lib/cache";
-import { LorcanaCardSchema, LorcanaSetSchema, ResultsSchema } from "@/lib/lorcastSchemas";
+import {
+  LorcanaCardSchema,
+  LorcanaSetSchema,
+  ResultsSchema,
+} from "@/lib/lorcastSchemas";
 import type { LorcanaSet, LorcanaCard } from "../types";
 
 const API_BASE = process.env.LORCAST_API_BASE || "https://api.lorcast.com/v0";
@@ -60,7 +64,9 @@ export async function fetchSetsAction(): Promise<LorcanaSet[]> {
   return result;
 }
 
-export async function fetchCardsBySetAction(code: string): Promise<LorcanaCard[]> {
+export async function fetchCardsBySetAction(
+  code: string,
+): Promise<LorcanaCard[]> {
   const cacheKey = `lorcast:cards:${code}`;
   const cached = getCached<LorcanaCard[]>(cacheKey);
   if (cached) {
@@ -105,13 +111,15 @@ export async function searchCardsAction(query: string): Promise<LorcanaCard[]> {
 
 export async function searchCardsWithFiltersAction(
   query: string,
-  filters: CardSearchFilters = {}
+  filters: CardSearchFilters = {},
 ): Promise<LorcanaCard[]> {
   const q = query.trim();
-  const hasAnyFilter = filters.ink || filters.type || filters.rarity || filters.setCode;
-  
+  const hasAnyFilter =
+    filters.ink || filters.type || filters.rarity || filters.setCode;
+
   // Caso 1: Solo filtro de set sin query - usar endpoint directo
-  const onlySetFilter = filters.setCode && !q && !filters.ink && !filters.type && !filters.rarity;
+  const onlySetFilter =
+    filters.setCode && !q && !filters.ink && !filters.type && !filters.rarity;
   if (onlySetFilter && filters.setCode) {
     try {
       return await fetchCardsBySetAction(filters.setCode);
@@ -119,7 +127,7 @@ export async function searchCardsWithFiltersAction(
       return [];
     }
   }
-  
+
   // Caso 2: Query vacía + filtros -> buscar todas las cartas (del set si hay) y filtrar localmente
   if (!q && hasAnyFilter) {
     let baseResults: LorcanaCard[];
@@ -132,18 +140,19 @@ export async function searchCardsWithFiltersAction(
     } catch {
       baseResults = [];
     }
-    
+
     // Si no hay resultados, devolver vacío
     if (!baseResults.length) {
       return [];
     }
-    
+
     // Filtrar localmente
     return filterCardsLocally(baseResults, filters);
   }
 
   // Caso 2b: Query con filtro de set (sin otros filtros) -> buscar en el set específico
-  const queryWithSetOnly = q && filters.setCode && !filters.ink && !filters.type && !filters.rarity;
+  const queryWithSetOnly =
+    q && filters.setCode && !filters.ink && !filters.type && !filters.rarity;
   if (queryWithSetOnly && filters.setCode) {
     let baseResults: LorcanaCard[];
     try {
@@ -151,18 +160,18 @@ export async function searchCardsWithFiltersAction(
     } catch {
       baseResults = [];
     }
-    
+
     if (!baseResults.length) {
       return [];
     }
-    
+
     // Filtrar por query en el nombre
     const qLower = q.toLowerCase();
-    return baseResults.filter((card) => 
-      card.name?.toLowerCase().includes(qLower)
-    ).slice(0, 50);
+    return baseResults
+      .filter((card) => card.name?.toLowerCase().includes(qLower))
+      .slice(0, 50);
   }
-  
+
   // Caso 3: Query con o sin filtros adicionales - cargar todas las cartas y filtrar localmente
   let baseResults: LorcanaCard[];
   try {
@@ -182,7 +191,7 @@ export async function searchCardsWithFiltersAction(
   // Filtrar por nombre
   const qLower = q.toLowerCase();
   let filteredByName = baseResults.filter((card) =>
-    card.name?.toLowerCase().includes(qLower)
+    card.name?.toLowerCase().includes(qLower),
   );
 
   // Si no hay filtros adicionales, devolver los primeros 50
@@ -194,7 +203,10 @@ export async function searchCardsWithFiltersAction(
   return filterCardsLocally(filteredByName, filters);
 }
 
-function filterCardsLocally(cards: LorcanaCard[], filters: CardSearchFilters): LorcanaCard[] {
+function filterCardsLocally(
+  cards: LorcanaCard[],
+  filters: CardSearchFilters,
+): LorcanaCard[] {
   const normalizeInk = (value: string | undefined | null): string => {
     if (!value) return "";
     return value.toLowerCase().replace(/\s+/g, "_").replace(/_+/g, "_");
@@ -227,9 +239,8 @@ export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {
     return results.flat();
   } catch (error) {
     console.error("Error fetching all cards:", error);
-    throw new Error("No se pudieron cargar todas las cartas. Por favor, intenta de nuevo.");
+    throw new Error(
+      "No se pudieron cargar todas las cartas. Por favor, intenta de nuevo.",
+    );
   }
 }
-
-
-

@@ -75,21 +75,30 @@ export function DeckListCard({
             <PencilIcon className="h-4 w-4" />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onDuplicate(deck.id); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDuplicate(deck.id);
+            }}
             className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
             title="Duplicar mazo"
           >
             <DocumentDuplicateIcon className="h-4 w-4" />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onExport(deck); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onExport(deck);
+            }}
             className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
             title="Exportar mazo"
           >
             <ShareIcon className="h-4 w-4" />
           </button>
           <button
-            onClick={(e) => { e.stopPropagation(); onDelete(deck.id); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(deck.id);
+            }}
             className="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--stroke)] text-[var(--muted)] transition hover:border-[var(--alert-ink)] hover:text-[var(--alert-ink)]"
             title="Eliminar mazo"
           >

@@ -43,9 +43,12 @@ export function DeckCardRow({ card, onCardClick }: DeckCardRowProps) {
     setShowTooltip(true);
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    calculatePosition(e.clientX, e.clientY);
-  }, [calculatePosition]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      calculatePosition(e.clientX, e.clientY);
+    },
+    [calculatePosition],
+  );
 
   const handleMouseLeave = useCallback(() => {
     setIsVisible(false);

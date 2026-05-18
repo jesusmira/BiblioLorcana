@@ -15,9 +15,11 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 
-const cardActionBase = "flex h-8 w-8 items-center justify-center rounded-full shadow-md";
+const cardActionBase =
+  "flex h-8 w-8 items-center justify-center rounded-full shadow-md";
 const cardActionActive = "bg-[var(--accent)] text-white";
-const cardActionInactive = "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
+const cardActionInactive =
+  "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
 const cardActionSaved = "bg-[#2D2D2D] text-[var(--accent)]";
 
 interface GalleryCardItemProps {
@@ -26,6 +28,7 @@ interface GalleryCardItemProps {
   cardBaseClass: string;
   onRemove?: (id: string) => Promise<void>;
   hideDefaultActions?: boolean;
+  priority?: boolean;
 }
 
 const getImage = (card: LorcanaCard): string =>
@@ -40,11 +43,12 @@ export default function GalleryCardItem({
   cardBaseClass,
   onRemove,
   hideDefaultActions = false,
+  priority = false,
 }: GalleryCardItemProps) {
   const { user } = useAuth();
   const { toggleFavorite, isFavorite } = useFavoritesStore();
   const { addSavedCardId, removeSavedCardId, isSaved } = useUserCardsStore();
-  
+
   const isCardFavorite = isFavorite(String(card.id));
   const isCardSaved = isSaved(String(card.id));
   const [isHovered, setIsHovered] = useState(false);
@@ -86,7 +90,7 @@ export default function GalleryCardItem({
   const handleRemoveClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
     if (!onRemove) return;
-    
+
     setIsRemoving(true);
     await onRemove(String(card.id));
     setIsRemoving(false);
@@ -106,27 +110,48 @@ export default function GalleryCardItem({
       <div className="relative">
         {user && (
           <div
-            className={clsx("absolute right-2 top-2 z-10 flex flex-col gap-2 transition-opacity duration-200", isHovered ? "opacity-100" : "opacity-0")}
+            className={clsx(
+              "absolute right-2 top-2 z-10 flex flex-col gap-2 transition-opacity duration-200",
+              isHovered ? "opacity-100" : "opacity-0",
+            )}
           >
             {!hideDefaultActions && (
               <>
                 <button
                   onClick={handleFavoriteClick}
-                  className={clsx(cardActionBase, isCardFavorite ? cardActionActive : cardActionInactive)}
-                  aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                  className={clsx(
+                    cardActionBase,
+                    isCardFavorite ? cardActionActive : cardActionInactive,
+                  )}
+                  aria-label={
+                    isCardFavorite
+                      ? "Quitar de favoritos"
+                      : "Añadir a favoritos"
+                  }
                 >
-                  <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+                  <HeartIcon
+                    className="h-4 w-4"
+                    fill={isCardFavorite ? "currentColor" : "none"}
+                  />
                 </button>
                 <button
                   onClick={handleSaveClick}
                   disabled={isSaving}
-                  className={clsx(cardActionBase, isCardSaved ? cardActionSaved : cardActionInactive)}
-                  aria-label={isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"}
+                  className={clsx(
+                    cardActionBase,
+                    isCardSaved ? cardActionSaved : cardActionInactive,
+                  )}
+                  aria-label={
+                    isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"
+                  }
                 >
                   {isSaving ? (
                     <ArrowPathIcon className="h-4 w-4 animate-spin" />
                   ) : (
-                    <FolderIcon className="h-4 w-4" fill={isCardSaved ? "currentColor" : "none"} />
+                    <FolderIcon
+                      className="h-4 w-4"
+                      fill={isCardSaved ? "currentColor" : "none"}
+                    />
                   )}
                 </button>
               </>
@@ -151,7 +176,8 @@ export default function GalleryCardItem({
         <CardArtwork
           image={image}
           alt={ariaName}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          priority={priority}
           wrapperClassName="grid aspect-[2/3] place-items-center rounded-[18px] bg-[var(--surface-soft)] p-3 max-[600px]:aspect-[3/4] max-[600px]:p-1"
           imageClassName="h-full w-full rounded-[12px] object-contain"
         />

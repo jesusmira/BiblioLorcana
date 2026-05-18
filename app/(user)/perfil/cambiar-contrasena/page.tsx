@@ -46,12 +46,26 @@ export default function CambiarContrasenaPage() {
         <section className="rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)]">
           <div className="flex flex-col items-center gap-4 text-center">
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-              <svg className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                className="h-8 w-8 text-green-600"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
-            <h1 className="text-xl font-semibold text-[var(--ink)]">Contraseña cambiada</h1>
-            <p className="text-[var(--muted)]">Tu contraseña ha sido actualizada correctamente.</p>
+            <h1 className="text-xl font-semibold text-[var(--ink)]">
+              Contraseña cambiada
+            </h1>
+            <p className="text-[var(--muted)]">
+              Tu contraseña ha sido actualizada correctamente.
+            </p>
             <Link
               href="/perfil"
               className="mt-4 rounded-full bg-[var(--accent)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90"
@@ -68,7 +82,10 @@ export default function CambiarContrasenaPage() {
     <main className="mx-auto mt-8 w-full max-w-[800px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px]">
       <section className="rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)]">
         <div className="mb-6">
-          <Link href="/perfil" className="flex items-center gap-2 text-[var(--muted)] hover:text-[var(--ink)]">
+          <Link
+            href="/perfil"
+            className="flex items-center gap-2 text-[var(--muted)] hover:text-[var(--ink)]"
+          >
             <ArrowLeftIcon className="h-4 w-4" />
             Volver al perfil
           </Link>
@@ -85,7 +102,10 @@ export default function CambiarContrasenaPage() {
 
         <form onSubmit={handleSubmit} className="mx-auto max-w-md space-y-4">
           <div>
-            <label htmlFor="oldPassword" className="mb-2 block text-sm text-[var(--muted)]">
+            <label
+              htmlFor="oldPassword"
+              className="mb-2 block text-sm text-[var(--muted)]"
+            >
               Contraseña actual
             </label>
             <input
@@ -99,7 +119,10 @@ export default function CambiarContrasenaPage() {
           </div>
 
           <div>
-            <label htmlFor="newPassword" className="mb-2 block text-sm text-[var(--muted)]">
+            <label
+              htmlFor="newPassword"
+              className="mb-2 block text-sm text-[var(--muted)]"
+            >
               Nueva contraseña
             </label>
             <input
@@ -116,7 +139,10 @@ export default function CambiarContrasenaPage() {
           </div>
 
           <div>
-            <label htmlFor="confirmPassword" className="mb-2 block text-sm text-[var(--muted)]">
+            <label
+              htmlFor="confirmPassword"
+              className="mb-2 block text-sm text-[var(--muted)]"
+            >
               Confirmar nueva contraseña
             </label>
             <input
@@ -129,9 +155,7 @@ export default function CambiarContrasenaPage() {
             />
           </div>
 
-          {error && (
-            <p className="text-sm text-[var(--alert-ink)]">{error}</p>
-          )}
+          {error && <p className="text-sm text-[var(--alert-ink)]">{error}</p>}
 
           <button
             type="submit"

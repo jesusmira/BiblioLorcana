@@ -49,7 +49,10 @@ export default function SelectField({
       </select>
       <div className={selectIconWrapperClass} aria-hidden="true">
         <ChevronUpIcon
-          className={clsx("h-4 w-4 text-[var(--muted)] transition-transform", isOpen && "rotate-180")}
+          className={clsx(
+            "h-4 w-4 text-[var(--muted)] transition-transform",
+            isOpen && "rotate-180",
+          )}
         />
       </div>
     </div>

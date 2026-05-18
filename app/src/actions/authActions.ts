@@ -27,7 +27,9 @@ export interface ResetPasswordResult {
   error?: string;
 }
 
-export async function requestPasswordReset(email: string): Promise<{ success: boolean; error?: string }> {
+export async function requestPasswordReset(
+  email: string,
+): Promise<{ success: boolean; error?: string }> {
   try {
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
@@ -57,9 +59,16 @@ export async function requestPasswordReset(email: string): Promise<{ success: bo
   }
 }
 
-export async function resetPassword(token: string, password: string, confirmPassword: string): Promise<ResetPasswordResult> {
+export async function resetPassword(
+  token: string,
+  password: string,
+  confirmPassword: string,
+): Promise<ResetPasswordResult> {
   try {
-    const validation = resetPasswordSchema.safeParse({ password, confirmPassword });
+    const validation = resetPasswordSchema.safeParse({
+      password,
+      confirmPassword,
+    });
     if (!validation.success) {
       const errors = validation.error.issues.map((e) => e.message).join(", ");
       return { success: false, error: errors };

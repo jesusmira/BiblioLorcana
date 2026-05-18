@@ -17,8 +17,8 @@ export const useUserCardsStore = create<UserCardsState>((set, get) => ({
   setSavedCardIds: (ids) => set({ savedCardIds: ids }),
   addSavedCardId: (id) =>
     set((state) => ({
-      savedCardIds: state.savedCardIds.includes(id) 
-        ? state.savedCardIds 
+      savedCardIds: state.savedCardIds.includes(id)
+        ? state.savedCardIds
         : [...state.savedCardIds, id],
       cardQuantities: { ...state.cardQuantities, [id]: 1 },
     })),

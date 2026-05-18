@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       if (!imageBase64) {
         return NextResponse.json(
           { success: false, error: "No se recibió imagen" },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -33,15 +33,18 @@ export async function POST(request: Request) {
       if (!apiKey) {
         return NextResponse.json(
           { success: false, error: "API key de Anthropic no configurada" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
       const maxSize = 4 * 1024 * 1024;
       if (imageData.length > maxSize) {
         return NextResponse.json(
-          { success: false, error: "La imagen es muy grande. Usa una imagen más pequeña." },
-          { status: 400 }
+          {
+            success: false,
+            error: "La imagen es muy grande. Usa una imagen más pequeña.",
+          },
+          { status: 400 },
         );
       }
 
@@ -62,7 +65,11 @@ export async function POST(request: Request) {
                 type: "image",
                 source: {
                   type: "base64",
-                  media_type: mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+                  media_type: mimeType as
+                    | "image/jpeg"
+                    | "image/png"
+                    | "image/gif"
+                    | "image/webp",
                   data: imageData,
                 },
               },
@@ -79,31 +86,37 @@ export async function POST(request: Request) {
       if (!textResponse || textResponse.type !== "text") {
         return NextResponse.json(
           { success: false, error: "No se pudo procesar la respuesta" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
       let extractedData;
       try {
-        const cleanJson = textResponse.text.replace(/```json/g, "").replace(/```/g, "").trim();
+        const cleanJson = textResponse.text
+          .replace(/```json/g, "")
+          .replace(/```/g, "")
+          .trim();
         extractedData = JSON.parse(cleanJson);
       } catch (e) {
         console.error("Error parsing JSON from Claude:", textResponse.text);
         return NextResponse.json(
           { success: false, error: "La IA no devolvió un JSON válido" },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
       console.log("Claude extracted data:", extractedData);
 
       return NextResponse.json({ success: true, data: extractedData });
-
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Error al procesar";
-      console.error(`Claude Vision error (attempt ${retries + 1}):`, errorMessage);
+      const errorMessage =
+        error instanceof Error ? error.message : "Error al procesar";
+      console.error(
+        `Claude Vision error (attempt ${retries + 1}):`,
+        errorMessage,
+      );
 
-      const isRetryable = 
+      const isRetryable =
         errorMessage.includes("rate_limit") ||
         errorMessage.includes("overloaded") ||
         errorMessage.includes("timeout");
@@ -118,13 +131,13 @@ export async function POST(request: Request) {
 
       return NextResponse.json(
         { success: false, error: errorMessage },
-        { status: 500 }
+        { status: 500 },
       );
     }
   }
 
   return NextResponse.json(
     { success: false, error: "Error al procesar después de varios intentos" },
-    { status: 500 }
+    { status: 500 },
   );
 }

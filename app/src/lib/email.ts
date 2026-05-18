@@ -5,7 +5,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const APP_URL = process.env.APP_URL || "http://localhost:3000";
 const FROM_EMAIL = "Archivo Lorcana <noreply@lorcana.es>";
 
-export async function sendPasswordResetEmail(email: string, token: string): Promise<boolean> {
+export async function sendPasswordResetEmail(
+  email: string,
+  token: string,
+): Promise<boolean> {
   const resetUrl = `${APP_URL}/restablecer-contrasena/${token}`;
 
   try {

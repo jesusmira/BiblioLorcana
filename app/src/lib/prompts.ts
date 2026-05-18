@@ -3,8 +3,10 @@ export const LORCAST_NORMALIZATIONS = {
 } as const;
 
 export const SEARCH_STRATEGIES = {
-  byNumberAndSet: (number: string, set: string): string => `number:${number} set:${set}`,
-  byNameAndRarity: (name: string, rarity: string): string => `${name} rarity:${rarity}`,
+  byNumberAndSet: (number: string, set: string): string =>
+    `number:${number} set:${set}`,
+  byNameAndRarity: (name: string, rarity: string): string =>
+    `${name} rarity:${rarity}`,
   byName: (name: string): string => name,
 } as const;
 

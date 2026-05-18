@@ -27,8 +27,13 @@ export default function ComoJugarPage() {
 
       <header className="mb-16 text-center">
         <div className="text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.3em] text-[var(--accent)]">Aprende a jugar</p>
-          <h1 className="mt-4 text-3xl font-bold tracking-wide text-[var(--ink)] sm:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-title)" }}>
+          <p className="text-sm font-medium uppercase tracking-[0.3em] text-[var(--accent)]">
+            Aprende a jugar
+          </p>
+          <h1
+            className="mt-4 text-3xl font-bold tracking-wide text-[var(--ink)] sm:text-4xl lg:text-5xl"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
             <span className="text-[var(--accent)]">Manual del Iluminador</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl leading-relaxed text-[var(--muted)]">

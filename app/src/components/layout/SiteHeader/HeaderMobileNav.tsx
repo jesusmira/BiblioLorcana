@@ -31,7 +31,10 @@ export function HeaderMobileNav({ isOpen, onClose }: HeaderMobileNavProps) {
         <Link
           key={link.href}
           href={link.href}
-          className={clsx(HEADER_STYLES.mobileLinkBase, HEADER_STYLES.mobileLinkInactive)}
+          className={clsx(
+            HEADER_STYLES.mobileLinkBase,
+            HEADER_STYLES.mobileLinkInactive,
+          )}
           onClick={handleLinkClick}
         >
           {link.label}
@@ -44,10 +47,18 @@ export function HeaderMobileNav({ isOpen, onClose }: HeaderMobileNavProps) {
 
       {!isLoading && !user && (
         <div className="mt-2 flex flex-col gap-2 border-t border-[var(--stroke)] pt-2">
-          <Link href="/login" className={HEADER_STYLES.mobileAuthButtonGhost} onClick={handleLinkClick}>
+          <Link
+            href="/login"
+            className={HEADER_STYLES.mobileAuthButtonGhost}
+            onClick={handleLinkClick}
+          >
             Login
           </Link>
-          <Link href="/registro" className={HEADER_STYLES.mobileAuthButtonSolid} onClick={handleLinkClick}>
+          <Link
+            href="/registro"
+            className={HEADER_STYLES.mobileAuthButtonSolid}
+            onClick={handleLinkClick}
+          >
             Registro
           </Link>
         </div>
@@ -55,9 +66,9 @@ export function HeaderMobileNav({ isOpen, onClose }: HeaderMobileNavProps) {
 
       {!isLoading && user && (
         <div className="mt-2 flex flex-col gap-2 border-t border-[var(--stroke)] pt-2">
-          <UserMenuContent 
-            user={user} 
-            onItemClick={handleLinkClick} 
+          <UserMenuContent
+            user={user}
+            onItemClick={handleLinkClick}
             onLogout={handleLogout}
           />
         </div>

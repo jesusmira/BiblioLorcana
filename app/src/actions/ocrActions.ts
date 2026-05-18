@@ -14,7 +14,7 @@ interface OcrResponse {
 }
 
 export async function extractTextFromImage(
-  imageBase64: string
+  imageBase64: string,
 ): Promise<OcrResponse> {
   try {
     let cleanBase64 = imageBase64;
@@ -35,7 +35,10 @@ export async function extractTextFromImage(
 
     const maxSize = 4 * 1024 * 1024;
     if (cleanBase64.length > maxSize) {
-      return { success: false, error: "La imagen es muy grande. Usa una imagen más pequeña." };
+      return {
+        success: false,
+        error: "La imagen es muy grande. Usa una imagen más pequeña.",
+      };
     }
 
     const anthropic = new Anthropic({
@@ -53,7 +56,11 @@ export async function extractTextFromImage(
               type: "image",
               source: {
                 type: "base64",
-                media_type: mimeType as "image/jpeg" | "image/png" | "image/gif" | "image/webp",
+                media_type: mimeType as
+                  | "image/jpeg"
+                  | "image/png"
+                  | "image/gif"
+                  | "image/webp",
                 data: cleanBase64,
               },
             },
@@ -66,7 +73,6 @@ export async function extractTextFromImage(
   "number": "número si es visible ej: 1/P2 o 60/204",
   "isPromo": true o false (basado en si es una versión especial, promo, encantada o tiene arte diferente)
 }`,
-
             },
           ],
         },
@@ -79,7 +85,10 @@ export async function extractTextFromImage(
     }
 
     try {
-      const cleanJson = textResponse.text.replace(/```json/g, "").replace(/```/g, "").trim();
+      const cleanJson = textResponse.text
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
       const extractedData = JSON.parse(cleanJson);
       return { success: true, data: extractedData };
     } catch (e) {
@@ -89,7 +98,8 @@ export async function extractTextFromImage(
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Error al procesar la imagen",
+      error:
+        error instanceof Error ? error.message : "Error al procesar la imagen",
     };
   }
 }

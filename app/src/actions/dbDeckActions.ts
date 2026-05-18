@@ -123,7 +123,9 @@ export async function deleteDeckAction(id: string): Promise<void> {
   revalidatePath("/mis-mazos");
 }
 
-export async function migrateLocalDecksAction(decks: UserDeck[]): Promise<void> {
+export async function migrateLocalDecksAction(
+  decks: UserDeck[],
+): Promise<void> {
   const session = await getSession();
   if (!session) return;
 
@@ -136,26 +138,28 @@ export async function migrateLocalDecksAction(decks: UserDeck[]): Promise<void> 
   }
 }
 
-export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ enrichedCards: DeckCard[], fullCards: LorcanaCard[] }> {
+export async function enrichDeckCardsAction(
+  cards: DeckCardEntry[],
+): Promise<{ enrichedCards: DeckCard[]; fullCards: LorcanaCard[] }> {
   const fullCards: LorcanaCard[] = [];
-  
+
   try {
     // 1. Obtener todos los IDs de las cartas para una consulta eficiente
-    const cardIds = cards.map(c => c.cardId).filter(Boolean);
-    
+    const cardIds = cards.map((c) => c.cardId).filter(Boolean);
+
     // 2. Buscar detalles en la base de datos
     const dbCards = await prisma.card.findMany({
       where: {
-        id: { in: cardIds }
-      }
+        id: { in: cardIds },
+      },
     });
 
     // Crear un mapa para acceso rápido
-    const cardMap = new Map(dbCards.map(c => [c.id, c]));
+    const cardMap = new Map(dbCards.map((c) => [c.id, c]));
 
     const enrichedCards = cards.map((entry) => {
       const card = cardMap.get(entry.cardId);
-      
+
       if (card) {
         // Mapear de base de datos a formato LorcanaCard (API style)
         // Nota: El tipo LorcanaCard espera el formato de la API de Lorcast
@@ -166,15 +170,17 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
           ink: card.ink,
           type: card.type ? [card.type] : [],
           rarity: card.rarity,
-          image_uris: card.imageUrl ? {
-            digital: {
-              large: card.imageUrl,
-              normal: card.imageUrl,
-              small: card.imageUrl
-            }
-          } : undefined,
+          image_uris: card.imageUrl
+            ? {
+                digital: {
+                  large: card.imageUrl,
+                  normal: card.imageUrl,
+                  small: card.imageUrl,
+                },
+              }
+            : undefined,
           set: {
-            name: card.set // El tipo solo requiere name
+            name: card.set, // El tipo solo requiere name
           },
           collector_number: card.number,
           text: card.abilities || "",
@@ -182,10 +188,10 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
           flavorText: card.flavorText || "",
           strength: card.strength ?? undefined,
           willpower: card.willpower ?? undefined,
-          lore: card.lore ?? undefined
+          lore: card.lore ?? undefined,
         };
 
-        if (!fullCards.find(f => f.id === card.id)) {
+        if (!fullCards.find((f) => f.id === card.id)) {
           fullCards.push(lorcanaCard);
         }
 
@@ -204,7 +210,7 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
 
       // Fallback si no está en DB (usar nombre si existe)
       return {
-        cardId: entry.cardId || `fallback-${entry.name || 'unknown'}`,
+        cardId: entry.cardId || `fallback-${entry.name || "unknown"}`,
         name: entry.name || "Carta desconocida",
         quantity: entry.quantity,
         cost: null,
@@ -224,9 +230,9 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
     return { enrichedCards: sortedEnriched, fullCards };
   } catch (error) {
     console.error("Error in enrichDeckCardsAction:", error);
-    return { 
-      enrichedCards: cards.map(c => ({
-        cardId: c.cardId || `fallback-${c.name || 'unknown'}`,
+    return {
+      enrichedCards: cards.map((c) => ({
+        cardId: c.cardId || `fallback-${c.name || "unknown"}`,
         name: c.name || "Carta desconocida",
         quantity: c.quantity,
         cost: null,
@@ -234,8 +240,8 @@ export async function enrichDeckCardsAction(cards: DeckCardEntry[]): Promise<{ e
         type: null,
         rarity: null,
         image: null,
-      })), 
-      fullCards: [] 
+      })),
+      fullCards: [],
     };
   }
 }

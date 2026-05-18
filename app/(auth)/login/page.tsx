@@ -9,7 +9,14 @@ import { inputError } from "@/lib/styles";
 
 export default function LoginPage() {
   const { isLoading: authLoading, loginWithProvider } = useAuth();
-  const { formData, errors, isSubmitting, apiError, handleChange, handleSubmit } = useLogin();
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    apiError,
+    handleChange,
+    handleSubmit,
+  } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleProviderLogin = async (provider: "google" | "github") => {
@@ -23,13 +30,19 @@ export default function LoginPage() {
   const inputClass =
     "w-full rounded-[12px] border border-[var(--stroke)] bg-[var(--surface-strong)] px-4 py-2.5 text-base text-[var(--ink)] placeholder:text-[var(--muted)] focus:border-[var(--accent)] focus:outline-none";
 
-  const labelClass = "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
+  const labelClass =
+    "mb-2 block text-[0.82rem] uppercase tracking-[1px] text-[var(--muted)]";
 
   return (
     <main className="mx-auto w-full max-w-[1200px] px-8 pb-[72px] pt-[100px] max-[720px]:px-3 max-[720px]:pt-[88px] max-[720px]:pb-14">
       <section className="mx-auto max-w-[480px] rounded-[18px] border border-[var(--stroke)] bg-[var(--surface)] p-8 shadow-[var(--panel-shadow)] max-[600px]:p-6">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold tracking-wide text-[var(--accent)] sm:text-4xl" style={{ fontFamily: "var(--font-title)" }}>Login</h1>
+          <h1
+            className="text-3xl font-bold tracking-wide text-[var(--accent)] sm:text-4xl"
+            style={{ fontFamily: "var(--font-title)" }}
+          >
+            Login
+          </h1>
           <p className="mt-2 text-[var(--muted)]">Accede a tu cuenta</p>
         </div>
 
@@ -97,9 +110,15 @@ export default function LoginPage() {
               className={inputError(inputClass, !!errors.email)}
               placeholder="tu@email.com"
             />
-            {errors.email && errors.email.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.email &&
+              errors.email.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div>
@@ -119,22 +138,40 @@ export default function LoginPage() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted)] hover:text-[var(--ink)] transition-colors"
-                aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                aria-label={
+                  showPassword ? "Ocultar contraseña" : "Mostrar contraseña"
+                }
               >
-                {showPassword ? <EyeSlashIcon className="h-[18px] w-[18px]" /> : <EyeIcon className="h-[18px] w-[18px]" />}
+                {showPassword ? (
+                  <EyeSlashIcon className="h-[18px] w-[18px]" />
+                ) : (
+                  <EyeIcon className="h-[18px] w-[18px]" />
+                )}
               </button>
             </div>
-            {errors.password && errors.password.map((msg, i) => (
-              <p key={i} className="mt-1 text-[0.8rem] text-[var(--alert-ink)]">{msg}</p>
-            ))}
+            {errors.password &&
+              errors.password.map((msg, i) => (
+                <p
+                  key={i}
+                  className="mt-1 text-[0.8rem] text-[var(--alert-ink)]"
+                >
+                  {msg}
+                </p>
+              ))}
           </div>
 
           <div className="flex items-center justify-between">
             <label className="flex items-center gap-2 text-[0.9rem] text-[var(--muted)]">
-              <input type="checkbox" className="h-4 w-4 rounded border-[var(--stroke)] accent-[var(--accent)]" />
+              <input
+                type="checkbox"
+                className="h-4 w-4 rounded border-[var(--stroke)] accent-[var(--accent)]"
+              />
               Recordarme
             </label>
-            <Link href="/olvide-contrasena" className="text-[0.9rem] text-[var(--accent)] hover:underline">
+            <Link
+              href="/olvide-contrasena"
+              className="text-[0.9rem] text-[var(--accent)] hover:underline"
+            >
               Olvidaste tu contraseña?
             </Link>
           </div>
@@ -150,11 +187,13 @@ export default function LoginPage() {
 
         <p className="mt-8 text-center text-[0.9rem] text-[var(--muted)]">
           No tienes cuenta?{" "}
-          <Link href="/registro" className="text-[var(--accent)] hover:underline">
+          <Link
+            href="/registro"
+            className="text-[var(--accent)] hover:underline"
+          >
             Registrate
           </Link>
         </p>
-
       </section>
     </main>
   );

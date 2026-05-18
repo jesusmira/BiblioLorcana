@@ -15,15 +15,20 @@ const redis = isProduction
     })
   : null;
 
-export async function rateLimit(request: NextRequest): Promise<NextResponse | null> {
+export async function rateLimit(
+  request: NextRequest,
+): Promise<NextResponse | null> {
   const ip = request.ip || request.headers.get("x-forwarded-for") || "unknown";
   const key = `ratelimit:${ip}`;
   const now = Date.now();
 
   if (isProduction && redis) {
     try {
-      const [count, resetTime] = await redis.mget<[string, string]>(key, `${key}:reset`);
-      
+      const [count, resetTime] = await redis.mget<[string, string]>(
+        key,
+        `${key}:reset`,
+      );
+
       if (!resetTime || now > parseInt(resetTime)) {
         const pipeline = redis.pipeline();
         pipeline.set(key, "1", { ex: 60 });
@@ -35,7 +40,7 @@ export async function rateLimit(request: NextRequest): Promise<NextResponse | nu
       if (parseInt(count) >= MAX_REQUESTS) {
         return NextResponse.json(
           { error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." },
-          { status: 429 }
+          { status: 429 },
         );
       }
 
@@ -47,19 +52,19 @@ export async function rateLimit(request: NextRequest): Promise<NextResponse | nu
   }
 
   const record = rateLimitMap.get(ip);
-  
+
   if (!record || now > record.resetTime) {
     rateLimitMap.set(ip, { count: 1, resetTime: now + WINDOW_MS });
     return null;
   }
-  
+
   if (record.count >= MAX_REQUESTS) {
     return NextResponse.json(
       { error: "Demasiadas solicitudes. Intenta de nuevo en un minuto." },
-      { status: 429 }
+      { status: 429 },
     );
   }
-  
+
   record.count++;
   rateLimitMap.set(ip, record);
   return null;

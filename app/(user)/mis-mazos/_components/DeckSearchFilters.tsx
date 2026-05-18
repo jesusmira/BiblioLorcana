@@ -23,7 +23,8 @@ export function DeckSearchFilters({
   onClearFilters,
   sets,
 }: DeckSearchFiltersProps) {
-  const hasActiveFilters = filters.ink || filters.type || filters.rarity || filters.setCode;
+  const hasActiveFilters =
+    filters.ink || filters.type || filters.rarity || filters.setCode;
 
   return (
     <div className="space-y-3">

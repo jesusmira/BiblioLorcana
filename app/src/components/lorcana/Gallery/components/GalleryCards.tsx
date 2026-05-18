@@ -51,12 +51,13 @@ export default function GalleryCards({
             message="Prueba otra busqueda o limpia los filtros."
           />
         ) : (
-          visibleCards.map((card) => (
+          visibleCards.map((card, index) => (
             <GalleryCardItem
               key={card.id}
               card={card}
               onOpen={openCard}
               cardBaseClass={cardBase}
+              priority={index < 8}
             />
           ))
         )}

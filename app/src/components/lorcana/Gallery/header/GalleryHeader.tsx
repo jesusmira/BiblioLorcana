@@ -91,7 +91,11 @@ export default function GalleryHeader({
             <button className={buttonGhost} onClick={pickRandom} type="button">
               Carta aleatoria
             </button>
-            <button className={buttonSolid} onClick={resetFilters} type="button">
+            <button
+              className={buttonSolid}
+              onClick={resetFilters}
+              type="button"
+            >
               Limpiar filtros
             </button>
           </div>

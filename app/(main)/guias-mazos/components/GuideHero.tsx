@@ -13,8 +13,9 @@ export function GuideHero() {
         <span className="text-[var(--accent)]">Mazos de Inicio</span>
       </h1>
       <p className="mx-auto mt-6 max-w-2xl leading-relaxed text-[var(--muted)]">
-        Todo lo que necesitas saber para elegir tu primer mazo en Disney Lorcana.
-        Descubre las tintas, los mazos disponibles y encuentra el que mejor se adapte a tu estilo de juego.
+        Todo lo que necesitas saber para elegir tu primer mazo en Disney
+        Lorcana. Descubre las tintas, los mazos disponibles y encuentra el que
+        mejor se adapte a tu estilo de juego.
       </p>
     </div>
   );

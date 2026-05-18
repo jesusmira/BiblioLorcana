@@ -33,6 +33,6 @@ export const useFavoritesStore = create<FavoriteState>()(
     }),
     {
       name: "lorcana-favorites",
-    }
-  )
+    },
+  ),
 );

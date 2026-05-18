@@ -23,7 +23,10 @@ const PROTECTED_WORDS = [
   // "raid",
 ];
 
-function protectWords(text: string): { protected: string; map: Record<string, string> } {
+function protectWords(text: string): {
+  protected: string;
+  map: Record<string, string>;
+} {
   const map: Record<string, string> = {};
   let protectedText = text;
 
@@ -32,13 +35,19 @@ function protectWords(text: string): { protected: string; map: Record<string, st
     // Guardamos el token → palabra original
     map[token] = word;
     // Reemplazamos todas las ocurrencias (sin importar mayúsculas)
-    protectedText = protectedText.replace(new RegExp(`\\b${word}\\b`, "gi"), token);
+    protectedText = protectedText.replace(
+      new RegExp(`\\b${word}\\b`, "gi"),
+      token,
+    );
   });
 
   return { protected: protectedText, map };
 }
 
-function restoreWords(translatedText: string, map: Record<string, string>): string {
+function restoreWords(
+  translatedText: string,
+  map: Record<string, string>,
+): string {
   let result = translatedText;
 
   for (const [token, original] of Object.entries(map)) {
@@ -51,7 +60,7 @@ function restoreWords(translatedText: string, map: Record<string, string>): stri
 export async function translateText(
   text: string,
   sourceLang: string = "en",
-  targetLang: string = "es"
+  targetLang: string = "es",
 ): Promise<TranslateResponse> {
   if (!text || text.trim() === "") {
     return { error: "El texto no puede estar vacío" };
@@ -65,7 +74,7 @@ export async function translateText(
 
   try {
     const response = await axios.get(
-      `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`
+      `https://api.mymemory.translated.net/get?q=${encodedText}&langpair=${langPair}`,
     );
 
     const data = response.data;

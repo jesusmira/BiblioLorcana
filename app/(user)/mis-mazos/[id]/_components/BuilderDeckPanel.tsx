@@ -1,10 +1,20 @@
 "use client";
 
-import { ExclamationTriangleIcon, PlusIcon, MinusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { clsx } from "clsx";
+import {
+  ExclamationTriangleIcon,
+  PlusIcon,
+  MinusIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { InkDot } from "@/components/lorcana";
 import { CardWithHover } from "../../_components/CardWithHover";
 import { DECK_FORMATS, DECK_STRATEGIES, DECK_TIERS } from "@/types";
-import type { DeckCardWithDetails, DeckStats, DeckValidation } from "../_hooks/useDeckBuilder";
+import type {
+  DeckCardWithDetails,
+  DeckStats,
+  DeckValidation,
+} from "../_hooks/useDeckBuilder";
 
 interface BuilderDeckPanelProps {
   deckName: string;
@@ -92,7 +102,9 @@ export default function BuilderDeckPanel({
             >
               <option value="">Seleccionar</option>
               {DECK_FORMATS.map((f) => (
-                <option key={f} value={f}>{f}</option>
+                <option key={f} value={f}>
+                  {f}
+                </option>
               ))}
             </select>
           </div>
@@ -107,7 +119,9 @@ export default function BuilderDeckPanel({
             >
               <option value="">Seleccionar</option>
               {DECK_STRATEGIES.map((s) => (
-                <option key={s} value={s}>{s}</option>
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
           </div>
@@ -122,7 +136,9 @@ export default function BuilderDeckPanel({
             >
               <option value="">Seleccionar</option>
               {DECK_TIERS.map((t) => (
-                <option key={t} value={t}>{t}</option>
+                <option key={t} value={t}>
+                  {t}
+                </option>
               ))}
             </select>
           </div>
@@ -178,7 +194,9 @@ export default function BuilderDeckPanel({
                 )}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
-                    {card.details?.ink && <InkDot ink={card.details.ink.toLowerCase()} />}
+                    {card.details?.ink && (
+                      <InkDot ink={card.details.ink.toLowerCase()} />
+                    )}
                     <p className="truncate font-medium text-[var(--ink)] text-sm">
                       {card.name}
                     </p>

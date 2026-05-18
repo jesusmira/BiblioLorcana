@@ -1,7 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { DecksSection, GuideHero, InksSection, TipsSection } from "./components";
+import {
+  DecksSection,
+  GuideHero,
+  InksSection,
+  TipsSection,
+} from "./components";
 import { type StarterDeck } from "@/types/guide";
 
 export function GuideContent() {

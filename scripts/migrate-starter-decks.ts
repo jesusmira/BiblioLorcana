@@ -1,13 +1,13 @@
-import { PrismaClient } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg';
-import pg from 'pg';
-import 'dotenv/config';
+import { PrismaClient } from "@prisma/client";
+import { PrismaPg } from "@prisma/adapter-pg";
+import pg from "pg";
+import "dotenv/config";
 
 // Reutilizamos la lógica de instanciación de Prisma con el adaptador de pg para Prisma 7
 function createPrismaClient() {
   const connectionString = process.env.DATABASE_URL;
   if (!connectionString) {
-    throw new Error('DATABASE_URL is not defined in .env');
+    throw new Error("DATABASE_URL is not defined in .env");
   }
   const pool = new pg.Pool({ connectionString });
   const adapter = new PrismaPg(pool);
@@ -22,7 +22,8 @@ const STARTER_DECKS_DATA = [
     name: "Ámbar + Amatista",
     set: "The First Chapter",
     inks: ["Amber", "Amethyst"],
-    description: "El mazo perfecto para principiantes. Cartas reconocibles como Mickey Mouse y Elsa que te ayudan a entender las mecánicas básicas del juego.",
+    description:
+      "El mazo perfecto para principiantes. Cartas reconocibles como Mickey Mouse y Elsa que te ayudan a entender las mecánicas básicas del juego.",
     profile: "Principiante",
     cards: [
       { quantity: 2, cardId: "1-1" },
@@ -61,7 +62,8 @@ const STARTER_DECKS_DATA = [
     name: "Esmeralda + Rubí",
     set: "The First Chapter",
     inks: ["Emerald", "Ruby"],
-    description: "Para quienes les gusta atacar sin parar. Jugadas rápidas y finishes agresivos que toman desprevenido al rival.",
+    description:
+      "Para quienes les gusta atacar sin parar. Jugadas rápidas y finishes agresivos que toman desprevenido al rival.",
     profile: "Agresivo",
     cards: [
       { quantity: 2, cardId: "1-69" },
@@ -99,7 +101,8 @@ const STARTER_DECKS_DATA = [
     name: "Zafiro + Acero",
     set: "The First Chapter",
     inks: ["Sapphire", "Steel"],
-    description: "Defensa sólida y control de recursos. Resiste las embestidas del enemigo y gana a largo plazo.",
+    description:
+      "Defensa sólida y control de recursos. Resiste las embestidas del enemigo y gana a largo plazo.",
     profile: "Control",
     cards: [
       { quantity: 3, cardId: "1-138" },
@@ -138,7 +141,8 @@ const STARTER_DECKS_DATA = [
     name: "Amatista + Acero",
     set: "Rise of the Floodborn",
     inks: ["Amethyst", "Steel"],
-    description: "Estrategias de bounce con Merlin y Madam Mim. Un mazo divertido con muchas cartas de bajo coste.",
+    description:
+      "Estrategias de bounce con Merlin y Madam Mim. Un mazo divertido con muchas cartas de bajo coste.",
     profile: "Combo",
     cards: [
       { quantity: 3, cardId: "2-37" },
@@ -175,7 +179,7 @@ const STARTER_DECKS_DATA = [
 ];
 
 async function main() {
-  console.log('🚀 Iniciando migración de mazos iniciales...');
+  console.log("🚀 Iniciando migración de mazos iniciales...");
 
   for (const deckData of STARTER_DECKS_DATA) {
     console.log(`📦 Procesando mazo: ${deckData.name}...`);
@@ -202,8 +206,8 @@ async function main() {
 
     // 2. Procesar cartas del mazo
     for (const cardRef of deckData.cards) {
-      const [setCode, collectorNumber] = cardRef.cardId.split('-');
-      
+      const [setCode, collectorNumber] = cardRef.cardId.split("-");
+
       // Buscar el ID real de la carta en la tabla Card
       const card = await prisma.card.findUnique({
         where: {
@@ -215,7 +219,9 @@ async function main() {
       });
 
       if (!card) {
-        console.warn(`⚠️ Advertencia: No se encontró la carta ${setCode}-${collectorNumber} en la BD.`);
+        console.warn(
+          `⚠️ Advertencia: No se encontró la carta ${setCode}-${collectorNumber} en la BD.`,
+        );
         continue;
       }
 
@@ -243,12 +249,12 @@ async function main() {
     console.log(`✅ Mazo ${deckData.name} migrado con éxito.`);
   }
 
-  console.log('🎉 Migración de mazos iniciales completada.');
+  console.log("🎉 Migración de mazos iniciales completada.");
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error durante la migración:', e);
+    console.error("❌ Error durante la migración:", e);
     process.exit(1);
   })
   .finally(async () => {

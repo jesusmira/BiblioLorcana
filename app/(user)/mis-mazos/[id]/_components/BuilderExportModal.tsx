@@ -39,20 +39,26 @@ ${cards
 ---
 Total: ${totalCards} cartas`;
 
-  const jsonExport = JSON.stringify({
-    name: deckName,
-    description: deckDescription,
-    format: deckFormat || undefined,
-    strategy: deckStrategy || undefined,
-    tier: deckTier || undefined,
-    cards: cards.filter((c) => c.quantity > 0).map((c) => ({
-      cardId: c.cardId,
-      name: c.name,
-      quantity: c.quantity,
-    })),
-    totalCards,
-    createdAt: new Date().toISOString(),
-  }, null, 2);
+  const jsonExport = JSON.stringify(
+    {
+      name: deckName,
+      description: deckDescription,
+      format: deckFormat || undefined,
+      strategy: deckStrategy || undefined,
+      tier: deckTier || undefined,
+      cards: cards
+        .filter((c) => c.quantity > 0)
+        .map((c) => ({
+          cardId: c.cardId,
+          name: c.name,
+          quantity: c.quantity,
+        })),
+      totalCards,
+      createdAt: new Date().toISOString(),
+    },
+    null,
+    2,
+  );
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -85,13 +91,18 @@ Total: ${totalCards} cartas`;
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-[24px] border border-[var(--stroke)] bg-[var(--surface)] p-6 shadow-2xl transition-all">
-                <Dialog.Title as="h2" className="mb-4 font-[var(--font-title)] text-xl text-[var(--ink)]">
+                <Dialog.Title
+                  as="h2"
+                  className="mb-4 font-[var(--font-title)] text-xl text-[var(--ink)]"
+                >
                   Exportar mazo
                 </Dialog.Title>
-                
+
                 <div className="mb-4">
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm font-medium text-[var(--ink)]">Texto plano (para foros)</span>
+                    <span className="text-sm font-medium text-[var(--ink)]">
+                      Texto plano (para foros)
+                    </span>
                     <button
                       onClick={() => copyToClipboard(textExport)}
                       className="text-xs text-[var(--accent)] hover:underline"
@@ -106,7 +117,9 @@ Total: ${totalCards} cartas`;
 
                 <div className="mb-6">
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm font-medium text-[var(--ink)]">JSON (backup/importar)</span>
+                    <span className="text-sm font-medium text-[var(--ink)]">
+                      JSON (backup/importar)
+                    </span>
                     <button
                       onClick={() => copyToClipboard(jsonExport)}
                       className="text-xs text-[var(--accent)] hover:underline"

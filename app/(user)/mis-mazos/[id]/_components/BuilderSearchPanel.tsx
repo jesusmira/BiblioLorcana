@@ -21,6 +21,7 @@ interface BuilderSearchPanelProps {
   searchResults: LorcanaCard[];
   cardQuantities: Record<string, number>;
   addCardToDeck: (card: LorcanaCard) => void;
+  useModal?: boolean;
 }
 
 export default function BuilderSearchPanel({
@@ -34,6 +35,7 @@ export default function BuilderSearchPanel({
   searchResults,
   cardQuantities,
   addCardToDeck,
+  useModal = false,
 }: BuilderSearchPanelProps) {
   return (
     <div className="flex flex-col gap-6">
@@ -41,7 +43,7 @@ export default function BuilderSearchPanel({
         <h2 className="mb-4 font-[var(--font-title)] text-xl text-[var(--ink)]">
           Buscar cartas
         </h2>
-        
+
         <div className="relative mb-3">
           <span className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-[var(--muted)]">
             <MagnifyingGlassIcon className="h-[18px] w-[18px]" />
@@ -75,6 +77,7 @@ export default function BuilderSearchPanel({
             isLoading={isSearching}
             cardQuantities={cardQuantities}
             onCardSelect={addCardToDeck}
+            useModal={useModal}
           />
         </div>
       </div>

@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
     "db:seed": "npx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "prisma": {
@@ -49,9 +51,11 @@
     "@types/react-dom": "^19.2.3",
     "autoprefixer": "^10.4.17",
     "dotenv-cli": "^11.0.0",
-    "eslint": "^9.39.4",
-    "eslint-config-next": "^16.1.7",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.5",
+    "eslint-config-prettier": "^10.1.8",
     "postcss": "^8.4.31",
+    "prettier": "^3.8.3",
     "tailwindcss": "^3.4.14",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"

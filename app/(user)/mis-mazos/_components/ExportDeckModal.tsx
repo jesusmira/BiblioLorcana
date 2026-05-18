@@ -45,7 +45,9 @@ Total: ${deck.cards.reduce((acc, c) => acc + c.quantity, 0)} cartas`;
 
         <div className="mb-4">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-medium text-[var(--ink)]">Texto plano</span>
+            <span className="text-sm font-medium text-[var(--ink)]">
+              Texto plano
+            </span>
             <button
               onClick={() => copyToClipboard(textExport, "text")}
               className="text-sm text-[var(--accent)] hover:underline"

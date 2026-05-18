@@ -50,13 +50,15 @@ export default function CardArtwork({
   ];
 
   const hostname = getHostname(image);
-  const isAllowed = allowedHosts.some(host => 
-    hostname === host || hostname.endsWith(`.${host}`)
+  const isAllowed = allowedHosts.some(
+    (host) => hostname === host || hostname.endsWith(`.${host}`),
   );
 
   if (!isValidUrl(image) || !isAllowed) {
     return (
-      <div className={`${wrapperClassName} relative flex items-center justify-center bg-[var(--surface-soft)]`}>
+      <div
+        className={`${wrapperClassName} relative flex items-center justify-center bg-[var(--surface-soft)]`}
+      >
         <img src={image} alt={alt} className={imageClassName} />
       </div>
     );

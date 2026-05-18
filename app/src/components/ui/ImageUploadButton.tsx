@@ -48,11 +48,15 @@ async function compressImage(file: File): Promise<File> {
   return imageCompression(file, options);
 }
 
-export default function ImageUploadButton({ className = "" }: ImageUploadButtonProps) {
+export default function ImageUploadButton({
+  className = "",
+}: ImageUploadButtonProps) {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
       try {

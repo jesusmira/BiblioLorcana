@@ -3,7 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import { clsx } from "clsx";
 import { useAuth } from "@/lib/auth";
-import { ChevronUpIcon, ArrowRightStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronUpIcon,
+  ArrowRightStartOnRectangleIcon,
+} from "@heroicons/react/24/outline";
 import { UserMenuContent } from "./SiteHeader/UserMenuContent";
 
 export default function UserMenu() {
@@ -59,7 +62,10 @@ export default function UserMenu() {
           {user.name}
         </span>
         <ChevronUpIcon
-          className={clsx("h-4 w-4 text-[var(--muted)] transition-transform", isOpen && "rotate-180")}
+          className={clsx(
+            "h-4 w-4 text-[var(--muted)] transition-transform",
+            isOpen && "rotate-180",
+          )}
         />
       </button>
 

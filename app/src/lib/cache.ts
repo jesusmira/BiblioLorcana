@@ -5,16 +5,20 @@ const DEFAULT_TTL = 5 * 60 * 1000;
 export function getCached<T>(key: string): T | null {
   const record = cache.get(key);
   if (!record) return null;
-  
+
   if (Date.now() > record.expiry) {
     cache.delete(key);
     return null;
   }
-  
+
   return record.data as T;
 }
 
-export function setCache(key: string, data: unknown, ttl: number = DEFAULT_TTL): void {
+export function setCache(
+  key: string,
+  data: unknown,
+  ttl: number = DEFAULT_TTL,
+): void {
   cache.set(key, {
     data,
     expiry: Date.now() + ttl,

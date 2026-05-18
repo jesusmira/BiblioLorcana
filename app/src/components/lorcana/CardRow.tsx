@@ -55,9 +55,12 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
     setShowTooltip(true);
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    calculatePosition(e.clientX, e.clientY);
-  }, [calculatePosition]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      calculatePosition(e.clientX, e.clientY);
+    },
+    [calculatePosition],
+  );
 
   const handleMouseLeave = useCallback(() => {
     setIsVisible(false);
@@ -72,7 +75,8 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
     }
   }, [showTooltip]);
 
-  const cardType = Array.isArray(card.type) && card.type.length > 0 ? card.type[0] : null;
+  const cardType =
+    Array.isArray(card.type) && card.type.length > 0 ? card.type[0] : null;
 
   return (
     <div
@@ -91,7 +95,9 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
 
       <span className="flex-1 text-sm font-medium text-[var(--ink)] truncate group-hover:text-[var(--accent)] transition-colors ml-2">
         {card.name}
-        {card.version ? <span className="text-[var(--muted)]">, {card.version}</span> : null}
+        {card.version ? (
+          <span className="text-[var(--muted)]">, {card.version}</span>
+        ) : null}
       </span>
 
       <div className="flex items-center gap-8">
@@ -120,8 +126,18 @@ export function CardRow({ card, onCardClick, onRemoveClick }: CardRowProps) {
         className="flex h-6 w-6 items-center justify-center rounded-full text-[var(--muted)] opacity-0 transition group-hover:opacity-100 hover:bg-[var(--alert-surface)] hover:text-[var(--alert-ink)]"
         aria-label="Eliminar carta"
       >
-        <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+        <svg
+          className="h-3.5 w-3.5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
         </svg>
       </button>
 

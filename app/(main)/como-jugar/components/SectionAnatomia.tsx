@@ -51,7 +51,11 @@ export function SectionAnatomia({ data }: SectionAnatomiaProps) {
 
         <div className="grid gap-4">
           {data.points.map((point) => (
-            <AnatomyPoint key={point.title} title={point.title} desc={point.desc} />
+            <AnatomyPoint
+              key={point.title}
+              title={point.title}
+              desc={point.desc}
+            />
           ))}
         </div>
       </div>

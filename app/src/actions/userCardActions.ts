@@ -11,10 +11,15 @@ interface SaveCardResponse {
   error?: string;
 }
 
-export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardResponse> {
+export async function saveCardToUser(
+  cardData: LorcanaCard,
+): Promise<SaveCardResponse> {
   const session = await getSession();
   if (!session) {
-    return { success: false, error: "Debes iniciar sesión para guardar cartas" };
+    return {
+      success: false,
+      error: "Debes iniciar sesión para guardar cartas",
+    };
   }
 
   const cardId = String(cardData.id);
@@ -29,20 +34,30 @@ export async function saveCardToUser(cardData: LorcanaCard): Promise<SaveCardRes
 
     return { success: true };
   } catch (error) {
-    if (error instanceof Error && error.message.includes("Unique constraint") && error.message.includes("user_cards")) {
+    if (
+      error instanceof Error &&
+      error.message.includes("Unique constraint") &&
+      error.message.includes("user_cards")
+    ) {
       return { success: false, error: "Esta carta ya está en tu colección" };
     }
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Error al guardar la carta",
+      error:
+        error instanceof Error ? error.message : "Error al guardar la carta",
     };
   }
 }
 
-export async function removeCardFromUser(cardId: string): Promise<SaveCardResponse> {
+export async function removeCardFromUser(
+  cardId: string,
+): Promise<SaveCardResponse> {
   const session = await getSession();
   if (!session) {
-    return { success: false, error: "Debes iniciar sesión para eliminar cartas" };
+    return {
+      success: false,
+      error: "Debes iniciar sesión para eliminar cartas",
+    };
   }
 
   try {
@@ -58,14 +73,20 @@ export async function removeCardFromUser(cardId: string): Promise<SaveCardRespon
 
     return { success: true };
   } catch {
-    return { success: false, error: "Error al eliminar la carta de tu colección" };
+    return {
+      success: false,
+      error: "Error al eliminar la carta de tu colección",
+    };
   }
 }
 
-export async function updateCardQuantity(cardId: string, quantity: number): Promise<SaveCardResponse> {
+export async function updateCardQuantity(
+  cardId: string,
+  quantity: number,
+): Promise<SaveCardResponse> {
   const session = await getSession();
   if (!session) return { success: false, error: "Debes iniciar sesión" };
-  
+
   if (quantity < 1 || quantity > 10) {
     return { success: false, error: "La cantidad debe estar entre 1 y 10" };
   }
@@ -106,16 +127,21 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     const cardPromises = userCards.map(async (uc) => {
       try {
         // Intentar primero por ID directo
-        let response = await axios.get(`${API.LORCAST_BASE}/cards/${uc.cardId}`);
-        
+        let response = await axios.get(
+          `${API.LORCAST_BASE}/cards/${uc.cardId}`,
+        );
+
         // Si no funciona, buscar por collector_number
         if (response.status !== 200) {
           // Buscar en el set "1" por collector number
-          const searchRes = await axios.get(`${API.LORCAST_BASE}/sets/1/cards?collector_number=${uc.cardId}`);
-          if (searchRes.status !== 200 || !searchRes.data.results?.[0]) return null;
+          const searchRes = await axios.get(
+            `${API.LORCAST_BASE}/sets/1/cards?collector_number=${uc.cardId}`,
+          );
+          if (searchRes.status !== 200 || !searchRes.data.results?.[0])
+            return null;
           return { ...searchRes.data.results[0], quantity: uc.quantity };
         }
-        
+
         const card = response.data as LorcanaCard;
         const quantity = uc.quantity ?? 1;
         return { ...card, quantity } as LorcanaCard;
@@ -125,7 +151,7 @@ export async function getUserCards(): Promise<LorcanaCard[]> {
     });
 
     const cards = await Promise.all(cardPromises);
-    return (cards.filter((c) => c !== null) as LorcanaCard[]);
+    return cards.filter((c) => c !== null) as LorcanaCard[];
   } catch (error) {
     console.error("Error fetching user cards:", error);
     return [];

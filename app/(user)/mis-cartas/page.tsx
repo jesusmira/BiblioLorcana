@@ -73,12 +73,18 @@ export default function MisCartasPage() {
           <div className="rounded-[24px] border border-[var(--stroke)] bg-[var(--surface)] shadow-[var(--card-shadow)] overflow-visible">
             <div className="px-4 py-2">
               <div className="flex items-center gap-2 pr-4 pl-8 py-2 text-[0.7rem] uppercase tracking-wider text-[var(--muted)]">
-                <span className="flex h-7 min-w-[1.75rem] items-center justify-center">QTY</span>
+                <span className="flex h-7 min-w-[1.75rem] items-center justify-center">
+                  QTY
+                </span>
                 <span className="w-3" />
                 <span className="flex-1 ml-2">Nombre</span>
                 <span className="flex items-center gap-8">
-                  <span className="hidden sm:inline w-24 text-center">Tipo</span>
-                  <span className="hidden md:inline w-12 text-center">Rareza</span>
+                  <span className="hidden sm:inline w-24 text-center">
+                    Tipo
+                  </span>
+                  <span className="hidden md:inline w-12 text-center">
+                    Rareza
+                  </span>
                   <span className="w-6 flex justify-center">⬡</span>
                 </span>
                 <span className="w-6" />

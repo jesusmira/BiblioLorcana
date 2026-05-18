@@ -1,7 +1,11 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { fetchCardsBySetAction, fetchSetsAction, fetchAllCardsAction } from "../actions/galleryActions";
+import {
+  fetchCardsBySetAction,
+  fetchSetsAction,
+  fetchAllCardsAction,
+} from "../actions/galleryActions";
 import { useGalleryStore } from "../store/galleryStore";
 import type {
   LorcanaSet,
@@ -18,17 +22,19 @@ const DEFAULT_FILTERS: GalleryFilters = {
   sort: "name",
 };
 
-export default function useGalleryData(defaultSetCode: string): UseGalleryDataReturn {
-  const { 
-    sets: cachedSets, 
-    setSets, 
-    isSetsValid, 
-    cardsBySet, 
-    setCards, 
+export default function useGalleryData(
+  defaultSetCode: string,
+): UseGalleryDataReturn {
+  const {
+    sets: cachedSets,
+    setSets,
+    isSetsValid,
+    cardsBySet,
+    setCards,
     isCardsValid,
     allCards,
     setAllCards,
-    isAllCardsValid
+    isAllCardsValid,
   } = useGalleryStore();
 
   const [loadingSets, setLoadingSets] = useState(false);
@@ -37,7 +43,9 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
   const [cardsError, setCardsError] = useState("");
 
   const [selectedSet, setSelectedSet] = useState<string>(defaultSetCode);
-  const [filters, setFilters] = useState<GalleryFilters>({ ...DEFAULT_FILTERS });
+  const [filters, setFilters] = useState<GalleryFilters>({
+    ...DEFAULT_FILTERS,
+  });
   const [debouncedSearch, setDebouncedSearch] = useState(filters.search);
 
   // Debouncing para la búsqueda
@@ -73,7 +81,9 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
         }
       }
     })();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [isSetsValid, setSets]);
 
   // Resetear filtros al cambiar de set
@@ -93,7 +103,7 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
         setCardsError("");
         return;
       }
-      
+
       let active = true;
       setLoadingCards(true);
       setCardsError("");
@@ -107,13 +117,18 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
           }
         } catch (err) {
           if (active) {
-            const message = err instanceof Error ? err.message : "Error al cargar todas las cartas.";
+            const message =
+              err instanceof Error
+                ? err.message
+                : "Error al cargar todas las cartas.";
             setCardsError(message);
             setLoadingCards(false);
           }
         }
       })();
-      return () => { active = false; };
+      return () => {
+        active = false;
+      };
     }
 
     // Caso 2: Set específico
@@ -135,13 +150,18 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
         }
       } catch (err) {
         if (active) {
-          const message = err instanceof Error ? err.message : `No se pudieron cargar las cartas de ${selectedSet}.`;
+          const message =
+            err instanceof Error
+              ? err.message
+              : `No se pudieron cargar las cartas de ${selectedSet}.`;
           setCardsError(message);
           setLoadingCards(false);
         }
       }
     })();
-    return () => { active = false; };
+    return () => {
+      active = false;
+    };
   }, [selectedSet, isCardsValid, isAllCardsValid, setCards, setAllCards]);
 
   // Filtrado y derivación de datos
@@ -150,9 +170,10 @@ export default function useGalleryData(defaultSetCode: string): UseGalleryDataRe
     if (selectedSet === "all") {
       if (!debouncedSearch.trim()) return allCards;
       const searchLower = debouncedSearch.toLowerCase();
-      return allCards.filter(card => 
-        card.name?.toLowerCase().includes(searchLower) || 
-        card.version?.toLowerCase().includes(searchLower)
+      return allCards.filter(
+        (card) =>
+          card.name?.toLowerCase().includes(searchLower) ||
+          card.version?.toLowerCase().includes(searchLower),
       );
     }
     return cardsBySet[selectedSet]?.data || [];

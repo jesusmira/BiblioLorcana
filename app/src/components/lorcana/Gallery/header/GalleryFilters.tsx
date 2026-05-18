@@ -52,7 +52,9 @@ export default function GalleryFilters({
         disabled={loadingSets || !sets.length}
       >
         {loadingSets ? <option value="">Cargando sets...</option> : null}
-        {!loadingSets && !sets.length ? <option value="">Sin sets</option> : null}
+        {!loadingSets && !sets.length ? (
+          <option value="">Sin sets</option>
+        ) : null}
         <option value="all">Todos los sets</option>
         {sets.map((set) => (
           <option key={set.id} value={set.code}>

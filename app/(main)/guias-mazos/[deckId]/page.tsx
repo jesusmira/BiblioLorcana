@@ -4,14 +4,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { ArrowLeftIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import { GalleryCardModal } from "@/components";
 import {
-  ArrowLeftIcon,
-  SparklesIcon,
-} from "@heroicons/react/24/outline";
-import {
-  GalleryCardModal,
-} from "@/components";
-import { InkDot, ManaCurve, InkBreakdown, DeckCardRow } from "@/components/lorcana";
+  InkDot,
+  ManaCurve,
+  InkBreakdown,
+  DeckCardRow,
+} from "@/components/lorcana";
 import type { DeckCard, LorcanaCard } from "@/types";
 
 interface StarterDeckCard {
@@ -45,12 +45,12 @@ interface StarterDeckData {
 
 const getInkEnglish = (ink: string): string => {
   const map: Record<string, string> = {
-    "Ámbar": "Amber",
-    "Amatista": "Amethyst",
-    "Esmeralda": "Emerald",
-    "Rubí": "Ruby",
-    "Zafiro": "Sapphire",
-    "Acero": "Steel",
+    Ámbar: "Amber",
+    Amatista: "Amethyst",
+    Esmeralda: "Emerald",
+    Rubí: "Ruby",
+    Zafiro: "Sapphire",
+    Acero: "Steel",
   };
   return map[ink] || ink;
 };
@@ -118,7 +118,9 @@ export default function DeckDetailPage() {
               small: card.imageUrl || null,
             },
           },
-          classifications: card.subtypes ? card.subtypes.split(", ").map(s => s.trim()) : null,
+          classifications: card.subtypes
+            ? card.subtypes.split(", ").map((s) => s.trim())
+            : null,
           strength: card.strength ?? null,
           willpower: card.willpower ?? null,
           lore: card.lore ?? null,
@@ -261,7 +263,9 @@ export default function DeckDetailPage() {
                 <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                   {deck.cards.length}
                 </span>
-                <span className="text-[0.7rem] text-[var(--muted)]">Únicas</span>
+                <span className="text-[0.7rem] text-[var(--muted)]">
+                  Únicas
+                </span>
               </div>
               <div className="flex flex-col items-center rounded-xl bg-[var(--surface-soft)] p-3">
                 <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
@@ -269,18 +273,22 @@ export default function DeckDetailPage() {
                     ? (
                         deck.cards.reduce(
                           (acc, c) => acc + (c.cost ?? 0) * c.quantity,
-                          0
+                          0,
                         ) / totalCards
                       ).toFixed(1)
                     : "0"}
                 </span>
-                <span className="text-[0.7rem] text-[var(--muted)]">Coste Medio</span>
+                <span className="text-[0.7rem] text-[var(--muted)]">
+                  Coste Medio
+                </span>
               </div>
               <div className="flex flex-col items-center rounded-xl bg-[var(--surface-soft)] p-3">
                 <span className="text-2xl font-bold text-[var(--ink)] tabular-nums">
                   {deck.inks.length}
                 </span>
-                <span className="text-[0.7rem] text-[var(--muted)]">Tintas</span>
+                <span className="text-[0.7rem] text-[var(--muted)]">
+                  Tintas
+                </span>
               </div>
             </div>
           </div>

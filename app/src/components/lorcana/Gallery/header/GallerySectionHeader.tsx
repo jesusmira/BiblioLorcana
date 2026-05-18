@@ -7,17 +7,22 @@ interface InkLegendItem {
   color: string;
 }
 
-const inkLegend: InkLegendItem[] = Object.entries(INK_COLORS).map(([label, color]) => ({
-  label,
-  color,
-}));
+const inkLegend: InkLegendItem[] = Object.entries(INK_COLORS).map(
+  ([label, color]) => ({
+    label,
+    color,
+  }),
+);
 
 interface GallerySectionHeaderProps {
   visibleCount: number;
   totalCount: number;
 }
 
-export default function GallerySectionHeader({ visibleCount, totalCount }: GallerySectionHeaderProps) {
+export default function GallerySectionHeader({
+  visibleCount,
+  totalCount,
+}: GallerySectionHeaderProps) {
   const shownCount = Math.min(visibleCount, totalCount);
 
   return (

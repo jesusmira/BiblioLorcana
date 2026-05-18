@@ -45,12 +45,15 @@ export default function InkWarningModal({
                     <ExclamationTriangleIcon className="h-8 w-8 text-amber-600" />
                   </div>
                 </div>
-                <Dialog.Title as="h3" className="mb-2 text-xl font-bold text-[var(--ink)]">
+                <Dialog.Title
+                  as="h3"
+                  className="mb-2 text-xl font-bold text-[var(--ink)]"
+                >
                   Límite de tintas excedido
                 </Dialog.Title>
                 <p className="mb-6 text-[var(--muted)]">
-                  Un mazo legal de Lorcana solo puede tener hasta 2 colores de tinta. 
-                  No puedes añadir cartas de un tercer color.
+                  Un mazo legal de Lorcana solo puede tener hasta 2 colores de
+                  tinta. No puedes añadir cartas de un tercer color.
                 </p>
                 <button
                   onClick={onClose}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import { AuthGuard, PageHeader } from "@/components";
 import { ShareIcon, SparklesIcon } from "@heroicons/react/24/outline";
@@ -15,6 +15,7 @@ export default function EditDeckPage() {
   const params = useParams();
   const deckId = params.id as string;
   const [showExport, setShowExport] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const {
     deckName,
@@ -49,10 +50,20 @@ export default function EditDeckPage() {
     isNewDeck,
   } = useDeckBuilder(deckId);
 
-  const cardQuantities = cards.reduce((acc, c) => {
-    acc[c.cardId] = c.quantity;
-    return acc;
-  }, {} as Record<string, number>);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 900);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const cardQuantities = cards.reduce(
+    (acc, c) => {
+      acc[c.cardId] = c.quantity;
+      return acc;
+    },
+    {} as Record<string, number>,
+  );
 
   return (
     <AuthGuard
@@ -63,7 +74,9 @@ export default function EditDeckPage() {
       <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-[1400px] font-[var(--font-sans)]">
         <PageHeader
           title={isNewDeck ? "Constructor de Mazos" : "Editar Mazo"}
-          description={isNewDeck ? "Crea tu estrategia perfecta" : `Editando: ${deckName}`}
+          description={
+            isNewDeck ? "Crea tu estrategia perfecta" : `Editando: ${deckName}`
+          }
           backHref="/mis-mazos"
           actions={
             <div className="flex gap-3">
@@ -105,6 +118,7 @@ export default function EditDeckPage() {
             searchResults={searchResults}
             cardQuantities={cardQuantities}
             addCardToDeck={addCardToDeck}
+            useModal={isMobile}
           />
 
           {/* Panel del Mazo */}
@@ -128,10 +142,7 @@ export default function EditDeckPage() {
           />
 
           {/* Panel de Estadísticas */}
-          <BuilderStatsPanel
-            cards={cards}
-            stats={stats}
-          />
+          <BuilderStatsPanel cards={cards} stats={stats} />
         </div>
 
         <InkWarningModal

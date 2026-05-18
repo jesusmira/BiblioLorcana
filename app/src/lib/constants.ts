@@ -34,12 +34,7 @@ export const INK_LABELS: Record<string, string> = {
   steel: "Acero",
 };
 
-export const CARD_TYPES = [
-  "Action",
-  "Character",
-  "Item",
-  "Location",
-] as const;
+export const CARD_TYPES = ["Action", "Character", "Item", "Location"] as const;
 
 export const RARITY_LABELS: Record<string, string> = {
   common: "Común",

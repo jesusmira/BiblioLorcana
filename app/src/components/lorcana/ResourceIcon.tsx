@@ -1,7 +1,13 @@
 import Image from "next/image";
 import { clsx } from "clsx";
 
-export type ResourceType = "strength" | "willpower" | "lore" | "cost" | "exert" | "ink";
+export type ResourceType =
+  | "strength"
+  | "willpower"
+  | "lore"
+  | "cost"
+  | "exert"
+  | "ink";
 
 interface ResourceIconProps {
   type: ResourceType;
@@ -28,23 +34,30 @@ export const RESOURCE_CODES: Record<string, ResourceType> = {
   "{C}": "cost",
 };
 
-export function ResourceIcon({ type, className = "", size = 20 }: ResourceIconProps) {
+export function ResourceIcon({
+  type,
+  className = "",
+  size = 20,
+}: ResourceIconProps) {
   const src = resourceImages[type];
 
   return (
-    <span className={clsx("inline-block", className)} style={{ 
-      width: size, 
-      height: size, 
-      backgroundColor: "currentColor",
-      WebkitMaskImage: `url(${src})`,
-      WebkitMaskRepeat: "no-repeat",
-      WebkitMaskPosition: "center",
-      WebkitMaskSize: "contain",
-      maskImage: `url(${src})`,
-      maskRepeat: "no-repeat",
-      maskPosition: "center",
-      maskSize: "contain"
-    }} />
+    <span
+      className={clsx("inline-block", className)}
+      style={{
+        width: size,
+        height: size,
+        backgroundColor: "currentColor",
+        WebkitMaskImage: `url(${src})`,
+        WebkitMaskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        WebkitMaskSize: "contain",
+        maskImage: `url(${src})`,
+        maskRepeat: "no-repeat",
+        maskPosition: "center",
+        maskSize: "contain",
+      }}
+    />
   );
 }
 

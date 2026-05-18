@@ -8,26 +8,27 @@ import { searchCardsWithFiltersAction } from "./galleryActions";
 const DECK_TEMPLATES = [
   {
     name: "Dominio Ámbar-Amatista",
-    description: "Un mazo de control que combina la resistencia del Ámbar con el poder arcano de la Amatista.",
+    description:
+      "Un mazo de control que combina la resistencia del Ámbar con el poder arcano de la Amatista.",
     inks: ["Amber", "Amethyst"],
   },
   {
     name: "Agresión Esmeralda-Rubí",
-    description: "Un mazo agresivo que aprovecha la velocidad del Rubí y la versatilidad de la Esmeralda.",
+    description:
+      "Un mazo agresivo que aprovecha la velocidad del Rubí y la versatilidad de la Esmeralda.",
     inks: ["Emerald", "Ruby"],
   },
   {
     name: "Tormenta Acero-Zafiro",
-    description: "Un mazo de tempo que usa la fuerza del Acero y la inteligencia del Zafiro.",
+    description:
+      "Un mazo de tempo que usa la fuerza del Acero y la inteligencia del Zafiro.",
     inks: ["Steel", "Sapphire"],
   },
 ];
 
 function getCardImage(card: LorcanaCard): string | null {
   return (
-    card.image_uris?.digital?.normal ||
-    card.image_uris?.digital?.small ||
-    null
+    card.image_uris?.digital?.normal || card.image_uris?.digital?.small || null
   );
 }
 
@@ -39,7 +40,8 @@ function getCardType(card: LorcanaCard): string | null {
 }
 
 export async function generateSampleDeck(): Promise<Deck> {
-  const template = DECK_TEMPLATES[Math.floor(Math.random() * DECK_TEMPLATES.length)];
+  const template =
+    DECK_TEMPLATES[Math.floor(Math.random() * DECK_TEMPLATES.length)];
 
   // Fetch cards from the first available set
   let allCards: LorcanaCard[] = [];
@@ -53,7 +55,9 @@ export async function generateSampleDeck(): Promise<Deck> {
     const setCode = randomSet.code || randomSet.id;
 
     // Use the correct endpoint: /sets/{code}/cards
-    const cardsRes = await axios.get(`${API.LORCAST_BASE}/sets/${setCode}/cards`);
+    const cardsRes = await axios.get(
+      `${API.LORCAST_BASE}/sets/${setCode}/cards`,
+    );
     allCards = cardsRes.data.results || cardsRes.data || [];
   } catch (error) {
     console.error("Error fetching cards for sample deck:", error);
@@ -70,7 +74,9 @@ export async function generateSampleDeck(): Promise<Deck> {
 
   // Filter by template inks
   const inkCards = allCards.filter(
-    (c) => c.ink && template.inks.some((ink) => c.ink?.toLowerCase() === ink.toLowerCase())
+    (c) =>
+      c.ink &&
+      template.inks.some((ink) => c.ink?.toLowerCase() === ink.toLowerCase()),
   );
 
   // If not enough ink-matched cards, use all cards
@@ -95,7 +101,7 @@ export async function generateSampleDeck(): Promise<Deck> {
     if (!existing) {
       const copies = Math.min(
         Math.floor(Math.random() * 3) + 2, // 2-4 copies
-        TARGET - totalCards
+        TARGET - totalCards,
       );
       deckCards.set(cardId, {
         cardId,
@@ -144,4 +150,3 @@ export async function generateSampleDeck(): Promise<Deck> {
 }
 
 // Moved to dbDeckActions.ts
-

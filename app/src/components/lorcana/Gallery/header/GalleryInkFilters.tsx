@@ -8,7 +8,8 @@ interface GalleryInkFiltersProps {
   inkValues: string[];
 }
 
-const inkChipBase = "rounded-full border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] py-2 text-[0.9rem] transition duration-200 hover:border-[var(--muted)]";
+const inkChipBase =
+  "rounded-full border border-[var(--stroke)] bg-[var(--surface-strong)] px-[14px] py-2 text-[0.9rem] transition duration-200 hover:border-[var(--muted)]";
 
 export default function GalleryInkFilters({
   ink,
@@ -22,7 +23,8 @@ export default function GalleryInkFilters({
           key={value}
           className={clsx(
             inkChipBase,
-            ink === value && "border-[var(--accent)] bg-[var(--chip-active-bg)] ring-1 ring-[var(--accent)]"
+            ink === value &&
+              "border-[var(--accent)] bg-[var(--chip-active-bg)] ring-1 ring-[var(--accent)]",
           )}
           onClick={() => onInkChange(ink === value ? "" : value)}
           type="button"

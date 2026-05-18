@@ -25,7 +25,12 @@ export default function SiteHeader() {
   };
 
   return (
-    <header className={clsx(HEADER_STYLES.headerBase, isVisible ? "translate-y-0" : "-translate-y-full")}>
+    <header
+      className={clsx(
+        HEADER_STYLES.headerBase,
+        isVisible ? "translate-y-0" : "-translate-y-full",
+      )}
+    >
       <div className={HEADER_STYLES.container}>
         <HeaderLogo onMenuToggle={handleMenuToggle} />
         <HeaderNav links={HEADER_NAV_LINKS} pathname={pathname} />

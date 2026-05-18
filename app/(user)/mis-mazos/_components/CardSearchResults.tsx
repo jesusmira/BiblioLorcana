@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { clsx } from "clsx";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import CardArtwork from "@/components/lorcana/CardArtwork";
 import type { LorcanaCard } from "@/types/";
 
 interface CardSearchResultsProps {
@@ -8,6 +11,7 @@ interface CardSearchResultsProps {
   isLoading: boolean;
   cardQuantities: Record<string, number>;
   onCardSelect: (card: LorcanaCard) => void;
+  useModal?: boolean;
 }
 
 function getCardImage(card: LorcanaCard | undefined): string | null {
@@ -28,6 +32,8 @@ function CardItem({
   cardImageUrl,
   cardQuantity,
   onCardSelect,
+  onCardClick,
+  useModal,
 }: {
   card: LorcanaCard;
   isInDeck: boolean;
@@ -35,6 +41,8 @@ function CardItem({
   cardImageUrl: string | null;
   cardQuantity: number;
   onCardSelect: (card: LorcanaCard) => void;
+  onCardClick: (card: LorcanaCard) => void;
+  useModal?: boolean;
 }) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -65,12 +73,15 @@ function CardItem({
   }, []);
 
   const handleMouseEnter = useCallback(() => {
-    setShowTooltip(true);
-  }, []);
+    if (!useModal) setShowTooltip(true);
+  }, [useModal]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    calculatePosition(e.clientX, e.clientY);
-  }, [calculatePosition]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!useModal) calculatePosition(e.clientX, e.clientY);
+    },
+    [calculatePosition, useModal],
+  );
 
   const handleMouseLeave = useCallback(() => {
     setIsVisible(false);
@@ -85,6 +96,10 @@ function CardItem({
     }
   }, [showTooltip]);
 
+  const handleClick = useModal
+    ? () => onCardClick(card)
+    : () => onCardSelect(card);
+
   return (
     <div
       ref={cardRef}
@@ -94,13 +109,15 @@ function CardItem({
       onMouseLeave={handleMouseLeave}
     >
       <button
-        onClick={() => !isMaxed && onCardSelect(card)}
-        disabled={isMaxed}
-        className={`relative w-full overflow-hidden rounded-lg border-2 transition hover:scale-105 disabled:cursor-not-allowed disabled:opacity-60 ${
+        onClick={handleClick}
+        disabled={isMaxed && !useModal}
+        className={clsx(
+          "relative w-full overflow-hidden rounded-lg border-2 transition hover:scale-105",
           isInDeck
             ? "border-[var(--accent)] ring-2 ring-[var(--accent)]/30"
-            : "border-[var(--stroke)] hover:border-[var(--accent)]"
-        }`}
+            : "border-[var(--stroke)] hover:border-[var(--accent)]",
+          isMaxed && !useModal && "cursor-not-allowed opacity-60",
+        )}
       >
         {cardImageUrl ? (
           <img
@@ -119,18 +136,13 @@ function CardItem({
           </div>
         )}
 
-        {isMaxed && (
-          <div className="absolute inset-0 bg-black/50" />
-        )}
+        {isMaxed && <div className="absolute inset-0 bg-black/50" />}
       </button>
 
       {showTooltip && isVisible && cardImageUrl && (
         <div
           className="fixed z-[100] pointer-events-none transition-opacity duration-150"
-          style={{
-            left: position.x,
-            top: position.y,
-          }}
+          style={{ left: position.x, top: position.y }}
         >
           <div className="relative">
             <img
@@ -148,12 +160,95 @@ function CardItem({
   );
 }
 
+function SearchCardModal({
+  card,
+  onConfirm,
+  onCancel,
+}: {
+  card: LorcanaCard | null;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  if (!card) return null;
+
+  const image =
+    card.image_uris?.digital?.normal ||
+    card.image_uris?.digital?.large ||
+    card.image_uris?.digital?.small ||
+    "";
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      onClick={onCancel}
+    >
+      <div
+        className="relative flex w-full max-w-[85vw] flex-col items-center gap-4 rounded-2xl border border-[var(--stroke)] bg-[var(--surface)] p-4 shadow-2xl max-[400px]:max-w-[92vw] max-[400px]:p-3 max-[400px]:gap-3"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <p className="text-center text-base font-bold text-[var(--ink)] max-[400px]:text-sm">
+          ¿Deseas añadir al mazo?
+        </p>
+
+        <div className="w-full overflow-hidden rounded-xl border border-[var(--stroke)] shadow-md">
+          <CardArtwork
+            image={image}
+            alt={card.name ?? "Carta"}
+            loading="lazy"
+            wrapperClassName="aspect-[2/3] w-full bg-[var(--surface-soft)] p-2 max-[400px]:p-1"
+            imageClassName="h-full w-full rounded-lg object-contain"
+          />
+        </div>
+
+        <p className="text-center text-sm font-medium text-[var(--ink)] max-[400px]:text-xs">
+          {card.name}
+        </p>
+
+        <div className="flex w-full gap-2 max-[400px]:gap-1.5">
+          <button
+            onClick={onCancel}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-[var(--stroke)] bg-[var(--surface)] py-2.5 text-sm font-bold text-[var(--ink)] transition hover:bg-[var(--surface-hover)] max-[400px]:py-2 max-[400px]:text-xs max-[400px]:gap-1"
+          >
+            <XMarkIcon className="h-4 w-4 max-[400px]:h-3 max-[400px]:w-3" />
+            <span>Cancelar</span>
+          </button>
+          <button
+            onClick={onConfirm}
+            className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[var(--accent)] py-2.5 text-sm font-bold text-white shadow-lg transition hover:opacity-90 max-[400px]:py-2 max-[400px]:text-xs max-[400px]:gap-1"
+          >
+            <CheckIcon className="h-4 w-4 max-[400px]:h-3 max-[400px]:w-3" />
+            <span>Añadir</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function CardSearchResults({
   cards,
   isLoading,
   cardQuantities,
   onCardSelect,
+  useModal = false,
 }: CardSearchResultsProps) {
+  const [selectedCard, setSelectedCard] = useState<LorcanaCard | null>(null);
+
+  const handleCardClick = (card: LorcanaCard) => {
+    setSelectedCard(card);
+  };
+
+  const handleConfirm = () => {
+    if (selectedCard) {
+      onCardSelect(selectedCard);
+      setSelectedCard(null);
+    }
+  };
+
+  const handleCancel = () => {
+    setSelectedCard(null);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -171,25 +266,37 @@ export function CardSearchResults({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5">
-      {cards.map((card) => {
-        const quantity = cardQuantities[String(card.id)] || 0;
-        const isInDeck = quantity > 0;
-        const isMaxed = quantity >= 4;
-        const cardImageUrl = getCardImage(card);
+    <>
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5">
+        {cards.map((card) => {
+          const quantity = cardQuantities[String(card.id)] || 0;
+          const isInDeck = quantity > 0;
+          const isMaxed = quantity >= 4;
+          const cardImageUrl = getCardImage(card);
 
-        return (
-          <CardItem
-            key={card.id}
-            card={card}
-            isInDeck={isInDeck}
-            isMaxed={isMaxed}
-            cardImageUrl={cardImageUrl}
-            cardQuantity={quantity}
-            onCardSelect={onCardSelect}
-          />
-        );
-      })}
-    </div>
+          return (
+            <CardItem
+              key={card.id}
+              card={card}
+              isInDeck={isInDeck}
+              isMaxed={isMaxed}
+              cardImageUrl={cardImageUrl}
+              cardQuantity={quantity}
+              onCardSelect={onCardSelect}
+              onCardClick={handleCardClick}
+              useModal={useModal}
+            />
+          );
+        })}
+      </div>
+
+      {useModal && selectedCard && (
+        <SearchCardModal
+          card={selectedCard}
+          onConfirm={handleConfirm}
+          onCancel={handleCancel}
+        />
+      )}
+    </>
   );
 }

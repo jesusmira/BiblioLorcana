@@ -5,7 +5,11 @@ import { useCookieConsentStore } from "@/store/cookieConsentStore";
 import { CookieBannerInitial } from "./CookieBannerInitial";
 import { CookieBannerPreferences } from "./CookieBannerPreferences";
 import { CookieBannerRedirect } from "./CookieBannerRedirect";
-import { DEFAULT_REDIRECT_URL, REDIRECT_DELAY_MS, type CookieCategory } from "./types";
+import {
+  DEFAULT_REDIRECT_URL,
+  REDIRECT_DELAY_MS,
+  type CookieCategory,
+} from "./types";
 
 interface CookiePreferences {
   essential: boolean;
@@ -29,12 +33,16 @@ const DEFAULT_PREFERENCES: CookiePreferences = {
   acceptedAt: null,
 };
 
-export default function CookieBanner({ redirectUrl = DEFAULT_REDIRECT_URL }: CookieBannerProps) {
-  const { hasConsented, acceptAll, rejectAll, setConsent } = useCookieConsentStore();
+export default function CookieBanner({
+  redirectUrl = DEFAULT_REDIRECT_URL,
+}: CookieBannerProps) {
+  const { hasConsented, acceptAll, rejectAll, setConsent } =
+    useCookieConsentStore();
   const [mounted, setMounted] = useState(false);
   const [view, setView] = useState<ViewState>("initial");
   const [showRedirectMessage, setShowRedirectMessage] = useState(false);
-  const [preferences, setPreferences] = useState<CookiePreferences>(DEFAULT_PREFERENCES);
+  const [preferences, setPreferences] =
+    useState<CookiePreferences>(DEFAULT_PREFERENCES);
 
   useEffect(() => {
     setMounted(true);
@@ -79,7 +87,11 @@ export default function CookieBanner({ redirectUrl = DEFAULT_REDIRECT_URL }: Coo
   }
 
   return (
-    <div className="cookie-banner" role="dialog" aria-label="Consentimiento de cookies">
+    <div
+      className="cookie-banner"
+      role="dialog"
+      aria-label="Consentimiento de cookies"
+    >
       <div className="cookie-banner-content">
         {view === "initial" ? (
           <CookieBannerInitial

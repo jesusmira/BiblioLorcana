@@ -1,6 +1,7 @@
 import "./globals.css";
 import { SiteHeader, CookieBanner } from "@/components";
 import { AuthProvider } from "@/lib/auth";
+import NavigationGuardProvider from "@/context/NavigationGuardProvider";
 import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
@@ -19,17 +20,26 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="es" data-theme="dark">
       <body>
         <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10">
-          <div className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15" style={{ backgroundImage: "url('/images/lorcana-bg.png')" }} />
+          <div
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-15"
+            style={{ backgroundImage: "url('/images/lorcana-bg.png')" }}
+          />
         </div>
         <AuthProvider>
-          <SiteHeader />
-          {children}
-          <CookieBanner />
+          <NavigationGuardProvider>
+            <SiteHeader />
+            {children}
+            <CookieBanner />
+          </NavigationGuardProvider>
         </AuthProvider>
       </body>
     </html>

@@ -8,7 +8,12 @@ import {
 import { ComponentType, SVGProps } from "react";
 import guideDataJson from "./guideData.json";
 
-type IconName = "FireIcon" | "SparklesIcon" | "BoltIcon" | "CurrencyDollarIcon" | "ShieldCheckIcon";
+type IconName =
+  | "FireIcon"
+  | "SparklesIcon"
+  | "BoltIcon"
+  | "CurrencyDollarIcon"
+  | "ShieldCheckIcon";
 
 const ICON_MAP: Record<IconName, ComponentType<SVGProps<SVGSVGElement>>> = {
   FireIcon,

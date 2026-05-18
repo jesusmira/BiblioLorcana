@@ -9,6 +9,7 @@ export { default as TagChip } from "./ui/TagChip";
 export { default as AuthGuard } from "./ui/AuthGuard";
 export { default as PageHeader } from "./ui/PageHeader";
 export { default as EmptyState } from "./ui/EmptyState";
+export { default as CardsIcon } from "./ui/CardsIcon";
 
 export { default as ActiveSetSummary } from "./lorcana/ActiveSetSummary";
 export { default as CardArtwork } from "./lorcana/CardArtwork";
@@ -16,7 +17,14 @@ export { CardDetail } from "./lorcana/CardDetail";
 export { CardText } from "./lorcana/CardText";
 export { DeckCardRow } from "./lorcana/DeckCardRow";
 export { DeckListCard } from "./lorcana/DeckListCard";
-export { default as Gallery, GalleryCards, GalleryCardItem, GalleryCardModal, GalleryHeader, GallerySectionHeader } from "./lorcana/Gallery/index";
+export {
+  default as Gallery,
+  GalleryCards,
+  GalleryCardItem,
+  GalleryCardModal,
+  GalleryHeader,
+  GallerySectionHeader,
+} from "./lorcana/Gallery/index";
 export { InkBreakdown } from "./lorcana/InkBreakdown";
 export { InkDot } from "./lorcana/InkDot";
 export { ManaCurve } from "./lorcana/ManaCurve";

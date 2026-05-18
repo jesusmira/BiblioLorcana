@@ -9,17 +9,20 @@ const heroCards = [
   {
     id: "1-204",
     name: "Plasma Blaster",
-    image: "https://cards.lorcast.io/card/digital/large/crd_22373df684c0420ea90d2f8508ac096c.avif?1709690747",
+    image:
+      "https://cards.lorcast.io/card/digital/large/crd_22373df684c0420ea90d2f8508ac096c.avif?1709690747",
   },
   {
     id: "1-1",
     name: "Mickey Mouse",
-    image: "https://cards.lorcast.io/card/digital/large/crd_7295a54624614f55a8d469d9d6b2e502.avif?1716052430",
+    image:
+      "https://cards.lorcast.io/card/digital/large/crd_7295a54624614f55a8d469d9d6b2e502.avif?1716052430",
   },
   {
     id: "1-87",
     name: "Megara",
-    image: "https://cards.lorcast.io/card/digital/large/crd_769e68c4d309489fa1a27c2d237a7b2e.avif?1709690747",
+    image:
+      "https://cards.lorcast.io/card/digital/large/crd_769e68c4d309489fa1a27c2d237a7b2e.avif?1709690747",
   },
 ];
 
@@ -33,12 +36,20 @@ export function Hero() {
               Acceso al Altar de Tinta
             </span>
 
-            <h1 className="mb-4 text-4xl font-bold leading-[0.95] tracking-tight text-[var(--accent-strong)] md:text-5xl lg:mb-6 lg:text-6xl xl:text-7xl" style={{ fontFamily: "var(--font-title)", fontStyle: "italic" }}>
+            <h1
+              className="mb-4 text-4xl font-bold leading-[0.95] tracking-tight text-[var(--accent-strong)] md:text-5xl lg:mb-6 lg:text-6xl xl:text-7xl"
+              style={{ fontFamily: "var(--font-title)", fontStyle: "italic" }}
+            >
               El Archivo del Reino te espera.
             </h1>
 
-            <p className="mb-6 max-w-lg text-base leading-relaxed text-[var(--muted)] md:text-lg lg:mb-8 lg:text-xl" style={{ fontStyle: "italic" }}>
-              La herramienta definitiva para coleccionistas de Lorcana. Gestiona tu inventario, construye mazos y traduce cartas con la precisión del Cronista Real.
+            <p
+              className="mb-6 max-w-lg text-base leading-relaxed text-[var(--muted)] md:text-lg lg:mb-8 lg:text-xl"
+              style={{ fontStyle: "italic" }}
+            >
+              La herramienta definitiva para coleccionistas de Lorcana. Gestiona
+              tu inventario, construye mazos y traduce cartas con la precisión
+              del Cronista Real.
             </p>
 
             <div className="flex flex-wrap justify-center gap-3 lg:justify-start lg:gap-4">
@@ -49,7 +60,10 @@ export function Hero() {
                 </Button>
               </Link>
               <Link href="/registro">
-                <Button className="grid grid-cols-[1fr_auto] items-center gap-2 px-8 py-3 text-base" variant="ghost">
+                <Button
+                  className="grid grid-cols-[1fr_auto] items-center gap-2 px-8 py-3 text-base"
+                  variant="ghost"
+                >
                   <span>Crear mi cuenta</span>
                   <ArrowRightIcon className="h-5 w-5" />
                 </Button>
@@ -93,7 +107,10 @@ export function Hero() {
           <div className="hidden relative lg:flex h-[525px] items-center justify-center perspective-[1000px] card-fan-container">
             <div className="absolute -inset-10 rounded-full bg-[var(--accent)]/5 blur-[120px] opacity-40" />
 
-            <div className="card-fan-item absolute z-10 w-[304px] h-[420px] overflow-hidden rounded-xl border border-white/10 shadow-2xl" style={{ transform: "rotate(-12deg) translate-x(-80px)" }}>
+            <div
+              className="card-fan-item absolute z-10 w-[304px] h-[420px] overflow-hidden rounded-xl border border-white/10 shadow-2xl"
+              style={{ transform: "rotate(-12deg) translate-x(-80px)" }}
+            >
               <Image
                 alt={heroCards[0].name}
                 src={heroCards[0].image}
@@ -103,7 +120,10 @@ export function Hero() {
               />
             </div>
 
-            <div className="card-fan-item absolute z-30 w-[304px] h-[420px] overflow-hidden rounded-xl border border-[var(--accent)]/30 shadow-2xl scale-110" style={{ transform: "translateY(-20px)" }}>
+            <div
+              className="card-fan-item absolute z-30 w-[304px] h-[420px] overflow-hidden rounded-xl border border-[var(--accent)]/30 shadow-2xl scale-110"
+              style={{ transform: "translateY(-20px)" }}
+            >
               <Image
                 alt={heroCards[1].name}
                 src={heroCards[1].image}
@@ -113,7 +133,10 @@ export function Hero() {
               />
             </div>
 
-            <div className="card-fan-item absolute z-20 w-[304px] h-[420px] overflow-hidden rounded-xl border border-white/10 shadow-2xl" style={{ transform: "rotate(12deg) translate-x(80px)" }}>
+            <div
+              className="card-fan-item absolute z-20 w-[304px] h-[420px] overflow-hidden rounded-xl border border-white/10 shadow-2xl"
+              style={{ transform: "rotate(12deg) translate-x(80px)" }}
+            >
               <Image
                 alt={heroCards[2].name}
                 src={heroCards[2].image}

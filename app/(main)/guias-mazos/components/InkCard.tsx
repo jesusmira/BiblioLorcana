@@ -20,7 +20,9 @@ export function InkCard({ ink }: InkCardProps) {
           <ink.icon className="h-6 w-6 text-[var(--ink)]" />
         </div>
         <h3 className="text-lg font-semibold text-[var(--ink)]">{ink.name}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{ink.description}</p>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">
+          {ink.description}
+        </p>
       </div>
     </div>
   );

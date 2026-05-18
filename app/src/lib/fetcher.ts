@@ -31,7 +31,7 @@ api.interceptors.response.use(
       throw new Error("No se pudo conectar al servidor");
     }
     throw new Error(error.message || "Error de conexión");
-  }
+  },
 );
 
 interface FetchJsonOptions {
@@ -41,7 +41,7 @@ interface FetchJsonOptions {
 
 export async function fetchJson<T>(
   url: string,
-  { config, errorMessage }: FetchJsonOptions = {}
+  { config, errorMessage }: FetchJsonOptions = {},
 ): Promise<T> {
   try {
     const response = await api.get<T>(url, config);
@@ -57,7 +57,7 @@ export async function fetchJson<T>(
 export async function postJson<T, D>(
   url: string,
   data: D,
-  { config, errorMessage }: FetchJsonOptions = {}
+  { config, errorMessage }: FetchJsonOptions = {},
 ): Promise<T> {
   try {
     const response = await api.post<T>(url, data, config);

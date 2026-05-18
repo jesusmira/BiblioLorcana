@@ -11,17 +11,20 @@ import { getTypes, normalizeInk, normalizeLabel } from "@/lib";
 import type { LorcanaCard } from "@/types";
 import { useAuth } from "@/lib/auth";
 
-const actionButtonBase = "flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
+const actionButtonBase =
+  "flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
 const actionButtonActive = "bg-[var(--accent)] text-white";
-const favoriteButtonBase = "flex h-7 w-7 items-center justify-center rounded-full";
-const saveButtonBase = "flex h-7 px-2 items-center justify-center rounded-full gap-1.5 transition-all text-[0.7rem] font-bold";
+const favoriteButtonBase =
+  "flex h-7 w-7 items-center justify-center rounded-full";
+const saveButtonBase =
+  "flex h-7 px-2 items-center justify-center rounded-full gap-1.5 transition-all text-[0.7rem] font-bold";
 const saveButtonActive = "bg-[#2D2D2D] text-[var(--accent)]";
 import { useFavoritesStore, useUserCardsStore } from "@/store/";
-import { 
-  translateText, 
-  saveCardToUser, 
+import {
+  translateText,
+  saveCardToUser,
   removeCardFromUser,
-  updateCardQuantity as updateQuantityAction 
+  updateCardQuantity as updateQuantityAction,
 } from "@/actions/";
 import {
   HeartIcon,
@@ -53,11 +56,12 @@ export default function GalleryCardModal({
 }: GalleryCardModalProps) {
   const { user } = useAuth();
   const { toggleFavorite, isFavorite } = useFavoritesStore();
-  const { addSavedCardId, removeSavedCardId, isSaved, updateCardQuantity } = useUserCardsStore();
-  
+  const { addSavedCardId, removeSavedCardId, isSaved, updateCardQuantity } =
+    useUserCardsStore();
+
   const isCardFavorite = selected ? isFavorite(String(selected.id)) : false;
   const isCardSaved = selected ? isSaved(String(selected.id)) : false;
-  
+
   const [translatedText, setTranslatedText] = useState<string | null>(null);
   const [translatedFlavor, setTranslatedFlavor] = useState<string | null>(null);
   const [isTranslating, setIsTranslating] = useState(false);
@@ -66,7 +70,7 @@ export default function GalleryCardModal({
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [translateError, setTranslateError] = useState<string | null>(null);
   const [saveError, setSaveError] = useState<string | null>(null);
-  
+
   const [localQuantity, setLocalQuantity] = useState(1);
 
   const dialogRef = useRef<HTMLDivElement | null>(null);
@@ -91,10 +95,10 @@ export default function GalleryCardModal({
 
   const handleSaveClick = async () => {
     if (!selected) return;
-    
+
     setIsSaving(true);
     setSaveError(null);
-    
+
     if (isCardSaved) {
       const result = await removeCardFromUser(String(selected.id));
       if (result.success) {
@@ -115,7 +119,7 @@ export default function GalleryCardModal({
 
   const handleUpdateQuantity = async (newQty: number) => {
     if (!selected || newQty < 1 || newQty > 10) return;
-    
+
     setIsUpdatingQuantity(true);
     const result = await updateQuantityAction(String(selected.id), newQty);
     if (result.success) {
@@ -143,7 +147,7 @@ export default function GalleryCardModal({
 
   const handleTranslateClick = async () => {
     if (!selected?.text && !selected?.flavor_text) return;
-    
+
     if (translatedText !== null || translatedFlavor !== null) {
       setTranslatedText(null);
       setTranslatedFlavor(null);
@@ -155,7 +159,9 @@ export default function GalleryCardModal({
 
     const textsToTranslate = [
       selected.text ? translateText(selected.text, "en", "es") : null,
-      selected.flavor_text ? translateText(selected.flavor_text, "en", "es") : null,
+      selected.flavor_text
+        ? translateText(selected.flavor_text, "en", "es")
+        : null,
     ];
 
     const results = await Promise.all(textsToTranslate);
@@ -163,13 +169,21 @@ export default function GalleryCardModal({
     const textResult = results[0];
     const flavorResult = results[1];
 
-    if (textResult && "translatedText" in textResult && textResult.translatedText) {
+    if (
+      textResult &&
+      "translatedText" in textResult &&
+      textResult.translatedText
+    ) {
       setTranslatedText(textResult.translatedText);
     } else if (textResult && "error" in textResult && textResult.error) {
       setTranslateError(textResult.error);
     }
 
-    if (flavorResult && "translatedText" in flavorResult && flavorResult.translatedText) {
+    if (
+      flavorResult &&
+      "translatedText" in flavorResult &&
+      flavorResult.translatedText
+    ) {
       setTranslatedFlavor(flavorResult.translatedText);
     } else if (flavorResult && "error" in flavorResult && flavorResult.error) {
       setTranslateError(flavorResult.error);
@@ -182,7 +196,7 @@ export default function GalleryCardModal({
     if (!selected) return undefined;
     previousFocusRef.current = document.activeElement as HTMLElement | null;
     const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-      "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+      "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])",
     );
     const first = focusable?.[0] || closeButtonRef.current;
     first?.focus();
@@ -196,7 +210,7 @@ export default function GalleryCardModal({
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Tab") return;
       const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-        "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])"
+        "button, [href], input, select, textarea, [tabindex]:not([tabindex='-1'])",
       );
       if (!focusable || focusable.length === 0) return;
       const first = focusable[0];
@@ -230,22 +244,20 @@ export default function GalleryCardModal({
 
   return (
     <>
-      <div
-        className="fixed inset-0 z-10 flex items-center justify-center p-[clamp(16px,4vw,32px)]"
-      >
+      <div className="fixed inset-0 z-10 flex items-center justify-center p-[clamp(16px,4vw,32px)]">
         <div
           className="absolute inset-0 bg-[rgba(18,16,15,0.55)] backdrop-blur-[2px]"
           onClick={onClose}
         ></div>
-          <div
-            ref={dialogRef}
-            className="relative z-[2] w-full max-w-[900px] overflow-auto rounded-[20px] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)] max-h-[calc(100vh-(clamp(16px,4vw,32px)*2))] max-[900px]:pt-12 max-[900px]:text-center"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby={titleId}
-            aria-describedby={descriptionId}
-            tabIndex={-1}
-          >
+        <div
+          ref={dialogRef}
+          className="relative z-[2] w-full max-w-[900px] overflow-auto rounded-[20px] bg-[var(--surface)] p-6 shadow-[var(--panel-shadow)] max-h-[calc(100vh-(clamp(16px,4vw,32px)*2))] max-[900px]:pt-12 max-[900px]:text-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={titleId}
+          aria-describedby={descriptionId}
+          tabIndex={-1}
+        >
           <button
             ref={closeButtonRef}
             className="absolute right-4 top-4 text-[0.9rem] text-[var(--muted)]"
@@ -266,17 +278,27 @@ export default function GalleryCardModal({
                 <p className="text-[0.75rem] uppercase tracking-[2px]">
                   {selected.set?.name || "Set"} · {selected.collector_number}
                 </p>
-                  <h3 id={titleId} className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2 max-[900px]:justify-center">
+                <h3
+                  id={titleId}
+                  className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2 max-[900px]:justify-center"
+                >
                   {cardName}
                   {selected.version ? `, ${selected.version}` : ""}
-                  
+
                   <span className="flex gap-1 items-center">
                     {/* Botón Traducir - Siempre visible */}
                     <button
                       onClick={handleTranslateClick}
                       disabled={isTranslating}
-                      className={clsx(actionButtonBase, translatedText !== null && "text-[var(--accent)]")}
-                      aria-label={translatedText !== null ? "Ocultar traducción" : "Traducir carta"}
+                      className={clsx(
+                        actionButtonBase,
+                        translatedText !== null && "text-[var(--accent)]",
+                      )}
+                      aria-label={
+                        translatedText !== null
+                          ? "Ocultar traducción"
+                          : "Traducir carta"
+                      }
                     >
                       {isTranslating ? (
                         <ArrowPathIcon className="h-4 w-4 animate-spin" />
@@ -293,22 +315,46 @@ export default function GalleryCardModal({
                           <>
                             <button
                               onClick={handleFavoriteClick}
-                              className={clsx(favoriteButtonBase, isCardFavorite ? actionButtonActive : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]")}
-                              aria-label={isCardFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+                              className={clsx(
+                                favoriteButtonBase,
+                                isCardFavorite
+                                  ? actionButtonActive
+                                  : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]",
+                              )}
+                              aria-label={
+                                isCardFavorite
+                                  ? "Quitar de favoritos"
+                                  : "Añadir a favoritos"
+                              }
                             >
-                              <HeartIcon className="h-4 w-4" fill={isCardFavorite ? "currentColor" : "none"} />
+                              <HeartIcon
+                                className="h-4 w-4"
+                                fill={isCardFavorite ? "currentColor" : "none"}
+                              />
                             </button>
                             <button
                               onClick={handleSaveClick}
                               disabled={isSaving}
-                              className={clsx(saveButtonBase, isCardSaved ? saveButtonActive : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]")}
-                              aria-label={isCardSaved ? "Quitar de mis cartas" : "Añadir a mis cartas"}
+                              className={clsx(
+                                saveButtonBase,
+                                isCardSaved
+                                  ? saveButtonActive
+                                  : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]",
+                              )}
+                              aria-label={
+                                isCardSaved
+                                  ? "Quitar de mis cartas"
+                                  : "Añadir a mis cartas"
+                              }
                             >
                               {isSaving ? (
                                 <ArrowPathIcon className="h-4 w-4 animate-spin" />
                               ) : (
                                 <>
-                                  <FolderIcon className="h-4 w-4" fill={isCardSaved ? "currentColor" : "none"} />
+                                  <FolderIcon
+                                    className="h-4 w-4"
+                                    fill={isCardSaved ? "currentColor" : "none"}
+                                  />
                                   {isCardSaved && <span>YA LA TIENES</span>}
                                 </>
                               )}
@@ -330,11 +376,20 @@ export default function GalleryCardModal({
                   </span>
                 </h3>
 
-                <p id={descriptionId} className="min-h-[4.5rem] whitespace-pre-line text-[var(--muted)]">
-                  {translatedText !== null ? <CardText text={translatedText} /> : <CardText text={selected.text ?? ""} />}
+                <p
+                  id={descriptionId}
+                  className="min-h-[4.5rem] whitespace-pre-line text-[var(--muted)]"
+                >
+                  {translatedText !== null ? (
+                    <CardText text={translatedText} />
+                  ) : (
+                    <CardText text={selected.text ?? ""} />
+                  )}
                 </p>
                 {translateError && (
-                  <p className="text-[var(--alert-ink)] text-sm">{translateError}</p>
+                  <p className="text-[var(--alert-ink)] text-sm">
+                    {translateError}
+                  </p>
                 )}
                 {saveError && (
                   <p className="text-[var(--alert-ink)] text-sm">{saveError}</p>
@@ -346,7 +401,11 @@ export default function GalleryCardModal({
                       aria-hidden="true"
                     ></span>
                     <p className="italic text-[var(--muted)]">
-                      {translatedFlavor !== null ? <CardText text={translatedFlavor} /> : <CardText text={selected.flavor_text} />}
+                      {translatedFlavor !== null ? (
+                        <CardText text={translatedFlavor} />
+                      ) : (
+                        <CardText text={selected.flavor_text} />
+                      )}
                     </p>
                   </>
                 ) : null}
@@ -355,16 +414,21 @@ export default function GalleryCardModal({
                 {/* Selector de Cantidad - Solo en Mi Colección */}
                 {hideActions && user && (
                   <div className="flex items-center justify-center gap-4 py-2">
-                    <span className="text-sm font-bold text-[var(--muted)]">COPIAS:</span>
+                    <span className="text-sm font-bold text-[var(--muted)]">
+                      COPIAS:
+                    </span>
                     <div className="flex items-center gap-3 bg-[var(--surface-soft)] rounded-full px-4 py-1.5 border border-[var(--stroke)] shadow-inner">
                       <button
                         onClick={() => handleUpdateQuantity(localQuantity - 1)}
                         disabled={localQuantity <= 1 || isUpdatingQuantity}
                         className="text-[var(--foreground)] hover:text-[var(--accent)] disabled:opacity-30 disabled:hover:text-[var(--foreground)]"
                       >
-                        <MinusIcon className="h-4 w-4 transition hover:scale-110" strokeWidth={3} />
+                        <MinusIcon
+                          className="h-4 w-4 transition hover:scale-110"
+                          strokeWidth={3}
+                        />
                       </button>
-                      
+
                       <span className="min-w-[1.5rem] text-center font-bold text-lg">
                         {isUpdatingQuantity ? "..." : localQuantity}
                       </span>
@@ -374,7 +438,10 @@ export default function GalleryCardModal({
                         disabled={localQuantity >= 10 || isUpdatingQuantity}
                         className="text-[var(--foreground)] hover:text-[var(--accent)] disabled:opacity-30 disabled:hover:text-[var(--foreground)]"
                       >
-                        <PlusIcon className="h-4 w-4 transition hover:scale-110" strokeWidth={3} />
+                        <PlusIcon
+                          className="h-4 w-4 transition hover:scale-110"
+                          strokeWidth={3}
+                        />
                       </button>
                     </div>
                   </div>

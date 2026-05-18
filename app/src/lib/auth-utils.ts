@@ -5,7 +5,7 @@ import { prisma } from "./prisma";
 import { createClient } from "./supabase-server";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "biblioLor-secret-key-change-in-production"
+  process.env.JWT_SECRET || "biblioLor-secret-key-change-in-production",
 );
 
 const SALT_ROUNDS = 10;
@@ -24,7 +24,7 @@ export async function hashPassword(password: string): Promise<string> {
 
 export async function verifyPassword(
   password: string,
-  hashedPassword: string
+  hashedPassword: string,
 ): Promise<boolean> {
   return bcrypt.compare(password, hashedPassword);
 }
@@ -37,9 +37,7 @@ export async function createToken(payload: TokenPayload): Promise<string> {
     .sign(JWT_SECRET);
 }
 
-export async function verifyToken(
-  token: string
-): Promise<TokenPayload | null> {
+export async function verifyToken(token: string): Promise<TokenPayload | null> {
   try {
     const { payload } = await jwtVerify(token, JWT_SECRET);
     return payload as unknown as TokenPayload;
@@ -50,7 +48,7 @@ export async function verifyToken(
 
 export async function getSession(): Promise<TokenPayload | null> {
   const cookieStore = await cookies();
-  
+
   // 1. Intentar con el token de sesión tradicional (JWT en cookie auth_token)
   const token = cookieStore.get("auth_token")?.value;
   if (token) {
@@ -61,18 +59,27 @@ export async function getSession(): Promise<TokenPayload | null> {
   // 2. Intentar con la sesión de Supabase (especialmente para login con Google/GitHub)
   try {
     const supabase = await createClient();
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
     if (user && !error) {
       return {
         userId: user.id,
         email: user.email || "",
-        name: user.user_metadata.full_name || user.email?.split("@")[0] || "Usuario",
+        name:
+          user.user_metadata.full_name ||
+          user.email?.split("@")[0] ||
+          "Usuario",
         role: (user.user_metadata.role as "USER" | "ADMIN") || "USER",
       };
     }
   } catch (error) {
-    console.error("Error al obtener la sesión de Supabase en getSession:", error);
+    console.error(
+      "Error al obtener la sesión de Supabase en getSession:",
+      error,
+    );
   }
 
   return null;
@@ -82,7 +89,7 @@ export async function setSession(payload: TokenPayload): Promise<void> {
   const token = await createToken(payload);
   const cookieStore = await cookies();
   const isProduction = process.env.NODE_ENV === "production";
-  
+
   cookieStore.set("auth_token", token, {
     httpOnly: true,
     secure: isProduction,
@@ -139,16 +146,20 @@ export async function registerUser(input: RegisterInput) {
 export async function loginUser(input: LoginInput) {
   const email = input.email.trim();
   const password = input.password.trim();
-  
-  console.log(`Intentando login para: "${email}" (longitud pass: ${password.length})`);
-  
+
+  console.log(
+    `Intentando login para: "${email}" (longitud pass: ${password.length})`,
+  );
+
   const user = await prisma.user.findFirst({
     where: {
       OR: [
-        { email: { equals: email, mode: 'insensitive' } },
-        { name: { equals: email, mode: 'insensitive' } },
-        { email: { startsWith: `${email.toLowerCase()}@`, mode: 'insensitive' } }
-      ]
+        { email: { equals: email, mode: "insensitive" } },
+        { name: { equals: email, mode: "insensitive" } },
+        {
+          email: { startsWith: `${email.toLowerCase()}@`, mode: "insensitive" },
+        },
+      ],
     },
   });
 
@@ -157,7 +168,9 @@ export async function loginUser(input: LoginInput) {
     throw new Error("Credenciales inválidas");
   }
 
-  console.log(`DEBUG: Usuario encontrado: ${user.email}. Verificando password...`);
+  console.log(
+    `DEBUG: Usuario encontrado: ${user.email}. Verificando password...`,
+  );
   const isValid = await verifyPassword(password, user.password);
 
   if (!isValid) {

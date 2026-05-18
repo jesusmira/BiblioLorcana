@@ -53,7 +53,7 @@ export function useMisMazos(): UseMisMazosReturn {
       const fullCard = deck.fullCards.find((c) => String(c.id) === cardId);
       if (fullCard) setSelectedCard(fullCard);
     },
-    [deck]
+    [deck],
   );
 
   const closeModal = useCallback(() => {

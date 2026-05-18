@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { LorcanaCard, UseModalCardParams, UseModalCardReturn } from "../types";
+import type {
+  LorcanaCard,
+  UseModalCardParams,
+  UseModalCardReturn,
+} from "../types";
 
-export default function useModalCard({ cards = [] }: UseModalCardParams = {}): UseModalCardReturn {
+export default function useModalCard({
+  cards = [],
+}: UseModalCardParams = {}): UseModalCardReturn {
   const [selected, setSelected] = useState<LorcanaCard | null>(null);
 
   const openCard = (card: LorcanaCard): void => {

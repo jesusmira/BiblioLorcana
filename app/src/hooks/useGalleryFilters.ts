@@ -31,7 +31,9 @@ export default function useGalleryFilters({
   }, [cards]);
 
   const rarityValues = useMemo(() => {
-    const values = new Set(cards.map((card) => card.rarity).filter(Boolean) as string[]);
+    const values = new Set(
+      cards.map((card) => card.rarity).filter(Boolean) as string[],
+    );
     return [...values].sort((a, b) => a.localeCompare(b));
   }, [cards]);
 
@@ -53,7 +55,9 @@ export default function useGalleryFilters({
         return (a.cost ?? 0) - (b.cost ?? 0);
       }
       if (sort === "ink") {
-        return getInkIndex(normalizeInk(a.ink)) - getInkIndex(normalizeInk(b.ink));
+        return (
+          getInkIndex(normalizeInk(a.ink)) - getInkIndex(normalizeInk(b.ink))
+        );
       }
       return (a.name ?? "").localeCompare(b.name ?? "");
     });

@@ -5,7 +5,11 @@ import { getSession } from "@/lib/auth-utils";
 import { revalidatePath } from "next/cache";
 import { hash } from "bcryptjs";
 
-export async function updatePerfil(data: { name?: string; bio?: string; avatarUrl?: string }) {
+export async function updatePerfil(data: {
+  name?: string;
+  bio?: string;
+  avatarUrl?: string;
+}) {
   const session = await getSession();
 
   if (!session?.userId) {
@@ -14,7 +18,7 @@ export async function updatePerfil(data: { name?: string; bio?: string; avatarUr
 
   try {
     const updateData: { name?: string; bio?: string; avatarUrl?: string } = {};
-    
+
     if (data.name !== undefined) updateData.name = data.name;
     if (data.bio !== undefined) updateData.bio = data.bio;
     if (data.avatarUrl !== undefined) updateData.avatarUrl = data.avatarUrl;

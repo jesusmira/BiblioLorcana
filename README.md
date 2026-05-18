@@ -25,23 +25,27 @@ Galería de cartas de Lorcana con filtros, búsqueda por imagen OCR, gestión de
 ## Instalación
 
 1. **Clonar el proyecto**
+
    ```bash
    git clone https://github.com/jesusmira/BiblioLorcana.git
    cd BiblioLorcana
    ```
 
 2. **Instalar dependencias**
+
    ```bash
    npm install
    ```
 
 3. **Configurar variables de entorno**
+
    ```bash
    cp .env.example .env
    # Configura las variables de Supabase, Prisma y APIs externas
    ```
 
 4. **Sincronizar Base de Datos**
+
    ```bash
    npx prisma db push
    npx prisma generate
@@ -83,13 +87,13 @@ app/
 
 ## Variables de Entorno Clave
 
-| Variable | Descripción |
-|----------|-------------|
-| `DATABASE_URL` | URL de conexión directa a PostgreSQL (Supabase) |
-| `DIRECT_URL` | URL para migraciones Prisma |
-| `NEXT_PUBLIC_SUPABASE_URL` | Endpoint de tu proyecto Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Key pública de Supabase |
-| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | Para el servicio de OCR |
+| Variable                        | Descripción                                     |
+| ------------------------------- | ----------------------------------------------- |
+| `DATABASE_URL`                  | URL de conexión directa a PostgreSQL (Supabase) |
+| `DIRECT_URL`                    | URL para migraciones Prisma                     |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Endpoint de tu proyecto Supabase                |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Key pública de Supabase                         |
+| `NEXT_PUBLIC_ANTHROPIC_API_KEY` | Para el servicio de OCR                         |
 
 ## Usuarios de Prueba
 

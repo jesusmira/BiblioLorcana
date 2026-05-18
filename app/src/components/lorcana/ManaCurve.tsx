@@ -31,7 +31,10 @@ export function ManaCurve({ cards }: ManaCurveProps) {
                 )}
                 <div
                   className="w-full rounded-t-[3px] bg-gradient-to-t from-[var(--accent)] to-[var(--accent)]/70 shadow-sm transition-all duration-300 hover:brightness-110"
-                  style={{ height: `${height}%`, minHeight: count > 0 ? "4px" : "0" }}
+                  style={{
+                    height: `${height}%`,
+                    minHeight: count > 0 ? "4px" : "0",
+                  }}
                   title={`Coste ${i === 7 ? "7+" : i}: ${count} cartas`}
                 />
               </div>
@@ -44,7 +47,7 @@ export function ManaCurve({ cards }: ManaCurveProps) {
           );
         })}
       </div>
-      
+
       <div className="flex items-center justify-between text-[0.65rem] text-[var(--muted)] border-t border-[var(--stroke)] pt-2 uppercase tracking-wider">
         <span className="font-medium">Curva de Maná</span>
         <span className="text-[var(--accent)] font-bold">{maxCount} máx.</span>

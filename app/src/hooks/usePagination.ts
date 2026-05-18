@@ -6,7 +6,7 @@ import type { UsePaginationReturn } from "../types";
 export default function usePagination<T>(
   items: T[] = [],
   pageSize: number = 16,
-  deps: unknown[] = []
+  deps: unknown[] = [],
 ): UsePaginationReturn<T> {
   const [visibleCount, setVisibleCount] = useState<number>(pageSize);
 
@@ -17,7 +17,7 @@ export default function usePagination<T>(
 
   const visibleItems = useMemo(
     () => items.slice(0, visibleCount),
-    [items, visibleCount]
+    [items, visibleCount],
   );
 
   const canLoadMore = visibleCount < items.length;

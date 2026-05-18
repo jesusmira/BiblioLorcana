@@ -30,13 +30,13 @@ async function main() {
 
     // Verificar si la carta existe
     const card = await prisma.card.findUnique({
-      where: { id: cardId }
+      where: { id: cardId },
     });
 
     if (!card) {
       console.warn(`Carta no encontrada: ${cardId}. Buscando por nombre...`);
       const foundCard = await prisma.card.findFirst({
-        where: { name: uc.name }
+        where: { name: uc.name },
       });
       if (foundCard) {
         cardId = foundCard.id;
@@ -72,28 +72,34 @@ async function main() {
   for (const dc of data.deckCards) {
     // Verificar si el mazo existe
     const deck = await prisma.deck.findUnique({
-      where: { id: dc.deckId }
+      where: { id: dc.deckId },
     });
 
     if (!deck) {
-      console.error(`Mazo no encontrado: ${dc.deckId}. Saltando carta ${dc.name}`);
+      console.error(
+        `Mazo no encontrado: ${dc.deckId}. Saltando carta ${dc.name}`,
+      );
       continue;
     }
 
     // Verificar si la carta existe
     const card = await prisma.card.findUnique({
-      where: { id: dc.cardId }
+      where: { id: dc.cardId },
     });
 
     if (!card) {
-      console.warn(`Carta no encontrada en deck: ${dc.cardId} (${dc.name}). Buscando por nombre...`);
+      console.warn(
+        `Carta no encontrada en deck: ${dc.cardId} (${dc.name}). Buscando por nombre...`,
+      );
       const foundCard = await prisma.card.findFirst({
-        where: { name: dc.name }
+        where: { name: dc.name },
       });
       if (foundCard) {
         dc.cardId = foundCard.id;
       } else {
-        console.error(`No se pudo encontrar la carta ${dc.cardId} ni por nombre.`);
+        console.error(
+          `No se pudo encontrar la carta ${dc.cardId} ni por nombre.`,
+        );
         continue;
       }
     }

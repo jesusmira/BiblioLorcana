@@ -5,8 +5,13 @@ import type { UserDeck, DeckCardEntry } from "../types";
 interface DecksState {
   decks: UserDeck[];
   isLoading: boolean;
-  addDeck: (deck: Omit<UserDeck, "id" | "userId" | "createdAt" | "updatedAt">) => UserDeck;
-  updateDeck: (id: string, updates: Partial<Omit<UserDeck, "id" | "createdAt" | "updatedAt">>) => void;
+  addDeck: (
+    deck: Omit<UserDeck, "id" | "userId" | "createdAt" | "updatedAt">,
+  ) => UserDeck;
+  updateDeck: (
+    id: string,
+    updates: Partial<Omit<UserDeck, "id" | "createdAt" | "updatedAt">>,
+  ) => void;
   deleteDeck: (id: string) => void;
   duplicateDeck: (id: string) => UserDeck | null;
   getDeck: (id: string) => UserDeck | undefined;
@@ -49,7 +54,7 @@ export const useDecksStore = create<DecksState>()(
           decks: state.decks.map((deck) =>
             deck.id === id
               ? { ...deck, ...updates, updatedAt: getCurrentDate() }
-              : deck
+              : deck,
           ),
         }));
       },
@@ -115,6 +120,6 @@ export const useDecksStore = create<DecksState>()(
     {
       name: "lorcana-decks",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

@@ -20,12 +20,19 @@ export function CTA() {
                 <SparklesIcon className="h-10 w-10 text-[var(--accent)]" />
               </div>
 
-              <h2 className="text-3xl font-bold tracking-wide text-[var(--ink)] sm:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-title)" }}>
-                <span className="text-[var(--accent)]">Únete a los coleccionistas del Reino</span>
+              <h2
+                className="text-3xl font-bold tracking-wide text-[var(--ink)] sm:text-4xl lg:text-5xl"
+                style={{ fontFamily: "var(--font-title)" }}
+              >
+                <span className="text-[var(--accent)]">
+                  Únete a los coleccionistas del Reino
+                </span>
               </h2>
 
               <p className="mt-8 text-lg leading-relaxed text-[var(--muted)]">
-                Únete a miles de iluminadores que ya están optimizando sus mazos con tecnología de vanguardia. Es gratis, es en español, y está hecho para ti.
+                Únete a miles de iluminadores que ya están optimizando sus mazos
+                con tecnología de vanguardia. Es gratis, es en español, y está
+                hecho para ti.
               </p>
 
               <div className="mt-12 flex flex-col gap-4 sm:flex-row">
@@ -36,7 +43,10 @@ export function CTA() {
                   </Button>
                 </Link>
                 <Link href="/galeria">
-                  <Button variant="ghost" className="border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/50">
+                  <Button
+                    variant="ghost"
+                    className="border border-[var(--accent)]/30 hover:bg-[var(--accent)]/10 hover:border-[var(--accent)]/50"
+                  >
                     Explorar cartas
                   </Button>
                 </Link>
