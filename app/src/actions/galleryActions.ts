@@ -218,8 +218,13 @@ function filterCardsLocally(
   };
 
   return cards.filter((card) => {
-    if (filters.ink && normalizeInk(card.ink) !== filters.ink) {
-      return false;
+    if (filters.ink) {
+      const normalizedCardInk = normalizeInk(card.ink);
+      if (filters.ink === "none") {
+        if (normalizedCardInk !== "") return false;
+      } else {
+        if (normalizedCardInk !== filters.ink) return false;
+      }
     }
     if (filters.type && !getTypes(card).includes(filters.type)) {
       return false;

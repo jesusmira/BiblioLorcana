@@ -175,8 +175,9 @@ export function useDeckBuilder(deckId: string) {
 
     setIsSearching(true);
     try {
+      const inkParam = filters.ink === "__all__" ? undefined : filters.ink || undefined;
       const results = await searchCardsWithFiltersAction(searchQuery, {
-        ink: filters.ink || undefined,
+        ink: inkParam,
         type: filters.type || undefined,
         rarity: filters.rarity || undefined,
         setCode: filters.setCode || undefined,

@@ -4,6 +4,7 @@ import { useState } from "react";
 import type { LorcanaCard } from "@/types/";
 import { CardSearchResultItem } from "./CardSearchResultItem";
 import { SearchCardModal } from "./SearchCardModal";
+import { CardSkeleton } from "./CardSkeleton";
 
 interface CardSearchResultsProps {
   cards: LorcanaCard[];
@@ -50,8 +51,10 @@ export function CardSearchResults({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-8">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent" />
+      <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-4 xl:grid-cols-5">
+        {Array.from({ length: 15 }).map((_, i) => (
+          <CardSkeleton key={`skeleton-${i}`} />
+        ))}
       </div>
     );
   }
