@@ -14,28 +14,48 @@ export async function GET() {
       },
     });
 
+    type DbStarterCard = {
+      quantity: number;
+      card: {
+        set: string;
+        number: number;
+        name: string;
+        ink: string;
+        type: string;
+        cost: number;
+        rarity: string;
+        subtypes: string[] | null;
+        abilities: string | null;
+        imageUrl: string | null;
+        strength: number | null;
+        willpower: number | null;
+        lore: number | null;
+        flavorText: string | null;
+      } | null;
+    };
+
     // Mapear al formato que espera la UI
     // Usamos casting a any temporalmente si los tipos de Prisma no se han actualizado en el IDE
     const formattedDecks = (decks as any[]).map((deck) => ({
       ...deck,
       cards: (deck.cards || [])
-        .filter((sc: any) => sc.card)
-        .map((sc: any) => ({
-          id: `sd-${sc.card.set}-${sc.card.number}`,
-          cardId: `${sc.card.set}-${sc.card.number}`,
-          name: sc.card.name,
+        .filter((sc: DbStarterCard) => sc.card)
+        .map((sc: DbStarterCard) => ({
+          id: `sd-${sc.card!.set}-${sc.card!.number}`,
+          cardId: `${sc.card!.set}-${sc.card!.number}`,
+          name: sc.card!.name,
           quantity: sc.quantity,
-          ink: sc.card.ink,
-          type: sc.card.type,
-          cost: sc.card.cost,
-          rarity: sc.card.rarity,
-          subtypes: sc.card.subtypes,
-          abilities: sc.card.abilities,
-          imageUrl: sc.card.imageUrl,
-          strength: sc.card.strength,
-          willpower: sc.card.willpower,
-          lore: sc.card.lore,
-          flavorText: sc.card.flavorText,
+          ink: sc.card!.ink,
+          type: sc.card!.type,
+          cost: sc.card!.cost,
+          rarity: sc.card!.rarity,
+          subtypes: sc.card!.subtypes,
+          abilities: sc.card!.abilities,
+          imageUrl: sc.card!.imageUrl,
+          strength: sc.card!.strength,
+          willpower: sc.card!.willpower,
+          lore: sc.card!.lore,
+          flavorText: sc.card!.flavorText,
         })),
     }));
 

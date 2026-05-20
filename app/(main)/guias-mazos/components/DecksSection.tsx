@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 import { DeckSetGroup } from "./DeckSetGroup";
 import { type StarterDeck } from "@/types/guide";
+import { DeckSkeleton } from "./DeckSkeleton";
 
 interface DecksSectionProps {
   decks: StarterDeck[];
@@ -35,9 +36,7 @@ export function DecksSection({ decks, loading }: DecksSectionProps) {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[var(--accent)] border-t-transparent" />
-        </div>
+        <DeckSkeleton />
       ) : (
         <div className="space-y-12">
           {Object.entries(decksBySet).map(([setName, setDecks]) => (

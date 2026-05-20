@@ -1,6 +1,7 @@
 "use client";
 
 import { clsx } from "clsx";
+import Image from "next/image";
 import {
   ExclamationTriangleIcon,
   PlusIcon,
@@ -10,6 +11,7 @@ import {
 import { InkDot } from "@/components/lorcana";
 import { CardWithHover } from "../../_components/CardWithHover";
 import { DECK_FORMATS, DECK_STRATEGIES, DECK_TIERS } from "@/types";
+import type { LorcanaCard } from "@/types";
 import type {
   DeckCardWithDetails,
   DeckStats,
@@ -30,7 +32,7 @@ interface BuilderDeckPanelProps {
   cards: DeckCardWithDetails[];
   stats: DeckStats;
   validation: DeckValidation;
-  addCardToDeck: (card: any) => void;
+  addCardToDeck: (card: LorcanaCard) => void;
   removeCardFromDeck: (cardId: string) => void;
   removeAllFromDeck: (cardId: string) => void;
 }
@@ -184,9 +186,11 @@ export default function BuilderDeckPanel({
             <CardWithHover key={card.cardId} card={card.details}>
               <div className="flex items-center gap-3 rounded-lg border border-[var(--stroke)] bg-[var(--surface-soft)] p-3">
                 {card.details?.image_uris?.digital?.small ? (
-                  <img
+                  <Image
                     src={card.details?.image_uris?.digital?.small}
                     alt={card.name}
+                    width={36}
+                    height={48}
                     className="h-12 w-9 rounded object-cover shadow-sm"
                   />
                 ) : (

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import Image from "next/image";
 import { InkDot } from "./InkDot";
 import type { DeckCard } from "@/types/";
 
@@ -107,10 +108,13 @@ export function DeckCardRow({ card, onCardClick }: DeckCardRowProps) {
           }}
         >
           <div className="relative">
-            <img
+            <Image
               src={card.image}
               alt={card.name}
+              width={320}
+              height={448}
               className="w-[320px] max-h-[80vh] rounded-xl shadow-2xl object-contain"
+              priority
             />
             <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-lg bg-[var(--surface)] px-2 py-1 text-xs font-medium text-[var(--ink)] shadow-lg border border-[var(--stroke)]">
               {card.name}

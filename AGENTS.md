@@ -141,3 +141,4 @@
 ## Reglas Cursor/Copilot
 
 - No se encontraron `.cursor/rules`, `.cursorrules` o `.github/copilot-instructions.md`.
+- Responde siempre en español, incluyendo explicaciones de código, comentarios y mensajes de error.

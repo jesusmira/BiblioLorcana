@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import { TrophyIcon } from "@heroicons/react/24/outline";
 
@@ -44,8 +45,20 @@ export function SectionObjetivo({ data }: SectionObjetivoProps) {
           </ReactMarkdown>
         </div>
         <div className="flex h-40 w-40 flex-col items-center justify-center rounded-3xl bg-gradient-to-br from-[var(--surface-strong)] to-[var(--surface)] border-2 border-[var(--accent)] shadow-xl transform rotate-3 hover:rotate-0 transition duration-500">
-          <span className="text-6xl mb-2">💎</span>
-          <span className="text-3xl font-bold text-[var(--accent)] font-[var(--font-title)]">
+          <div 
+            className="mb-2 scale-110"
+            style={{ filter: "drop-shadow(0 0 12px #ffd700)" }}
+          >
+            <Image
+              src="/images/Lorcana_Symbol_B&W.png"
+              alt="Lore Target"
+              width={60}
+              height={60}
+              className="object-contain select-none brightness-0 invert"
+              loading="lazy"
+            />
+          </div>
+          <span className="text-3xl  text-[var(--accent)] font-[var(--font-title)]">
             {data.loreTarget}
           </span>
         </div>

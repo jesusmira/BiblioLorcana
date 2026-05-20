@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { clsx } from "clsx";
 import CardArtwork from "@/components/lorcana/CardArtwork";
 import StatGrid from "@/components/lorcana/StatGrid";
 import TagChip from "@/components/ui/TagChip";
@@ -11,14 +10,6 @@ import { getTypes, normalizeInk, normalizeLabel } from "@/lib";
 import type { LorcanaCard } from "@/types";
 import { useAuth } from "@/lib/auth";
 
-const actionButtonBase =
-  "flex h-7 w-7 items-center justify-center rounded-full bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]";
-const actionButtonActive = "bg-[var(--accent)] text-white";
-const favoriteButtonBase =
-  "flex h-7 w-7 items-center justify-center rounded-full";
-const saveButtonBase =
-  "flex h-7 px-2 items-center justify-center rounded-full gap-1.5 transition-all text-[0.7rem] font-bold";
-const saveButtonActive = "bg-[#2D2D2D] text-[var(--accent)]";
 import { useFavoritesStore, useUserCardsStore } from "@/store/";
 import {
   translateText,
@@ -26,16 +17,9 @@ import {
   removeCardFromUser,
   updateCardQuantity as updateQuantityAction,
 } from "@/actions/";
-import {
-  HeartIcon,
-  LanguageIcon,
-  CheckIcon,
-  ArrowPathIcon,
-  FolderIcon,
-  TrashIcon,
-  PlusIcon,
-  MinusIcon,
-} from "@heroicons/react/24/outline";
+
+import { ModalCardActions } from "./ModalCardActions";
+import { ModalQuantitySelector } from "./ModalQuantitySelector";
 
 const getImage = (card: LorcanaCard): string =>
   card.image_uris?.digital?.normal ||
@@ -285,95 +269,19 @@ export default function GalleryCardModal({
                   {cardName}
                   {selected.version ? `, ${selected.version}` : ""}
 
-                  <span className="flex gap-1 items-center">
-                    {/* Botón Traducir - Siempre visible */}
-                    <button
-                      onClick={handleTranslateClick}
-                      disabled={isTranslating}
-                      className={clsx(
-                        actionButtonBase,
-                        translatedText !== null && "text-[var(--accent)]",
-                      )}
-                      aria-label={
-                        translatedText !== null
-                          ? "Ocultar traducción"
-                          : "Traducir carta"
-                      }
-                    >
-                      {isTranslating ? (
-                        <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                      ) : translatedText !== null ? (
-                        <CheckIcon className="h-4 w-4" />
-                      ) : (
-                        <LanguageIcon className="h-4 w-4" />
-                      )}
-                    </button>
-
-                    {user && (
-                      <>
-                        {!hideActions && (
-                          <>
-                            <button
-                              onClick={handleFavoriteClick}
-                              className={clsx(
-                                favoriteButtonBase,
-                                isCardFavorite
-                                  ? actionButtonActive
-                                  : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]",
-                              )}
-                              aria-label={
-                                isCardFavorite
-                                  ? "Quitar de favoritos"
-                                  : "Añadir a favoritos"
-                              }
-                            >
-                              <HeartIcon
-                                className="h-4 w-4"
-                                fill={isCardFavorite ? "currentColor" : "none"}
-                              />
-                            </button>
-                            <button
-                              onClick={handleSaveClick}
-                              disabled={isSaving}
-                              className={clsx(
-                                saveButtonBase,
-                                isCardSaved
-                                  ? saveButtonActive
-                                  : "bg-[var(--surface-soft)] text-[var(--foreground)] hover:bg-[var(--surface)]",
-                              )}
-                              aria-label={
-                                isCardSaved
-                                  ? "Quitar de mis cartas"
-                                  : "Añadir a mis cartas"
-                              }
-                            >
-                              {isSaving ? (
-                                <ArrowPathIcon className="h-4 w-4 animate-spin" />
-                              ) : (
-                                <>
-                                  <FolderIcon
-                                    className="h-4 w-4"
-                                    fill={isCardSaved ? "currentColor" : "none"}
-                                  />
-                                  {isCardSaved && <span>YA LA TIENES</span>}
-                                </>
-                              )}
-                            </button>
-                          </>
-                        )}
-
-                        {hideActions && (
-                          <button
-                            onClick={() => setIsConfirmingDelete(true)}
-                            className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--alert-surface)] text-[var(--alert-ink)] hover:bg-[var(--alert-ink)] hover:text-white transition-colors"
-                            aria-label="Eliminar de mi colección"
-                          >
-                            <TrashIcon className="h-4 w-4" />
-                          </button>
-                        )}
-                      </>
-                    )}
-                  </span>
+                  <ModalCardActions
+                    user={user}
+                    hideActions={hideActions}
+                    isTranslating={isTranslating}
+                    translatedText={translatedText}
+                    onTranslateClick={handleTranslateClick}
+                    isCardFavorite={isCardFavorite}
+                    onFavoriteClick={handleFavoriteClick}
+                    isSaving={isSaving}
+                    isCardSaved={isCardSaved}
+                    onSaveClick={handleSaveClick}
+                    onDeleteClick={() => setIsConfirmingDelete(true)}
+                  />
                 </h3>
 
                 <p
@@ -411,40 +319,12 @@ export default function GalleryCardModal({
                 ) : null}
               </div>
               <div className="mt-auto flex flex-col gap-3">
-                {/* Selector de Cantidad - Solo en Mi Colección */}
                 {hideActions && user && (
-                  <div className="flex items-center justify-center gap-4 py-2">
-                    <span className="text-sm font-bold text-[var(--muted)]">
-                      COPIAS:
-                    </span>
-                    <div className="flex items-center gap-3 bg-[var(--surface-soft)] rounded-full px-4 py-1.5 border border-[var(--stroke)] shadow-inner">
-                      <button
-                        onClick={() => handleUpdateQuantity(localQuantity - 1)}
-                        disabled={localQuantity <= 1 || isUpdatingQuantity}
-                        className="text-[var(--foreground)] hover:text-[var(--accent)] disabled:opacity-30 disabled:hover:text-[var(--foreground)]"
-                      >
-                        <MinusIcon
-                          className="h-4 w-4 transition hover:scale-110"
-                          strokeWidth={3}
-                        />
-                      </button>
-
-                      <span className="min-w-[1.5rem] text-center font-bold text-lg">
-                        {isUpdatingQuantity ? "..." : localQuantity}
-                      </span>
-
-                      <button
-                        onClick={() => handleUpdateQuantity(localQuantity + 1)}
-                        disabled={localQuantity >= 10 || isUpdatingQuantity}
-                        className="text-[var(--foreground)] hover:text-[var(--accent)] disabled:opacity-30 disabled:hover:text-[var(--foreground)]"
-                      >
-                        <PlusIcon
-                          className="h-4 w-4 transition hover:scale-110"
-                          strokeWidth={3}
-                        />
-                      </button>
-                    </div>
-                  </div>
+                  <ModalQuantitySelector
+                    quantity={localQuantity}
+                    isUpdating={isUpdatingQuantity}
+                    onUpdateQuantity={handleUpdateQuantity}
+                  />
                 )}
                 <StatGrid card={selected} />
                 <div className="flex flex-wrap justify-center gap-3 max-[900px]:justify-center">

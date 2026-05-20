@@ -5,3 +5,4 @@ export { GuideHero } from "./GuideHero";
 export { InkCard } from "./InkCard";
 export { InksSection } from "./InksSection";
 export { TipsSection } from "./TipsSection";
+export { DeckSkeleton } from "./DeckSkeleton";

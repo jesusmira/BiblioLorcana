@@ -17,7 +17,21 @@ export async function getUserDecksAction(): Promise<UserDeck[]> {
     orderBy: { updatedAt: "desc" },
   });
 
-  return decks.map((d: any) => ({
+  type DbDeck = {
+    id: string;
+    userId: string;
+    name: string;
+    description: string | null;
+    format: string | null;
+    strategy: string | null;
+    tier: string | null;
+    inkColors: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    cards: { cardId: string; name: string; quantity: number }[];
+  };
+
+  return decks.map((d: DbDeck) => ({
     id: d.id,
     userId: d.userId,
     name: d.name,
@@ -28,7 +42,7 @@ export async function getUserDecksAction(): Promise<UserDeck[]> {
     inkColors: d.inkColors,
     createdAt: d.createdAt.toISOString(),
     updatedAt: d.updatedAt.toISOString(),
-    cards: d.cards.map((c: any) => ({
+    cards: d.cards.map((c) => ({
       cardId: c.cardId,
       name: c.name,
       quantity: c.quantity,
@@ -104,7 +118,7 @@ export async function saveDeckAction(deck: UserDeck): Promise<UserDeck> {
     inkColors: savedDeck.inkColors,
     createdAt: savedDeck.createdAt.toISOString(),
     updatedAt: savedDeck.updatedAt.toISOString(),
-    cards: savedDeck.cards.map((c: any) => ({
+    cards: savedDeck.cards.map((c: { cardId: string; name: string; quantity: number }) => ({
       cardId: c.cardId,
       name: c.name,
       quantity: c.quantity,

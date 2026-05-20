@@ -66,11 +66,12 @@ export function useMisCartas(): UseMisCartasReturn {
   useEffect(() => {
     const quantities = useUserCardsStore.getState().cardQuantities;
     if (Object.keys(quantities).length > 0) {
-      const updatedCards = cards.map((c) => ({
-        ...c,
-        quantity: quantities[String(c.id)] ?? c.quantity ?? 1,
-      }));
-      setCards(updatedCards);
+      setCards((prevCards) =>
+        prevCards.map((c) => ({
+          ...c,
+          quantity: quantities[String(c.id)] ?? c.quantity ?? 1,
+        })),
+      );
     }
   }, [cardQuantities]);
 

@@ -10,15 +10,12 @@ interface GalleryFiltersProps {
   selectedSet: string;
   onSelectedSetChange: (value: string) => void;
   loadingSets: boolean;
-  ink: string;
-  onInkChange: (value: string) => void;
   type: string;
   onTypeChange: (value: string) => void;
   rarity: string;
   onRarityChange: (value: string) => void;
   sort: string;
   onSortChange: (value: string) => void;
-  inkValues: string[];
   typeValues: string[];
   rarityValues: string[];
 }
@@ -28,15 +25,12 @@ export default function GalleryFilters({
   selectedSet,
   onSelectedSetChange,
   loadingSets,
-  ink,
-  onInkChange,
   type,
   onTypeChange,
   rarity,
   onRarityChange,
   sort,
   onSortChange,
-  inkValues,
   typeValues,
   rarityValues,
 }: GalleryFiltersProps) {
@@ -59,22 +53,6 @@ export default function GalleryFilters({
         {sets.map((set) => (
           <option key={set.id} value={set.code}>
             {set.name} ({set.code})
-          </option>
-        ))}
-      </SelectField>
-
-      <SelectField
-        id="inkSelect"
-        label="Tinta"
-        value={ink}
-        onChange={(event: ChangeEvent<HTMLSelectElement>) =>
-          onInkChange(event.target.value)
-        }
-      >
-        <option value="">Todas</option>
-        {inkValues.map((value) => (
-          <option key={value} value={value}>
-            {value}
           </option>
         ))}
       </SelectField>

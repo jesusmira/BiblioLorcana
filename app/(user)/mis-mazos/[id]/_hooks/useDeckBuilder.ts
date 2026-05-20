@@ -136,7 +136,7 @@ export function useDeckBuilder(deckId: string) {
         })();
       }
     }
-  }, [deckId, isNewDeck, getDeck]);
+  }, [deckId, isNewDeck, getDeck, loadDraft, setDirty]);
 
   useEffect(() => {
     (async () => {
@@ -267,6 +267,7 @@ export function useDeckBuilder(deckId: string) {
       deckStrategy,
       deckTier,
       saveDraft,
+      setDirty,
     ],
   );
 
@@ -308,6 +309,7 @@ export function useDeckBuilder(deckId: string) {
       deckStrategy,
       deckTier,
       saveDraft,
+      setDirty,
     ],
   );
 
@@ -341,6 +343,7 @@ export function useDeckBuilder(deckId: string) {
       deckStrategy,
       deckTier,
       saveDraft,
+      setDirty,
     ],
   );
 
@@ -491,8 +494,8 @@ export function useDeckBuilder(deckId: string) {
       clearDraft(deckId);
       setDirty(false);
       router.push("/mis-mazos");
-    } catch (err: any) {
-      setError(err.message || "Error al guardar el mazo");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Error al guardar el mazo");
     } finally {
       setIsSaving(false);
     }
@@ -510,6 +513,7 @@ export function useDeckBuilder(deckId: string) {
     addDeck,
     updateDeck,
     clearDraft,
+    setDirty,
     router,
   ]);
 

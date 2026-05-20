@@ -15,12 +15,12 @@ export default function ActiveSetSummary({
   filteredCount,
 }: ActiveSetSummaryProps) {
   return (
-    <div className="grid gap-4 rounded-[14px] border border-[var(--stroke)] bg-[var(--surface-strong)] p-4 text-left [grid-template-columns:repeat(auto-fit,minmax(180px,1fr))] max-[600px]:grid-cols-1 max-[720px]:text-center">
-      <div className="flex flex-col gap-1.5">
-        <span className="text-[0.72rem] uppercase tracking-[1.5px] text-[var(--muted)]">
-          Set activo
+    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-left max-[720px]:justify-center">
+      <div className="flex items-center gap-2 text-[0.85rem]">
+        <span className="text-[0.7rem] uppercase tracking-[1.2px] text-[var(--muted)] select-none">
+          Set activo:
         </span>
-        <strong>
+        <strong className="text-[var(--foreground)] font-semibold">
           {selectedSetData
             ? `${selectedSetData.name} (${selectedSetData.code})`
             : loadingSets
@@ -28,17 +28,23 @@ export default function ActiveSetSummary({
               : "Sin set"}
         </strong>
       </div>
-      <div className="flex flex-col gap-1.5">
-        <span className="text-[0.72rem] uppercase tracking-[1.5px] text-[var(--muted)]">
-          Lanzamiento
+
+      <div className="flex items-center gap-2 text-[0.85rem]">
+        <span className="text-[0.7rem] uppercase tracking-[1.2px] text-[var(--muted)] select-none">
+          Lanzamiento:
         </span>
-        <strong>{formatDate(selectedSetData?.released_at)}</strong>
+        <strong className="text-[var(--foreground)] font-semibold">
+          {formatDate(selectedSetData?.released_at)}
+        </strong>
       </div>
-      <div className="flex flex-col gap-1.5">
-        <span className="text-[0.72rem] uppercase tracking-[1.5px] text-[var(--muted)]">
-          Resultados
+
+      <div className="flex items-center gap-2 text-[0.85rem]">
+        <span className="text-[0.7rem] uppercase tracking-[1.2px] text-[var(--muted)] select-none">
+          Resultados:
         </span>
-        <strong>{filteredCount}</strong>
+        <strong className="text-[var(--foreground)] font-semibold">
+          {filteredCount}
+        </strong>
       </div>
     </div>
   );

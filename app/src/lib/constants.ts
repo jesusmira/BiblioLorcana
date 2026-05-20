@@ -26,7 +26,7 @@ export const INK_COLORS: Record<string, string> = {
 };
 
 export const INK_LABELS: Record<string, string> = {
-  amber: "Ambar",
+  amber: "Ámbar",
   amethyst: "Amatista",
   emerald: "Esmeralda",
   ruby: "Rubí",
