@@ -18,8 +18,8 @@ export default function GalleryInkFilters({
   onInkChange,
   inkValues,
 }: GalleryInkFiltersProps) {
-  const isAnySelected = ink !== "" && ink !== "__all__";
-  const isAllSelected = ink === "__all__";
+  const isAllSelected = ink === "";
+  const isAnySelected = ink !== "";
 
   // Procesar todas las tintas (oficiales)
   const sortedInks = [...inkValues].sort((a, b) => {
@@ -35,9 +35,7 @@ export default function GalleryInkFilters({
   // Clases de opacidad para el botón "Todas las tintas" (símbolo de Lorcana)
   const allOpacityClass = isAllSelected
     ? "opacity-100 scale-120"
-    : isAnySelected
-      ? "opacity-35 hover:opacity-95 hover:scale-110"
-      : "opacity-85 hover:opacity-100 hover:scale-110";
+    : "opacity-35 hover:opacity-95 hover:scale-110";
 
   // Brillo dorado suave para el símbolo de Lorcana cuando está activo
   const allGlowStyle = isAllSelected
@@ -49,7 +47,7 @@ export default function GalleryInkFilters({
       {/* Botón de "Todas las tintas" (símbolo de Lorcana) */}
       <button
         className={clsx(inkChipBase, allOpacityClass)}
-        onClick={() => onInkChange(ink === "__all__" ? "" : "__all__")}
+        onClick={() => onInkChange("")}
         type="button"
         aria-label="Mostrar todas las tintas"
         style={allGlowStyle}
@@ -130,38 +128,6 @@ export default function GalleryInkFilters({
         );
       })}
 
-      {/* Botón "Sin tinta" al final */}
-      {(() => {
-        const isSelected = ink === "none";
-        const opacityClass = isSelected
-          ? "opacity-100 scale-120"
-          : isAnySelected
-            ? "opacity-35 hover:opacity-95 hover:scale-110"
-            : "opacity-85 hover:opacity-100 hover:scale-110";
-
-        const glowStyle = isSelected
-          ? { filter: "drop-shadow(0 0 8px #9ca3af)" }
-          : undefined;
-
-        return (
-          <button
-            className={clsx(inkChipBase, opacityClass)}
-            onClick={() => onInkChange(ink === "none" ? "" : "none")}
-            type="button"
-            aria-label="Filtrar por sin tinta"
-            style={glowStyle}
-          >
-            <span className="flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-[var(--stroke)] text-[1rem] text-[var(--muted)] transition-colors duration-200 group-hover:border-[var(--muted)] group-hover:text-[var(--foreground)]">
-              ✕
-            </span>
-
-            {/* Tooltip estilizado */}
-            <span className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 scale-90 rounded-md bg-[var(--surface-strong)] border border-[var(--stroke)] px-2.5 py-1 text-xs text-[var(--foreground)] opacity-0 transition-all duration-150 group-hover:scale-100 group-hover:opacity-100 whitespace-nowrap z-20 shadow-md">
-              Sin tinta
-            </span>
-          </button>
-        );
-      })()}
     </div>
   );
 }
