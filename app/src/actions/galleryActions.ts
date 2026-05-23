@@ -236,6 +236,22 @@ function filterCardsLocally(
   });
 }
 
+export async function fetchCardBySetAndNumberAction(
+  setCode: string,
+  collectorNumber: string,
+): Promise<LorcanaCard | null> {
+  try {
+    const data = await fetchJson<unknown>(
+      `${API_BASE}/cards/${setCode}/${collectorNumber}`,
+      { errorMessage: "No se pudo cargar la carta" },
+    );
+    const result = LorcanaCardSchema.safeParse(data);
+    return result.success ? result.data : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchAllCardsAction(): Promise<LorcanaCard[]> {
   try {
     const sets = await fetchSetsAction();

@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
 import ReactMarkdown from "react-markdown";
+
+export const metadata: Metadata = {
+  title: "Términos de Uso",
+  description:
+    "Lee los términos y condiciones de uso de Archivo del Reino. Normas de uso del servicio y responsabilidades.",
+  alternates: {
+    canonical: "/terminos",
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale?: string }>;

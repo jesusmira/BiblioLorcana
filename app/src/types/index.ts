@@ -31,6 +31,7 @@ export interface LorcanaCard {
   quantity?: number;
   set?: {
     name?: string | null;
+    code?: string | null;
   } | null;
 }
 

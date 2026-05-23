@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://api.lorcast.com/v0/cards/1/204\" -H \"Accept: application/json\")"
+    ]
+  }
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   useGalleryFilters,
   useGalleryData,
@@ -20,9 +20,10 @@ import {
 
 interface GalleryProps {
   defaultSetCode: string;
+  initialCardId?: string;
 }
 
-export default function Gallery({ defaultSetCode }: GalleryProps) {
+export default function Gallery({ defaultSetCode, initialCardId }: GalleryProps) {
   const { user } = useAuth();
   const { setSavedCardIds } = useUserCardsStore();
 
@@ -84,6 +85,16 @@ export default function Gallery({ defaultSetCode }: GalleryProps) {
   const { selected, openCard, closeModal, pickRandom } = useModalCard({
     cards: filteredCards,
   });
+
+  const hasOpenedInitial = useRef(false);
+  useEffect(() => {
+    if (!initialCardId || !cards.length || hasOpenedInitial.current) return;
+    const card = cards.find((c) => String(c.id) === initialCardId);
+    if (card) {
+      openCard(card);
+      hasOpenedInitial.current = true;
+    }
+  }, [initialCardId, cards]);
 
   return (
     <main className="mt-8 flex flex-col gap-5 max-[900px]:px-4 px-16">

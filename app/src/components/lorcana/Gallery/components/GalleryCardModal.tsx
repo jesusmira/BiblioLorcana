@@ -20,6 +20,7 @@ import {
 
 import { ModalCardActions } from "./ModalCardActions";
 import { ModalQuantitySelector } from "./ModalQuantitySelector";
+import ShareButton from "@/components/ui/ShareButton";
 
 const getImage = (card: LorcanaCard): string =>
   card.image_uris?.digital?.normal ||
@@ -242,14 +243,25 @@ export default function GalleryCardModal({
           aria-describedby={descriptionId}
           tabIndex={-1}
         >
-          <button
-            ref={closeButtonRef}
-            className="absolute right-4 top-4 text-[0.9rem] text-[var(--muted)]"
-            onClick={onClose}
-            type="button"
-          >
-            Cerrar
-          </button>
+          <div className="absolute right-4 top-4 flex items-center gap-3">
+            <ShareButton
+              url={
+                selected.set?.code && selected.collector_number
+                  ? `/cartas/${selected.set.code}-${selected.collector_number}`
+                  : `/galeria?card=${String(selected.id)}`
+              }
+              title={`${cardName}${selected.version ? `, ${selected.version}` : ""} — Archivo del Reino`}
+              description={selected.text ?? ""}
+            />
+            <button
+              ref={closeButtonRef}
+              className="text-[0.9rem] text-[var(--muted)] hover:text-[var(--ink)] transition-colors"
+              onClick={onClose}
+              type="button"
+            >
+              Cerrar
+            </button>
+          </div>
           <div className="grid items-stretch gap-6 [grid-template-columns:minmax(240px,1fr)_1.4fr] max-[900px]:grid-cols-1 max-[900px]:items-center">
             <CardArtwork
               image={getImage(selected)}

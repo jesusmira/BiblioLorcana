@@ -1,6 +1,27 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Manual del Iluminador",
+  description:
+    "Aprende a jugar a Disney Lorcana desde cero. Descubre el objetivo del juego, la anatomía de las cartas, cómo se desarrolla cada turno y las estrategias básicas.",
+  openGraph: {
+    title: "Manual del Iluminador | Archivo del Reino",
+    description:
+      "Aprende a jugar a Disney Lorcana desde cero. Guía completa para nuevos jugadores.",
+    url: "/como-jugar",
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent("Manual del Iluminador")}&description=${encodeURIComponent("Aprende a jugar a Disney Lorcana desde cero. Guía completa para nuevos jugadores.")}`,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/como-jugar",
+  },
+};
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import {
   SectionObjetivo,

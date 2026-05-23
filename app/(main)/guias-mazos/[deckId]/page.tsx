@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 import { GalleryCardModal } from "@/components";
+import ShareButton from "@/components/ui/ShareButton";
 import {
   InkDot,
   ManaCurve,
@@ -178,13 +179,20 @@ export default function DeckDetailPage() {
   return (
     <main className="mx-auto flex min-h-screen flex-col px-4 pb-12 pt-24 max-w-5xl font-[var(--font-sans)]">
       <div className="mb-12 flex flex-col gap-4">
-        <Link
-          href="/guias-mazos"
-          className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]"
-        >
-          <ArrowLeftIcon className="h-4 w-4" />
-          Volver a guías de mazos
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href="/guias-mazos"
+            className="inline-flex items-center gap-2 text-sm font-medium text-[var(--muted)] transition hover:text-[var(--accent)]"
+          >
+            <ArrowLeftIcon className="h-4 w-4" />
+            Volver a guías de mazos
+          </Link>
+          <ShareButton
+            url={`/guias-mazos/${deckId}`}
+            title={`${deck.name} — Guía de Mazo | Archivo del Reino`}
+            description={deck.description}
+          />
+        </div>
         <div className="flex flex-col items-start gap-4">
           <div className="flex items-center gap-4">
             <div className="rounded-2xl bg-[var(--accent)]/10 p-3">

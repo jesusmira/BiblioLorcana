@@ -1,6 +1,28 @@
+import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
 import ReactMarkdown from "react-markdown";
+
+export const metadata: Metadata = {
+  title: "Contacto",
+  description:
+    "Ponte en contacto con el equipo de Archivo del Reino. Envíanos tus dudas, sugerencias o reporta cualquier problema.",
+  openGraph: {
+    title: "Contacto | Archivo del Reino",
+    description: "Ponte en contacto con el equipo de Archivo del Reino.",
+    url: "/contacto",
+    images: [
+      {
+        url: `/api/og?title=${encodeURIComponent("Contacto")}&description=${encodeURIComponent("Ponte en contacto con el equipo de Archivo del Reino.")}`,
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  alternates: {
+    canonical: "/contacto",
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale?: string }>;

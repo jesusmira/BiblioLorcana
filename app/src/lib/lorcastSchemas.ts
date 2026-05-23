@@ -41,6 +41,7 @@ export const LorcanaCardSchema = z
     set: z
       .object({
         name: z.string().optional().nullable(),
+        code: z.string().optional().nullable(),
       })
       .optional()
       .nullable(),

@@ -1,0 +1,18 @@
+{
+  "name": "Archivo del Reino",
+  "short_name": "Archivo",
+  "description": "La herramienta definitiva para coleccionistas de Disney Lorcana",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#C58A3C",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

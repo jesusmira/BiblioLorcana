@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
 import ReactMarkdown from "react-markdown";
+
+export const metadata: Metadata = {
+  title: "Política de Privacidad",
+  description:
+    "Consulta la política de privacidad de Archivo del Reino. Información sobre el tratamiento de datos personales y cookies.",
+  alternates: {
+    canonical: "/privacidad",
+  },
+};
 
 interface PageProps {
   params: Promise<{ locale?: string }>;
