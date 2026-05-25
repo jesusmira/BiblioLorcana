@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
-import { prisma } from "@/lib/prisma";
 
 export const runtime = "nodejs";
+
+const API_BASE = process.env.LORCAST_API_BASE ?? "https://api.lorcast.com/v0";
 
 export async function GET(
   _req: NextRequest,
@@ -15,11 +16,19 @@ export async function GET(
   const setCode = cardId.slice(0, idx);
   const number = cardId.slice(idx + 1);
 
-  const card = await prisma.card.findFirst({ where: { set: setCode, number } });
-  if (!card?.imageUrl) return new NextResponse("No image", { status: 404 });
+  const cardRes = await fetch(`${API_BASE}/cards/${setCode}/${number}`).catch(() => null);
+  if (!cardRes?.ok) return new NextResponse("Card not found", { status: 404 });
+
+  const cardData = await cardRes.json().catch(() => null);
+  const imageUrl: string | null =
+    cardData?.image_uris?.digital?.large ??
+    cardData?.image_uris?.digital?.normal ??
+    null;
+
+  if (!imageUrl) return new NextResponse("No image", { status: 404 });
 
   try {
-    const res = await fetch(card.imageUrl);
+    const res = await fetch(imageUrl);
     if (!res.ok) return new NextResponse("Upstream error", { status: 502 });
 
     const buffer = Buffer.from(await res.arrayBuffer());
