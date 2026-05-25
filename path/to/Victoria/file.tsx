@@ -1,1 +1,0 @@
-<All%20Tints%20Icon%20Placeholder%3E
