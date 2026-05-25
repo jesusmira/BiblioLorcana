@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 const ACCENT = "#C58A3C";
 const ACCENT_LIGHT = "#E8B56A";
@@ -40,7 +40,16 @@ export async function GET(req: NextRequest) {
   const fontData = await loadCinzel();
   const titleSize = title.length > 35 ? 52 : 64;
 
-  const cardImageData = cardImageUrl ?? null;
+  let cardImageData: string | null = null;
+  if (cardImageUrl) {
+    try {
+      const res = await fetch(cardImageUrl);
+      const buffer = Buffer.from(await res.arrayBuffer());
+      cardImageData = `data:image/jpeg;base64,${buffer.toString("base64")}`;
+    } catch {
+      cardImageData = null;
+    }
+  }
 
   return new ImageResponse(
     (
