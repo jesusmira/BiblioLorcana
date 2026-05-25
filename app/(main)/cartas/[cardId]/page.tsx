@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cardImage = getCardImage(card);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const pageUrl = `${siteUrl}/cartas/${cardId}`;
-  const ogImage = { url: `${siteUrl}/api/card-image/${cardId}`, width: 1200, height: 630, alt: cardName };
+  const ogImage = { url: `${siteUrl}/og-test.jpg`, width: 1200, height: 630, alt: cardName };
 
   return {
     title: cardName,
