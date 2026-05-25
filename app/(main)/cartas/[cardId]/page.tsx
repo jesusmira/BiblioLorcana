@@ -49,13 +49,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cardImage = getCardImage(card);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   const pageUrl = `${siteUrl}/cartas/${cardId}`;
-  const fallbackOgUrl = `${siteUrl}/api/og?title=${encodeURIComponent(cardName)}&description=${encodeURIComponent(description)}`;
-  const jpegCardImage = cardImage
+  const jpegCardImageUrl = cardImage
     ? `${siteUrl}/api/card-image?url=${encodeURIComponent(cardImage)}`
     : null;
-  const ogImage = jpegCardImage
-    ? { url: jpegCardImage, width: 734, height: 1024, alt: cardName }
-    : { url: fallbackOgUrl, width: 1200, height: 630, alt: cardName };
+  const ogUrl = new URL(`${siteUrl}/api/og`);
+  ogUrl.searchParams.set("title", cardName);
+  ogUrl.searchParams.set("description", description);
+  if (jpegCardImageUrl) ogUrl.searchParams.set("image", jpegCardImageUrl);
+  const ogImage = { url: ogUrl.toString(), width: 1200, height: 630, alt: cardName };
 
   return {
     title: cardName,
