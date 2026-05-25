@@ -24,16 +24,23 @@ export async function GET(
 
     const buffer = Buffer.from(await res.arrayBuffer());
 
-    const cardResized = await sharp(buffer)
-      .resize(450, 610, { fit: "inside" })
-      .jpeg({ quality: 90 })
+    // Fondo: carta escalada a 1200x630, desenfocada y oscurecida
+    const background = await sharp(buffer)
+      .resize(1200, 630, { fit: "cover", position: "top" })
+      .blur(18)
+      .modulate({ brightness: 0.4 })
+      .jpeg({ quality: 80 })
       .toBuffer();
 
-    const result = await sharp({
-      create: { width: 1200, height: 630, channels: 3, background: { r: 10, g: 10, b: 10 } },
-    })
-      .composite([{ input: cardResized, gravity: "west" }])
-      .jpeg({ quality: 85 })
+    // Carta principal: centrada, ajustada a la altura
+    const cardResized = await sharp(buffer)
+      .resize(null, 610, { fit: "inside" })
+      .jpeg({ quality: 92 })
+      .toBuffer();
+
+    const result = await sharp(background)
+      .composite([{ input: cardResized, gravity: "center" }])
+      .jpeg({ quality: 88 })
       .toBuffer();
 
     return new NextResponse(new Uint8Array(result), {
