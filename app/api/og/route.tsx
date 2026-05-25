@@ -35,9 +35,24 @@ export async function GET(req: NextRequest) {
   const description =
     searchParams.get("description") ??
     "La herramienta definitiva para coleccionistas de Disney Lorcana.";
+  const cardImageUrl = searchParams.get("image");
 
   const fontData = await loadCinzel();
   const titleSize = title.length > 35 ? 52 : 64;
+
+  // Fetch card image as base64 if provided
+  let cardImageData: string | null = null;
+  if (cardImageUrl) {
+    try {
+      const res = await fetch(cardImageUrl);
+      const buffer = await res.arrayBuffer();
+      const base64 = Buffer.from(buffer).toString("base64");
+      const mime = res.headers.get("content-type") ?? "image/jpeg";
+      cardImageData = `data:${mime};base64,${base64}`;
+    } catch {
+      cardImageData = null;
+    }
+  }
 
   return new ImageResponse(
     (
@@ -47,10 +62,8 @@ export async function GET(req: NextRequest) {
           height: "630px",
           background: BG,
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          padding: "80px 90px",
+          flexDirection: "row",
+          alignItems: "center",
           position: "relative",
           overflow: "hidden",
         }}
@@ -67,89 +80,6 @@ export async function GET(req: NextRequest) {
           }}
         />
 
-        {/* Subtle radial glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: "-100px",
-            right: "-100px",
-            width: "500px",
-            height: "500px",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, rgba(197,138,60,0.12) 0%, transparent 70%)`,
-          }}
-        />
-
-        {/* Brand badge */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "36px",
-            padding: "7px 20px",
-            border: `1px solid rgba(197,138,60,0.35)`,
-            borderRadius: "999px",
-            background: "rgba(197,138,60,0.07)",
-          }}
-        >
-          <span
-            style={{
-              color: ACCENT,
-              fontSize: "14px",
-              letterSpacing: "3px",
-              textTransform: "uppercase",
-              fontFamily: fontData ? "Cinzel" : "serif",
-            }}
-          >
-            Archivo del Reino
-          </span>
-        </div>
-
-        {/* Title */}
-        <h1
-          style={{
-            color: ACCENT,
-            fontSize: `${titleSize}px`,
-            fontWeight: 700,
-            margin: 0,
-            lineHeight: 1.1,
-            maxWidth: "900px",
-            fontFamily: fontData ? "Cinzel" : "serif",
-          }}
-        >
-          {title}
-        </h1>
-
-        {/* Description */}
-        <p
-          style={{
-            color: TEXT_MUTED,
-            fontSize: "22px",
-            marginTop: "28px",
-            maxWidth: "780px",
-            lineHeight: 1.55,
-            fontFamily: "serif",
-          }}
-        >
-          {description}
-        </p>
-
-        {/* Disney Lorcana label bottom right */}
-        <span
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            right: "80px",
-            color: "rgba(197,138,60,0.4)",
-            fontSize: "13px",
-            letterSpacing: "2px",
-            textTransform: "uppercase",
-            fontFamily: fontData ? "Cinzel" : "serif",
-          }}
-        >
-          Disney Lorcana TCG
-        </span>
-
         {/* Bottom accent bar */}
         <div
           style={{
@@ -161,6 +91,97 @@ export async function GET(req: NextRequest) {
             background: `linear-gradient(90deg, ${ACCENT}, ${ACCENT_LIGHT}, ${ACCENT})`,
           }}
         />
+
+        {/* Card image (left) */}
+        {cardImageData && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "380px",
+              height: "100%",
+              padding: "30px 20px 30px 40px",
+              flexShrink: 0,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={cardImageData}
+              alt={title}
+              style={{
+                height: "100%",
+                width: "auto",
+                borderRadius: "12px",
+                objectFit: "contain",
+              }}
+            />
+          </div>
+        )}
+
+        {/* Text (right) */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "center",
+            padding: cardImageData ? "60px 60px 60px 30px" : "80px 90px",
+            flex: 1,
+          }}
+        >
+          {/* Brand badge */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginBottom: "28px",
+              padding: "7px 20px",
+              border: `1px solid rgba(197,138,60,0.35)`,
+              borderRadius: "999px",
+              background: "rgba(197,138,60,0.07)",
+            }}
+          >
+            <span
+              style={{
+                color: ACCENT,
+                fontSize: "13px",
+                letterSpacing: "3px",
+                textTransform: "uppercase",
+                fontFamily: fontData ? "Cinzel" : "serif",
+              }}
+            >
+              Archivo del Reino
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1
+            style={{
+              color: ACCENT,
+              fontSize: `${titleSize}px`,
+              fontWeight: 700,
+              margin: 0,
+              lineHeight: 1.1,
+              fontFamily: fontData ? "Cinzel" : "serif",
+            }}
+          >
+            {title}
+          </h1>
+
+          {/* Description */}
+          <p
+            style={{
+              color: TEXT_MUTED,
+              fontSize: "20px",
+              marginTop: "24px",
+              lineHeight: 1.55,
+              fontFamily: "serif",
+            }}
+          >
+            {description}
+          </p>
+        </div>
       </div>
     ),
     {
