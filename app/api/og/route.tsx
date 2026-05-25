@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
+import sharp from "sharp";
 
 export const runtime = "nodejs";
 
@@ -44,8 +45,9 @@ export async function GET(req: NextRequest) {
   if (cardImageUrl) {
     try {
       const res = await fetch(cardImageUrl);
-      const buffer = Buffer.from(await res.arrayBuffer());
-      cardImageData = `data:image/jpeg;base64,${buffer.toString("base64")}`;
+      const raw = Buffer.from(await res.arrayBuffer());
+      const jpeg = await sharp(raw).jpeg({ quality: 85 }).toBuffer();
+      cardImageData = `data:image/jpeg;base64,${jpeg.toString("base64")}`;
     } catch {
       cardImageData = null;
     }
