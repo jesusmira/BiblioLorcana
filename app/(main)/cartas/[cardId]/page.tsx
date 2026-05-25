@@ -47,7 +47,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     : `Carta de ${setName}. ${card.ink ?? ""} · ${card.rarity ?? ""}`.trim();
 
   const cardImage = getCardImage(card);
-  const ogTextImage = `/api/og?title=${encodeURIComponent(cardName)}&description=${encodeURIComponent(description)}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const pageUrl = `${siteUrl}/cartas/${cardId}`;
+  const ogTextImage = `${siteUrl}/api/og?title=${encodeURIComponent(cardName)}&description=${encodeURIComponent(description)}`;
+  const ogImage = cardImage
+    ? { url: cardImage, width: 734, height: 1024, alt: cardName }
+    : { url: ogTextImage, width: 1200, height: 630, alt: cardName };
 
   return {
     title: cardName,
@@ -55,19 +60,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${cardName} | Archivo del Reino`,
       description,
-      url: `/cartas/${cardId}`,
-      images: cardImage
-        ? [{ url: cardImage, width: 734, height: 1024, alt: cardName }]
-        : [{ url: ogTextImage, width: 1200, height: 630 }],
+      url: pageUrl,
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: `${cardName} | Archivo del Reino`,
       description,
-      images: [ogTextImage],
+      images: [ogImage.url],
     },
     alternates: {
-      canonical: `/cartas/${cardId}`,
+      canonical: pageUrl,
     },
   };
 }
