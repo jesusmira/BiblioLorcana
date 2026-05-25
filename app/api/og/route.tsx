@@ -40,19 +40,7 @@ export async function GET(req: NextRequest) {
   const fontData = await loadCinzel();
   const titleSize = title.length > 35 ? 52 : 64;
 
-  // Fetch card image as base64 if provided
-  let cardImageData: string | null = null;
-  if (cardImageUrl) {
-    try {
-      const res = await fetch(cardImageUrl);
-      const buffer = await res.arrayBuffer();
-      const base64 = Buffer.from(buffer).toString("base64");
-      const mime = res.headers.get("content-type") ?? "image/jpeg";
-      cardImageData = `data:${mime};base64,${base64}`;
-    } catch {
-      cardImageData = null;
-    }
-  }
+  const cardImageData = cardImageUrl ?? null;
 
   return new ImageResponse(
     (
