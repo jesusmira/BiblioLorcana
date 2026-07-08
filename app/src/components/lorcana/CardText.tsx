@@ -54,7 +54,7 @@ export function parseCardText(text: string): React.ReactNode {
   let lastIndex = 0;
   let key = 0;
 
-  const regex = /\{[A-Z]\}/g;
+  const regex = /\{[A-Z]?\}/g;
   let match = regex.exec(text);
 
   if (!match) {
