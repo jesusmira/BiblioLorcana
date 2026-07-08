@@ -3,6 +3,8 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import "dotenv/config";
+import { fixLorcastSymbols } from "../app/src/lib/lorcastSymbolFix";
+import { getOverride } from "../app/src/lib/lorcastOverrides";
 
 // Reutilizamos la lógica de instanciación de Prisma con el adaptador de pg para Prisma 7
 function createPrismaClient() {
@@ -54,6 +56,10 @@ async function syncCards() {
         for (const cardData of cards) {
           const cardId = cardData.id;
 
+          const override = getOverride(set.code, cardData.collector_number || '');
+          const fixedText = override || fixLorcastSymbols(cardData.text);
+          const fixedFlavorText = fixLorcastSymbols(cardData.flavor_text);
+
           await prisma.card.upsert({
             where: { id: cardId },
             update: {
@@ -69,7 +75,7 @@ async function syncCards() {
               subtypes: Array.isArray(cardData.classifications)
                 ? cardData.classifications.join(", ")
                 : null,
-              abilities: cardData.text || null,
+              abilities: fixedText || null,
               imageUrl:
                 cardData.image_uris?.digital?.large ||
                 cardData.image_uris?.digital?.normal ||
@@ -77,7 +83,7 @@ async function syncCards() {
               strength: cardData.strength ?? null,
               willpower: cardData.willpower ?? null,
               lore: cardData.lore ?? null,
-              flavorText: cardData.flavor_text || null,
+              flavorText: fixedFlavorText || null,
             },
             create: {
               id: cardId,
@@ -93,7 +99,7 @@ async function syncCards() {
               subtypes: Array.isArray(cardData.classifications)
                 ? cardData.classifications.join(", ")
                 : null,
-              abilities: cardData.text || null,
+              abilities: fixedText || null,
               imageUrl:
                 cardData.image_uris?.digital?.large ||
                 cardData.image_uris?.digital?.normal ||
@@ -101,7 +107,7 @@ async function syncCards() {
               strength: cardData.strength ?? null,
               willpower: cardData.willpower ?? null,
               lore: cardData.lore ?? null,
-              flavorText: cardData.flavor_text || null,
+              flavorText: fixedFlavorText || null,
             },
           });
           totalCardsSynced++;

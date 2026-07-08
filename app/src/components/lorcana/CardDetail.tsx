@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CardArtwork, StatGrid, TagChip } from "@/components";
 import { normalizeInk, normalizeLabel } from "@/lib";
+import { CardText } from "@/components/lorcana/CardText";
 import type { LorcanaCard } from "@/types";
 import {
   ArrowLeftIcon,
@@ -127,13 +128,13 @@ export function CardDetail({
               )}
             </h3>
             <p className="whitespace-pre-line text-[var(--muted)]">
-              {translatedText || (card.text ?? "")}
+              <CardText text={translatedText || (card.text ?? "")} />
             </p>
             {(card.flavorText || card.flavor_text) && (
               <>
                 <span className="h-px w-full bg-current text-[var(--muted)]"></span>
                 <p className="italic text-[var(--muted)]">
-                  {translatedFlavor || card.flavorText || card.flavor_text}
+                  <CardText text={translatedFlavor || card.flavorText || card.flavor_text} />
                 </p>
               </>
             )}

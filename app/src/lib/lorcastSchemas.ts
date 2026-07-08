@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { fixLorcastSymbols } from "./lorcastSymbolFix";
+import { getOverride } from "./lorcastOverrides";
 
 export const LorcanaSetSchema = z
   .object({
@@ -46,7 +48,21 @@ export const LorcanaCardSchema = z
       .optional()
       .nullable(),
   })
-  .passthrough();
+  .passthrough()
+  .transform((data) => {
+    const setCode = data.set?.code ?? String(data.id).split('-')[0];
+    const collectorNumber = data.collector_number ?? '';
+
+    const override = getOverride(setCode, collectorNumber);
+    if (override) {
+      data.text = override;
+    } else {
+      data.text = fixLorcastSymbols(data.text);
+      data.flavor_text = fixLorcastSymbols(data.flavor_text);
+    }
+
+    return data;
+  });
 
 export const ResultsSchema = <T extends z.ZodTypeAny>(schema: T) =>
   z
