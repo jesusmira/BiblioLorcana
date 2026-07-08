@@ -134,7 +134,7 @@ export function CardDetail({
               <>
                 <span className="h-px w-full bg-current text-[var(--muted)]"></span>
                 <p className="italic text-[var(--muted)]">
-                  <CardText text={translatedFlavor || card.flavorText || card.flavor_text} />
+                  <CardText text={translatedFlavor || card.flavorText || card.flavor_text || ""} />
                 </p>
               </>
             )}
