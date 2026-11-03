@@ -98,7 +98,7 @@ export default function GalleryCardItem({
 
   return (
     <article
-      className={clsx(cardBaseClass, "cursor-pointer relative")}
+      className={clsx(cardBaseClass, "cursor-pointer relative !p-0")}
       role="button"
       tabIndex={0}
       aria-label={`Ver detalles de ${ariaName}`}
@@ -178,8 +178,8 @@ export default function GalleryCardItem({
           alt={ariaName}
           loading={priority ? "eager" : "lazy"}
           priority={priority}
-          wrapperClassName="grid aspect-[2/3] place-items-center rounded-[18px] bg-[var(--surface-soft)] p-3 max-[600px]:aspect-[3/4] max-[600px]:p-1"
-          imageClassName="h-full w-full rounded-[12px] object-contain"
+          wrapperClassName="aspect-[5/7] overflow-hidden rounded-[22px]"
+          imageClassName="h-full w-full object-cover"
         />
         {card.quantity && card.quantity > 1 && (
           <div className="absolute left-2 top-2 z-10 flex h-7 min-w-[1.75rem] items-center justify-center rounded-full bg-black/70 px-2 text-[0.7rem] font-bold text-white backdrop-blur-md border border-white/20 shadow-lg">

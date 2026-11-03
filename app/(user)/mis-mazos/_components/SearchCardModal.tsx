@@ -41,8 +41,8 @@ export function SearchCardModal({
             image={image}
             alt={card.name ?? "Carta"}
             loading="lazy"
-            wrapperClassName="aspect-[2/3] w-full bg-[var(--surface-soft)] p-2 max-[400px]:p-1"
-            imageClassName="h-full w-full rounded-lg object-contain"
+            wrapperClassName="aspect-[5/7] w-full overflow-hidden"
+            imageClassName="h-full w-full object-cover"
           />
         </div>
 
