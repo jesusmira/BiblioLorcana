@@ -63,7 +63,7 @@ export default function GalleryHeader({
         <GallerySearch search={search} onSearchChange={onSearchChange} />
 
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <div className="flex-1 min-w-[320px]">
+          <div className="flex-1 min-w-[320px] max-[600px]:w-full max-[600px]:min-w-0">
             <GalleryFilters
               sets={sets}
               selectedSet={selectedSet}
@@ -81,11 +81,15 @@ export default function GalleryHeader({
           </div>
 
           <div className="flex gap-2.5 pb-[2px] max-[720px]:w-full max-[720px]:justify-center">
-            <button className={buttonGhost} onClick={pickRandom} type="button">
+            <button
+              className={`${buttonGhost} max-[600px]:flex-1`}
+              onClick={pickRandom}
+              type="button"
+            >
               Carta aleatoria
             </button>
             <button
-              className={buttonSolid}
+              className={`${buttonSolid} max-[600px]:flex-1`}
               onClick={resetFilters}
               type="button"
             >
