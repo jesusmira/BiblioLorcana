@@ -57,7 +57,7 @@ export default function GalleryInkFilters({
             src="/images/Lorcana_Symbol_B&W.png"
             alt="Todas las tintas"
             width={40}
-            height={45}
+            height={37}
             className="object-contain select-none brightness-0 invert"
             loading="lazy"
           />

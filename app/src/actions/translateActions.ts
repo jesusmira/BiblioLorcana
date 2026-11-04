@@ -57,6 +57,34 @@ function restoreWords(
   return result;
 }
 
+const NAMED_HTML_ENTITIES: Record<string, string> = {
+  quot: '"',
+  apos: "'",
+  amp: "&",
+  lt: "<",
+  gt: ">",
+  nbsp: " ",
+};
+
+function decodeHtmlEntities(text: string): string {
+  return text.replace(
+    /&(#x[0-9a-f]+|#\d+|[a-z]+);/gi,
+    (match: string, entity: string) => {
+      if (entity[0] === "#") {
+        const isHex = entity[1]?.toLowerCase() === "x";
+        const codePoint = parseInt(
+          entity.slice(isHex ? 2 : 1),
+          isHex ? 16 : 10,
+        );
+        return Number.isNaN(codePoint)
+          ? match
+          : String.fromCodePoint(codePoint);
+      }
+      return NAMED_HTML_ENTITIES[entity.toLowerCase()] ?? match;
+    },
+  );
+}
+
 export async function translateText(
   text: string,
   sourceLang: string = "en",
@@ -82,7 +110,7 @@ export async function translateText(
     if (data.responseStatus === 200 && data.responseData?.translatedText) {
       // 2️⃣ Restaurar palabras protegidas después de traducir
       const translated = restoreWords(data.responseData.translatedText, map);
-      return { translatedText: translated };
+      return { translatedText: decodeHtmlEntities(translated) };
     }
 
     return { error: data.responseDetails || "Error al traducir" };

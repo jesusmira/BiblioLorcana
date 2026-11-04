@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import CardArtwork from "@/components/lorcana/CardArtwork";
 import StatGrid from "@/components/lorcana/StatGrid";
+import CardPrices from "@/components/lorcana/CardPrices";
 import TagChip from "@/components/ui/TagChip";
 import ConfirmationDialog from "@/components/ui/ConfirmationDialog";
 import { CardText } from "@/components/lorcana/CardText";
 import { getTypes, normalizeInk, normalizeLabel } from "@/lib";
+import { INK_LABELS } from "@/lib/constants";
 import type { LorcanaCard } from "@/types";
 import { useAuth } from "@/lib/auth";
 
@@ -226,6 +229,8 @@ export default function GalleryCardModal({
   }
 
   const cardName = selected.name ?? "Carta";
+  const inkKey = selected.ink?.toLowerCase() ?? "";
+  const inkIcon = inkKey in INK_LABELS ? `/images/inks/${inkKey}.png` : null;
 
   return (
     <>
@@ -278,8 +283,14 @@ export default function GalleryCardModal({
                   id={titleId}
                   className="font-[var(--font-title)] text-[1.5rem] flex items-center gap-2 max-[900px]:justify-center"
                 >
-                  {cardName}
-                  {selected.version ? `, ${selected.version}` : ""}
+                  <span className="flex flex-col gap-1">
+                    {cardName}
+                    {selected.version ? (
+                      <span className="font-body text-[1rem] font-normal text-[var(--muted)]">
+                        {selected.version}
+                      </span>
+                    ) : null}
+                  </span>
 
                   <ModalCardActions
                     user={user}
@@ -339,8 +350,22 @@ export default function GalleryCardModal({
                   />
                 )}
                 <StatGrid card={selected} />
+                <CardPrices card={selected} />
                 <div className="flex flex-wrap justify-center gap-3 max-[900px]:justify-center">
-                  <TagChip>{normalizeInk(selected.ink)}</TagChip>
+                  <TagChip>
+                    <span className="flex items-center gap-1.5">
+                      {inkIcon ? (
+                        <Image
+                          src={inkIcon}
+                          alt=""
+                          width={16}
+                          height={18}
+                          className="select-none"
+                        />
+                      ) : null}
+                      {normalizeInk(selected.ink)}
+                    </span>
+                  </TagChip>
                   {getTypes(selected).map((item) => (
                     <TagChip key={item}>{item}</TagChip>
                   ))}

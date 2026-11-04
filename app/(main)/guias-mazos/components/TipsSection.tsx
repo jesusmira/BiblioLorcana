@@ -52,6 +52,7 @@ export function TipsSection() {
                 fill
                 className="object-cover"
                 unoptimized
+                priority
               />
             </div>
             <div className="absolute -left-8 top-8 -z-20 h-full w-full -rotate-6 overflow-hidden rounded-2xl border border-[var(--stroke-strong)] bg-[var(--panel)]/50 opacity-50">

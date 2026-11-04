@@ -25,6 +25,7 @@ export const LorcanaCardSchema = z
     strength: z.number().optional().nullable(),
     willpower: z.number().optional().nullable(),
     lore: z.number().optional().nullable(),
+    move_cost: z.number().optional().nullable(),
     collector_number: z.string().optional().nullable(),
     classifications: z.array(z.string()).optional().nullable(),
     image_uris: z
@@ -40,6 +41,20 @@ export const LorcanaCardSchema = z
       })
       .optional()
       .nullable(),
+    prices: z
+      .object({
+        usd: z.union([z.string(), z.number()]).optional().nullable(),
+        usd_foil: z.union([z.string(), z.number()]).optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+    purchase_uris: z
+      .object({
+        tcgplayer: z.string().optional().nullable(),
+      })
+      .optional()
+      .nullable(),
+    tcgplayer_id: z.number().optional().nullable(),
     set: z
       .object({
         name: z.string().optional().nullable(),

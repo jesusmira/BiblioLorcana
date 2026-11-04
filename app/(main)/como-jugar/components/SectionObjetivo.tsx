@@ -53,7 +53,7 @@ export function SectionObjetivo({ data }: SectionObjetivoProps) {
               src="/images/Lorcana_Symbol_B&W.png"
               alt="Lore Target"
               width={60}
-              height={60}
+              height={55}
               className="object-contain select-none brightness-0 invert"
               loading="lazy"
             />

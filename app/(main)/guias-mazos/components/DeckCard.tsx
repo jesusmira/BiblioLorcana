@@ -17,7 +17,7 @@ export function DeckCard({ deck }: DeckCardProps) {
       <div className="group relative rounded-2xl border border-[var(--stroke-strong)] bg-[var(--panel)]/40 p-6 backdrop-blur-sm transition-all duration-300 hover:border-[var(--accent)] hover:bg-[var(--panel)]/60 cursor-pointer h-full">
         <div className="flex items-start gap-6 h-full">
           <div className="relative w-36 shrink-0">
-            <div className="aspect-[3/4] overflow-hidden rounded-xl border-2 border-[var(--stroke-strong)] shadow-xl shadow-black/20">
+            <div className="relative aspect-[3/4] overflow-hidden rounded-xl border-2 border-[var(--stroke-strong)] shadow-xl shadow-black/20">
               <Image
                 src={coverImage}
                 alt={deck.profile}

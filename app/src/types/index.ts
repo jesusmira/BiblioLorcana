@@ -8,6 +8,15 @@ export interface CardImageUris {
   } | null;
 }
 
+export interface CardPrices {
+  usd?: string | number | null;
+  usd_foil?: string | number | null;
+}
+
+export interface CardPurchaseUris {
+  tcgplayer?: string | null;
+}
+
 export interface LorcanaCard {
   id: string | number;
   name?: string | null;
@@ -23,11 +32,15 @@ export interface LorcanaCard {
   strength?: number | null;
   willpower?: number | null;
   lore?: number | null;
+  move_cost?: number | null;
   collector_number?: string | null;
   collector_count?: string | null;
   classifications?: string[] | null;
   imageUrl?: string | null;
   image_uris?: CardImageUris | null;
+  prices?: CardPrices | null;
+  purchase_uris?: CardPurchaseUris | null;
+  tcgplayer_id?: number | null;
   quantity?: number;
   set?: {
     name?: string | null;
