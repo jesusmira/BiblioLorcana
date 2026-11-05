@@ -6,7 +6,7 @@ import { ResourceIcon, type ResourceType } from "./ResourceIcon";
 interface StatItem {
   key: "strength" | "willpower" | "move_cost";
   label: string;
-  icon: ResourceType | null;
+  icon: ResourceType;
   valueClassName: string;
 }
 
@@ -20,15 +20,15 @@ const STRENGTH_ITEM: StatItem = {
 const MOVE_COST_ITEM: StatItem = {
   key: "move_cost",
   label: "Movimiento",
-  icon: null,
-  valueClassName: "text-[var(--ink)]",
+  icon: "move",
+  valueClassName: "-translate-y-[4px] text-[var(--ink)]",
 };
 
 const WILLPOWER_ITEM: StatItem = {
   key: "willpower",
   label: "Voluntad",
   icon: "willpower",
-  valueClassName: "text-[var(--surface-soft)]",
+  valueClassName: "-translate-y-[3px] text-[var(--surface-soft)]",
 };
 
 const STAT_ICON_SIZE = 58;
@@ -65,13 +65,9 @@ export default function StatGrid({ card }: StatGridProps) {
               style={{ width: STAT_ICON_SIZE, height: STAT_ICON_SIZE }}
               aria-label={`${item.label}: ${value ?? "sin valor"}`}
             >
-              {item.icon ? (
-                <ResourceIcon type={item.icon} size={STAT_ICON_SIZE} />
-              ) : (
-                <span className="h-[46px] w-[46px] rounded-full border-[5px] border-current" />
-              )}
+              <ResourceIcon type={item.icon} size={STAT_ICON_SIZE} />
               <span
-                className={`absolute inset-0 flex items-center justify-center text-[1.4rem] font-bold ${item.valueClassName}`}
+                className={`absolute inset-0 flex items-center justify-center text-[1.4rem] ${item.valueClassName}`}
               >
                 {value ?? "-"}
               </span>

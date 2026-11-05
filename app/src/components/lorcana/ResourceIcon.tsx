@@ -7,7 +7,8 @@ export type ResourceType =
   | "lore"
   | "cost"
   | "exert"
-  | "ink";
+  | "ink"
+  | "move";
 
 interface ResourceIconProps {
   type: ResourceType;
@@ -23,6 +24,7 @@ const resourceImages: Record<ResourceType, string> = {
   cost: "/images/Cost_B&W.png",
   exert: "/images/Exert_B&W.png",
   ink: "/images/Ink_B&W.png",
+  move: "/images/Location_B&W.png",
 };
 
 export const RESOURCE_CODES: Record<string, ResourceType> = {

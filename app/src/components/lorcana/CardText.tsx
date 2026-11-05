@@ -14,6 +14,7 @@ const resourceImages: Record<ResourceType, string> = {
   cost: "/images/Cost_B&W.png",
   exert: "/images/Exert_B&W.png",
   ink: "/images/Ink_B&W.png",
+  move: "/images/Location_B&W.png",
 };
 
 function ResourceIconImage({
